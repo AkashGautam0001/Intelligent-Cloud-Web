@@ -148,9 +148,8 @@ export function Navbar() {
     closeTimer.current = setTimeout(() => setOpenMega(null), 140);
   };
 
-  // White solid bar whenever scrolled, not on home, or mega menu open — always dark text then
+  // Solid white bar when scrolled, off-home, or mega open; transparent over white home hero with navy text
   const solid = scrolled || !isHome || openMega !== null;
-  const onDarkHero = !solid;
 
   const activePanel = megaPanels.find((p) => p.id === openMega) ?? null;
 
@@ -158,10 +157,10 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,border-color,color] duration-700 ease-out",
+          "fixed inset-x-0 top-0 z-50 text-navy-900 transition-[background-color,box-shadow,border-color] duration-700 ease-out",
           solid
-            ? "border-b border-border-200 bg-white text-navy-900 shadow-sm"
-            : "border-b border-transparent bg-transparent text-white",
+            ? "border-b border-border-200 bg-white shadow-sm"
+            : "border-b border-transparent bg-transparent",
         )}
         onMouseLeave={scheduleClose}
       >
@@ -175,12 +174,7 @@ export function Navbar() {
               height={40}
               decoding="async"
             />
-            <span
-              className={cn(
-                "hidden text-sm font-semibold tracking-tight sm:inline",
-                onDarkHero ? "text-white" : "text-navy-900",
-              )}
-            >
+            <span className="hidden text-sm font-semibold tracking-tight text-navy-900 sm:inline">
               {t.brand}
             </span>
           </Link>
@@ -198,13 +192,9 @@ export function Navbar() {
                     type="button"
                     className={cn(
                       "inline-flex items-center gap-1 rounded-[8px] px-3 py-2 text-sm font-medium outline-none transition-colors",
-                      onDarkHero
-                        ? isOpen
-                          ? "bg-white/10 text-white"
-                          : "text-white/80 hover:bg-white/10 hover:text-white"
-                        : isOpen
-                          ? "bg-surface-50 text-navy-900"
-                          : "text-text-600 hover:bg-surface-50 hover:text-navy-900",
+                      isOpen
+                        ? "bg-surface-50 text-navy-900"
+                        : "text-text-600 hover:bg-surface-50 hover:text-navy-900",
                     )}
                     aria-expanded={isOpen}
                     aria-controls={`${navId}-${panel.id}`}
@@ -238,13 +228,7 @@ export function Navbar() {
               type="button"
               size="icon"
               variant="ghost"
-              className={cn(
-                "before:hidden hover:before:scale-x-0 hover:[&_svg]:translate-x-0",
-                "transition-colors duration-200",
-                onDarkHero
-                  ? "text-white hover:bg-white/12 hover:text-orange-500"
-                  : "text-navy-900 hover:bg-orange-500/10 hover:text-orange-500",
-              )}
+              className="before:hidden text-navy-900 transition-colors duration-200 hover:before:scale-x-0 hover:bg-orange-500/10 hover:text-orange-500 hover:[&_svg]:translate-x-0"
               aria-label={t.nav.search}
               onClick={openSearch}
             >
@@ -254,12 +238,7 @@ export function Navbar() {
               asChild
               size="sm"
               variant="ghost"
-              className={cn(
-                "hidden lg:inline-flex",
-                onDarkHero
-                  ? "text-white hover:bg-white/10 hover:text-white"
-                  : "text-navy-900 hover:bg-surface-50",
-              )}
+              className="hidden text-navy-900 hover:bg-surface-50 lg:inline-flex"
             >
               <Link to="/contact">{t.nav.contactSales}</Link>
             </Button>
@@ -267,12 +246,7 @@ export function Navbar() {
               type="button"
               size="icon"
               variant="ghost"
-              className={cn(
-                "lg:hidden",
-                onDarkHero
-                  ? "text-white hover:bg-white/10 hover:text-white"
-                  : "text-navy-900 hover:bg-surface-50",
-              )}
+              className="text-navy-900 hover:bg-surface-50 lg:hidden"
               aria-label={t.nav.openMenu}
               onClick={() => setMobileOpen(true)}
             >

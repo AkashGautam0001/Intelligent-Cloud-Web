@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" fill="none" role="img" aria-labelledby="igTitle">
+  <title id="igTitle">API and event integration architecture</title>
+  <rect width="640" height="220" rx="16" fill="#FFFFFF" stroke="#E4EAF1"/>
+  <text x="24" y="32" fill="#5F6B7A" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="12" letter-spacing="0.1em">API / EVENT INTEGRATION</text>
+
+  <rect x="32" y="56" width="140" height="64" rx="12" fill="#F8FAFC" stroke="#04275F" stroke-width="1.75"/>
+  <text x="48" y="80" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">IN</text>
+  <text x="48" y="102" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">Producers</text>
+
+  <rect x="32" y="136" width="140" height="56" rx="12" fill="#D9EAF8" stroke="#438BD8" stroke-width="1.75"/>
+  <text x="48" y="160" fill="#438BD8" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">SYNC</text>
+  <text x="48" y="180" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600">REST / GraphQL</text>
+
+  <circle cx="320" cy="118" r="52" fill="#FFF7F0" stroke="#F26A13" stroke-width="2"/>
+  <text x="320" y="112" text-anchor="middle" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700">Event bus</text>
+  <text x="320" y="132" text-anchor="middle" fill="#5F6B7A" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="11">APIM / Kafka / SNS</text>
+
+  <rect x="468" y="56" width="140" height="64" rx="12" fill="#D9EAF8" stroke="#438BD8" stroke-width="1.75"/>
+  <text x="484" y="80" fill="#438BD8" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">GATEWAY</text>
+  <text x="484" y="102" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">API product</text>
+
+  <rect x="468" y="136" width="140" height="56" rx="12" fill="#F8FAFC" stroke="#04275F" stroke-width="1.75"/>
+  <text x="484" y="160" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">OUT</text>
+  <text x="484" y="180" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600">Consumers</text>
+
+  <path d="M172 88H268M172 164H268M372 100H468M372 164H468" stroke="#04275F" stroke-width="1.5" stroke-opacity="0.4"/>
+</svg>

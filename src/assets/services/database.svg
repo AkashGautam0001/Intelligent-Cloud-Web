@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" fill="none" role="img" aria-labelledby="dbTitle">
+  <title id="dbTitle">Managed database primary and replica</title>
+  <rect width="640" height="220" rx="16" fill="#FFFFFF" stroke="#E4EAF1"/>
+  <text x="24" y="32" fill="#5F6B7A" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="12" letter-spacing="0.1em">MANAGED DATABASE</text>
+
+  <ellipse cx="180" cy="70" rx="70" ry="18" fill="#D9EAF8" stroke="#438BD8" stroke-width="1.75"/>
+  <path d="M110 70V150C110 162 141 172 180 172C219 172 250 162 250 150V70" fill="#F8FAFC" stroke="#04275F" stroke-width="1.75"/>
+  <ellipse cx="180" cy="110" rx="70" ry="18" stroke="#04275F" stroke-width="1.25" stroke-opacity="0.35"/>
+  <ellipse cx="180" cy="150" rx="70" ry="18" fill="#FFF7F0" stroke="#F26A13" stroke-width="1.5"/>
+  <text x="180" y="116" text-anchor="middle" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">Primary</text>
+  <text x="180" y="198" text-anchor="middle" fill="#5F6B7A" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="11">R/W / backups / PITR</text>
+
+  <ellipse cx="460" cy="80" rx="56" ry="15" fill="#D9EAF8" stroke="#438BD8" stroke-width="1.5"/>
+  <path d="M404 80V140C404 150 428 158 460 158C492 158 516 150 516 140V80" fill="#FFFFFF" stroke="#438BD8" stroke-width="1.5"/>
+  <ellipse cx="460" cy="140" rx="56" ry="15" fill="#D9EAF8" stroke="#438BD8" stroke-width="1.5"/>
+  <text x="460" y="114" text-anchor="middle" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">Replica</text>
+  <text x="460" y="198" text-anchor="middle" fill="#5F6B7A" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="11">Read scale / HA</text>
+
+  <path d="M250 110H404" stroke="#F26A13" stroke-width="2"/>
+  <text x="327" y="100" text-anchor="middle" fill="#F26A13" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="11">sync</text>
+</svg>

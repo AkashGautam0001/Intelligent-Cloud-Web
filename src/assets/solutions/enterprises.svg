@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" fill="none" role="img" aria-labelledby="enTitle">
+  <title id="enTitle">Enterprise platform hub and spokes</title>
+  <rect width="640" height="220" rx="16" fill="#FFFFFF" stroke="#E4EAF1"/>
+  <text x="24" y="32" fill="#5F6B7A" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="12" letter-spacing="0.1em">ENTERPRISE PLATFORM</text>
+
+  <rect x="240" y="78" width="160" height="68" rx="12" fill="#D9EAF8" stroke="#04275F" stroke-width="1.75"/>
+  <text x="256" y="104" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">CORE</text>
+  <text x="256" y="126" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="600">Platform hub</text>
+
+  <rect x="32" y="48" width="140" height="48" rx="10" fill="#F8FAFC" stroke="#438BD8" stroke-width="1.75"/>
+  <text x="48" y="70" fill="#438BD8" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">BU A</text>
+  <text x="48" y="86" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600">Autonomy</text>
+
+  <rect x="32" y="140" width="140" height="48" rx="10" fill="#F8FAFC" stroke="#438BD8" stroke-width="1.75"/>
+  <text x="48" y="162" fill="#438BD8" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">BU B</text>
+  <text x="48" y="178" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600">On rails</text>
+
+  <rect x="468" y="48" width="140" height="48" rx="10" fill="#FFF7F0" stroke="#F26A13" stroke-width="1.75"/>
+  <text x="484" y="70" fill="#F26A13" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">SECURITY</text>
+  <text x="484" y="86" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600">Policy</text>
+
+  <rect x="468" y="140" width="140" height="48" rx="10" fill="#FFF7F0" stroke="#F26A13" stroke-width="1.75"/>
+  <text x="484" y="162" fill="#F26A13" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">FINOPS</text>
+  <text x="484" y="178" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600">Showback</text>
+
+  <path d="M172 72H240M172 164H240M400 72H468M400 164H468" stroke="#04275F" stroke-width="1.5" stroke-opacity="0.4"/>
+  <circle cx="320" cy="112" r="4" fill="#F26A13"/>
+  <text x="24" y="208" fill="#5F6B7A" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="11">SHARED SERVICES / BU AUTONOMY INSIDE THE RAILS</text>
+</svg>

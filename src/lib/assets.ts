@@ -29,16 +29,6 @@ export const illustrations = {
     build: "/assets/illustrations/process/build.svg",
     operate: "/assets/illustrations/process/operate.svg",
   },
-  services: {
-    "cloud-computing": "/assets/illustrations/services/cloud-computing.svg",
-    storage: "/assets/illustrations/services/storage.svg",
-    networking: "/assets/illustrations/services/networking.svg",
-    database: "/assets/illustrations/services/database.svg",
-    analytics: "/assets/illustrations/services/analytics.svg",
-    ai: "/assets/illustrations/services/ai.svg",
-    integration: "/assets/illustrations/services/integration.svg",
-    "disaster-recovery": "/assets/illustrations/services/disaster-recovery.svg",
-  },
 } as const;
 
 /** Technology brand marks (Simple Icons) — see `src/lib/tech-brands.ts`. */
@@ -57,11 +47,9 @@ export const tech = {
   azureDevops: "/assets/tech/azure-devops.svg",
 } as const;
 
-export type ServiceIconKey = keyof typeof illustrations.services;
-
-export function serviceIllustration(iconKey: string): string {
-  if (iconKey in illustrations.services) {
-    return illustrations.services[iconKey as ServiceIconKey];
-  }
-  return illustrations.services["cloud-computing"];
-}
+/**
+ * Service / solution hero diagrams live under:
+ * - `src/assets/services/*.svg`
+ * - `src/assets/solutions/*.svg`
+ * Import via `ServiceSlugMark` / `SolutionSlugMark` (Vite `?url`).
+ */

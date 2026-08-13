@@ -58,8 +58,8 @@ function TypingKeywords({ reduced }: { reduced: boolean }) {
   }, [text, deleting, index, reduced]);
 
   return (
-    <p className="mt-5 flex min-h-[2.5rem] flex-wrap items-baseline justify-center gap-x-2 text-center font-display text-[clamp(1.35rem,2.6vw,1.85rem)] font-semibold tracking-[-0.02em] text-white sm:min-h-[2.75rem]">
-      <span className="text-white/55">We engineer</span>
+    <p className="mt-5 flex min-h-[2.5rem] flex-wrap items-baseline justify-center gap-x-2 text-center font-display text-[clamp(1.35rem,2.6vw,1.85rem)] font-semibold tracking-[-0.02em] text-navy-900 sm:min-h-[2.75rem]">
+      <span className="text-text-600">We engineer</span>
       <span className="inline-flex items-baseline text-orange-500">
         <span>{text}</span>
         <span
@@ -84,17 +84,17 @@ function HeroBackground({ reduced }: { reduced: boolean }) {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, #071A3D 0%, #04275F 55%, #071A3D 100%)",
+            "linear-gradient(180deg, #ffffff 0%, #f5f8fb 45%, #eef3f8 100%)",
         }}
       />
 
       {/* Soft grid that drifts */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-[-20%] opacity-[0.11]"
+        className="pointer-events-none absolute inset-[-20%] opacity-[0.45]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.55) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.55) 1px, transparent 1px)",
+            "linear-gradient(rgba(4,39,95,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(4,39,95,0.07) 1px, transparent 1px)",
           backgroundSize: "56px 56px",
           maskImage:
             "radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent 75%)",
@@ -111,12 +111,12 @@ function HeroBackground({ reduced }: { reduced: boolean }) {
         }
       />
 
-      {/* Aurora orbs */}
+      {/* Soft brand orbs */}
       {!reduced ? (
         <>
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute -left-[10%] top-[5%] h-[28rem] w-[28rem] rounded-full bg-azure-500/20 blur-3xl"
+            className="pointer-events-none absolute -left-[10%] top-[5%] h-[28rem] w-[28rem] rounded-full bg-azure-500/15 blur-3xl"
             animate={{
               x: [0, 80, 20, 0],
               y: [0, 40, -20, 0],
@@ -126,7 +126,7 @@ function HeroBackground({ reduced }: { reduced: boolean }) {
           />
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute -right-[8%] bottom-[0%] h-[26rem] w-[26rem] rounded-full bg-orange-500/15 blur-3xl"
+            className="pointer-events-none absolute -right-[8%] bottom-[0%] h-[26rem] w-[26rem] rounded-full bg-orange-500/10 blur-3xl"
             animate={{
               x: [0, -60, -20, 0],
               y: [0, -50, 10, 0],
@@ -136,10 +136,10 @@ function HeroBackground({ reduced }: { reduced: boolean }) {
           />
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/3 h-[20rem] w-[20rem] -translate-x-1/2 rounded-full bg-blue-600/20 blur-3xl"
+            className="pointer-events-none absolute left-1/2 top-1/3 h-[20rem] w-[20rem] -translate-x-1/2 rounded-full bg-blue-600/10 blur-3xl"
             animate={{
               scale: [1, 1.15, 1],
-              opacity: [0.2, 0.4, 0.2],
+              opacity: [0.2, 0.35, 0.2],
             }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
           />
@@ -148,20 +148,19 @@ function HeroBackground({ reduced }: { reduced: boolean }) {
         <>
           <div
             aria-hidden
-            className="pointer-events-none absolute left-[10%] top-[10%] h-72 w-72 rounded-full bg-azure-500/15 blur-3xl"
+            className="pointer-events-none absolute left-[10%] top-[10%] h-72 w-72 rounded-full bg-azure-500/12 blur-3xl"
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute right-[8%] bottom-[5%] h-64 w-64 rounded-full bg-orange-500/10 blur-3xl"
+            className="pointer-events-none absolute right-[8%] bottom-[5%] h-64 w-64 rounded-full bg-orange-500/8 blur-3xl"
           />
         </>
       )}
 
-      {/* Slow light sweep */}
       {!reduced ? (
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 w-1/3 skew-x-[-18deg] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent"
+          className="pointer-events-none absolute inset-y-0 w-1/3 skew-x-[-18deg] bg-gradient-to-r from-transparent via-navy-900/[0.03] to-transparent"
           animate={{ left: ["-30%", "120%"] }}
           transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
         />
@@ -175,7 +174,7 @@ export function HeroSection() {
   const reduced = usePrefersReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-navy-950 text-white">
+    <section className="relative overflow-hidden bg-white text-navy-900">
       <HeroBackground reduced={reduced} />
 
       <div className="container-ic relative mx-auto pb-20 pt-32 text-center lg:pb-28 lg:pt-40">
@@ -185,16 +184,16 @@ export function HeroSection() {
           transition={{ duration: reduced ? 0 : 0.85, ease: easeOut }}
           className="mx-auto flex w-full max-w-6xl flex-col items-center"
         >
-          <p className="text-[12px] font-medium uppercase tracking-[0.16em] text-white/50">
+          <p className="text-[12px] font-medium uppercase tracking-[0.16em] text-text-600">
             Azure · AWS · Kubernetes
           </p>
-          <h1 className="mt-5 max-w-5xl font-display text-[clamp(2.85rem,6.2vw,4.75rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-white">
+          <h1 className="mt-5 max-w-5xl font-display text-[clamp(2.85rem,6.2vw,4.75rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-navy-900">
             Grow Your Business — We&apos;ll Handle Your Cloud
           </h1>
 
           <TypingKeywords reduced={reduced} />
 
-          <p className="mt-5 max-w-3xl text-[clamp(1.05rem,1.5vw,1.25rem)] leading-[1.7] text-white/60">
+          <p className="mt-5 max-w-3xl text-[clamp(1.05rem,1.5vw,1.25rem)] leading-[1.7] text-text-600">
             Enterprise cloud platforms engineered for scale, security, and operable delivery.
           </p>
 
@@ -204,12 +203,7 @@ export function HeroSection() {
                 {t.nav.bookDemo} <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="border-white/25 bg-transparent text-white hover:border-orange-500/60 hover:bg-orange-500/15 hover:text-white"
-            >
+            <Button asChild variant="outline" size="lg">
               <a
                 href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
                 target="_blank"

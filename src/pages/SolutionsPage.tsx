@@ -107,7 +107,8 @@ export function SolutionsPage() {
                       </div>
                       <SolutionSlugMark
                         slug={solution.slug}
-                        className="mt-3 h-24 w-full opacity-90"
+                        variant="tile"
+                        className="mt-3"
                       />
                     </div>
                     <div className="flex flex-1 flex-col p-5">

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" fill="none" role="img" aria-labelledby="aiTitle">
+  <title id="aiTitle">AI platform RAG architecture</title>
+  <rect width="640" height="220" rx="16" fill="#FFFFFF" stroke="#E4EAF1"/>
+  <text x="24" y="32" fill="#5F6B7A" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="12" letter-spacing="0.1em">AI PLATFORM / RAG</text>
+
+  <rect x="32" y="52" width="140" height="56" rx="12" fill="#F8FAFC" stroke="#04275F" stroke-width="1.75"/>
+  <text x="48" y="74" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">DATA</text>
+  <text x="48" y="94" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">Knowledge base</text>
+
+  <rect x="32" y="128" width="140" height="56" rx="12" fill="#D9EAF8" stroke="#438BD8" stroke-width="1.75"/>
+  <text x="48" y="150" fill="#438BD8" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">RAG</text>
+  <text x="48" y="170" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">Vector index</text>
+
+  <rect x="250" y="78" width="140" height="72" rx="12" fill="#FFF7F0" stroke="#F26A13" stroke-width="1.75"/>
+  <text x="266" y="104" fill="#F26A13" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">LLM</text>
+  <text x="266" y="126" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="600">Model runtime</text>
+  <text x="266" y="144" fill="#5F6B7A" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="12">Azure OpenAI / Bedrock</text>
+
+  <rect x="468" y="52" width="140" height="56" rx="12" fill="#D9EAF8" stroke="#438BD8" stroke-width="1.75"/>
+  <text x="484" y="74" fill="#438BD8" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">APP</text>
+  <text x="484" y="94" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">Copilot / API</text>
+
+  <rect x="468" y="128" width="140" height="56" rx="12" fill="#F8FAFC" stroke="#04275F" stroke-width="1.75"/>
+  <text x="484" y="150" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="10">SAFE</text>
+  <text x="484" y="170" fill="#04275F" font-family="Ubuntu, ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600">Guardrails / PII</text>
+
+  <path d="M172 80V156M172 156H250M390 114H468M390 114C390 156 420 156 468 156" stroke="#04275F" stroke-width="1.5" stroke-opacity="0.4"/>
+  <circle cx="320" cy="114" r="4" fill="#F26A13"/>
+</svg>
