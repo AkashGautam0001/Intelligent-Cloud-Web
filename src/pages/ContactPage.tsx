@@ -39,6 +39,7 @@ import {
   minLength,
   optionalMax,
   phone as validatePhone,
+  sanitizePhoneInput,
   type FieldErrors,
 } from "@/lib/validation";
 
@@ -271,13 +272,16 @@ export function ContactPage() {
                     />
                   </FormField>
                   <FormField id="phone" label="Phone" icon={Phone} required error={errors.phone}>
-                    <input
+                      <input
                       id="phone"
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
                       aria-invalid={Boolean(errors.phone)}
                       aria-describedby={errors.phone ? "phone-error" : undefined}
                       className={controlClass(modernControlClass, errors.phone)}
                       value={form.phone}
-                      onChange={(e) => setField("phone", e.target.value)}
+                      onChange={(e) => setField("phone", sanitizePhoneInput(e.target.value))}
                     />
                   </FormField>
                 </div>

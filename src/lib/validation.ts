@@ -2,9 +2,10 @@ import { cn } from "@/lib/utils";
 
 export type FieldErrors<T extends string = string> = Partial<Record<T, string>>;
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-/** Allows +, spaces, dashes, parentheses; requires 8–15 digits. */
-const PHONE_RE = /^\+?[\d\s().-]{8,20}$/;
+/** Requires local@domain.tld with a real-looking TLD. */
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+/** Optional +, digits, spaces, dashes, parentheses only. */
+const PHONE_CHARS_RE = /^\+?[\d\s().-]+$/;
 
 export function required(value: string, label = "This field"): string | undefined {
   if (!value.trim()) return `${label} is required`;
@@ -26,18 +27,36 @@ export function maxLength(value: string, max: number, label = "This field"): str
 export function email(value: string, label = "Email"): string | undefined {
   const empty = required(value, label);
   if (empty) return empty;
-  if (!EMAIL_RE.test(value.trim())) return "Enter a valid email address";
+  const trimmed = value.trim();
+  if (!EMAIL_RE.test(trimmed) || trimmed.includes("..")) {
+    return "Enter a valid email address";
+  }
   return undefined;
+}
+
+/** Strip letters / invalid symbols so phone fields only keep number-like chars. */
+export function sanitizePhoneInput(value: string): string {
+  const cleaned = value.replace(/[^\d+\s().-]/g, "");
+  // Allow a single leading +; drop any later +
+  const plus = cleaned.startsWith("+") ? "+" : "";
+  const rest = cleaned.replace(/\+/g, "");
+  return plus + rest;
 }
 
 export function phone(value: string, label = "Phone"): string | undefined {
   const empty = required(value, label);
   if (empty) return empty;
-  const digits = value.replace(/\D/g, "");
-  if (!PHONE_RE.test(value.trim()) || digits.length < 8 || digits.length > 15) {
-    return "Enter a valid phone number";
+  const trimmed = value.trim();
+  const digits = trimmed.replace(/\D/g, "");
+  if (!PHONE_CHARS_RE.test(trimmed) || digits.length < 8 || digits.length > 15) {
+    return "Enter a valid phone number (digits only, 8–15 digits)";
   }
   return undefined;
+}
+
+export function optionalPhone(value: string, label = "Phone"): string | undefined {
+  if (!value.trim()) return undefined;
+  return phone(value, label);
 }
 
 export function optionalMax(value: string, max: number, label = "This field"): string | undefined {
