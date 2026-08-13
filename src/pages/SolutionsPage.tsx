@@ -1,0 +1,156 @@
+import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { listSolutionPages } from "@/content/solutions";
+import type { SolutionKind, SolutionPageContent } from "@/content/solutions/types";
+import { solutionIcon } from "@/lib/solution-icons";
+import { PageHero } from "@/components/PageHero";
+import { PageSeo } from "@/components/PageSeo";
+import { SectionShell } from "@/components/ui/section-shell";
+import { IcCard } from "@/components/ui/ic-card";
+import { IcChip } from "@/components/ui/ic-chip";
+import { IcIconTile } from "@/components/ui/ic-icon-tile";
+import { Button } from "@/components/ui/button";
+import { SolutionSlugMark } from "@/components/solutions/solution-svgs";
+import { Stagger, StaggerItem } from "@/components/motion/reveal";
+import { cn } from "@/lib/utils";
+
+const filters: Array<{ id: "all" | SolutionKind | "startup" | "enterprise"; label: string }> = [
+  { id: "all", label: "All" },
+  { id: "outcome", label: "By outcome" },
+  { id: "audience", label: "By audience" },
+  { id: "startup", label: "Startups" },
+  { id: "enterprise", label: "Enterprises" },
+];
+
+const catalogOrder = [
+  "cloud-migration",
+  "devops-transformation",
+  "security-compliance",
+  "startups",
+  "enterprises",
+];
+
+function orderedSolutions(): SolutionPageContent[] {
+  return listSolutionPages()
+    .slice()
+    .sort((a, b) => catalogOrder.indexOf(a.slug) - catalogOrder.indexOf(b.slug));
+}
+
+export function SolutionsPage() {
+  const [filter, setFilter] = useState<(typeof filters)[number]["id"]>("all");
+
+  const solutions = useMemo(() => {
+    const all = orderedSolutions();
+    if (filter === "all") return all;
+    if (filter === "outcome" || filter === "audience") {
+      return all.filter((s) => s.kind === filter);
+    }
+    if (filter === "startup") {
+      return all.filter(
+        (s) => s.audiences.includes("startup") || s.audiences.includes("both") || s.slug === "startups",
+      );
+    }
+    return all.filter(
+      (s) =>
+        s.audiences.includes("enterprise") ||
+        s.audiences.includes("both") ||
+        s.slug === "enterprises",
+    );
+  }, [filter]);
+
+  return (
+    <>
+      <PageSeo
+        title="Cloud Solutions | Intelligent Cloud"
+        description="Outcome and audience solutions — cloud migration, DevOps transformation, security & compliance, startups, and enterprises."
+      />
+      <PageHero
+        eyebrow="Solutions"
+        title="Five solution paths — each with its own story"
+        description="By outcome (migration, DevOps, security) and by audience (startups, enterprises). Every page has unique challenges, deliverables, architecture, and FAQs."
+      />
+
+      <SectionShell
+        tone="white"
+        eyebrow="Catalog"
+        title="Browse solutions"
+        lead="Filter by outcome or audience, then open a page for the full engagement narrative."
+      >
+        <div className="mb-8 flex flex-wrap gap-2">
+          {filters.map((f) => (
+            <IcChip key={f.id} active={filter === f.id} onClick={() => setFilter(f.id)}>
+              {f.label}
+            </IcChip>
+          ))}
+        </div>
+
+        <Stagger className="grid gap-5 md:grid-cols-2 xl:grid-cols-3" stagger={0.07}>
+          {solutions.map((solution) => {
+            const Icon = solutionIcon(solution.iconKey);
+            return (
+              <StaggerItem key={solution.slug}>
+                <Link to={`/solutions/${solution.slug}`} className="group/card block h-full">
+                  <IcCard
+                    interactive
+                    animateIn={false}
+                    className={cn("flex h-full flex-col p-0")}
+                  >
+                    <div className="border-b border-border-200 bg-[#eef3f8]/50 px-5 pb-3 pt-5">
+                      <div className="flex items-start justify-between gap-3">
+                        <IcIconTile size="md">
+                          <Icon className="h-5 w-5" aria-hidden />
+                        </IcIconTile>
+                        <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#6b7a8c]">
+                          {solution.eyebrow}
+                        </span>
+                      </div>
+                      <SolutionSlugMark
+                        slug={solution.slug}
+                        className="mt-3 h-24 w-full opacity-90"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col p-5">
+                      <h2 className="font-display text-lg font-semibold tracking-[-0.02em] text-navy-900">
+                        {solution.title}
+                      </h2>
+                      <p className="mt-2 text-sm font-medium leading-snug text-navy-900/75">
+                        {solution.tagline}
+                      </p>
+                      <p className="mt-3 flex-1 text-sm leading-relaxed text-text-600">
+                        {solution.summary}
+                      </p>
+                      <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-orange-500">
+                        Open solution
+                        <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5" />
+                      </span>
+                    </div>
+                  </IcCard>
+                </Link>
+              </StaggerItem>
+            );
+          })}
+        </Stagger>
+      </SectionShell>
+
+      <section className="section-ic bg-[#eef3f8]">
+        <div className="container-ic">
+          <IcCard className="bg-white p-8 text-center sm:p-10">
+            <p className="font-display text-xl font-semibold text-navy-900">
+              Not sure which path fits?
+            </p>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-text-600">
+              Book a free assessment and we&apos;ll map migration, DevOps, security, and audience
+              fit to your workload and operating model.
+            </p>
+            <Button asChild className="mt-6">
+              <Link to="/book-demo">
+                Book assessment <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </IcCard>
+        </div>
+      </section>
+    </>
+  );
+}

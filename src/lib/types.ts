@@ -1,0 +1,92 @@
+export type SettingsPublic = {
+  email: string;
+  supportEmail: string;
+  phone: string;
+  whatsapp: string;
+  address: string;
+  social: {
+    linkedin?: string;
+    twitter?: string;
+    instagram?: string;
+    youtube?: string;
+  };
+  seo: {
+    defaultTitle?: string;
+    defaultDescription?: string;
+    ogImageUrl?: string;
+  };
+};
+
+export type ServiceItem = {
+  _id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  bodyHtml: string;
+  iconKey: string;
+  order: number;
+  published: boolean;
+};
+
+export type SolutionItem = {
+  _id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  bodyHtml: string;
+  audiences: Array<"startup" | "enterprise">;
+  pillar: "migration" | "devops" | "security" | "general";
+  highlights: string[];
+  order: number;
+  published: boolean;
+};
+
+export type FaqItem = {
+  _id: string;
+  question: string;
+  answerHtml: string;
+  category: string;
+  order: number;
+  published: boolean;
+};
+
+export type DocArticleSummary = {
+  _id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  order: number;
+  updatedAt?: string;
+};
+
+export type DocCategoryWithArticles = {
+  _id: string;
+  title: string;
+  slug: string;
+  description: string;
+  order: number;
+  articles: DocArticleSummary[];
+};
+
+export type DocArticleDetail = {
+  _id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  bodyHtml: string;
+  order: number;
+  category: {
+    _id: string;
+    title: string;
+    slug: string;
+  };
+};
+
+export type PartnerItem = {
+  _id: string;
+  name: string;
+  logoPath: string;
+  url: string;
+  order: number;
+  published: boolean;
+};
