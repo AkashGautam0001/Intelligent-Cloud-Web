@@ -9,7 +9,7 @@ export function TrustBar() {
   const loop = [...brands, ...brands];
 
   return (
-    <section className="border-y border-border-200 bg-[#eef3f8] py-10">
+    <section className="border-y border-navy-900/20 bg-navy-900 py-10">
       <div className="container-ic">
         <div className="relative">
           <p className="sr-only">
@@ -17,11 +17,11 @@ export function TrustBar() {
           </p>
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-[#eef3f8] to-transparent sm:w-16"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-navy-900 to-transparent sm:w-16"
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[#eef3f8] to-transparent sm:w-16"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-navy-900 to-transparent sm:w-16"
           />
 
           <div className="overflow-hidden" aria-hidden>
