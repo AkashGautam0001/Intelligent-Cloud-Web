@@ -41,6 +41,7 @@ export function ServiceLongForm({
   cmsBodyHtml,
 }: ServiceLongFormProps) {
   const { t, locale } = useI18n();
+  const lf = t.pages.longForm;
   const title = content.title;
   const summary = content.summary;
   const Icon = serviceIcon(content.iconKey);
@@ -63,15 +64,15 @@ export function ServiceLongForm({
         <div className="container-ic relative py-12 lg:py-16">
           <Breadcrumbs
             items={[
-              { label: "Home", to: "/" },
-              { label: "Services", to: "/services" },
+              { label: t.common.home, to: "/" },
+              { label: t.nav.services, to: "/services" },
               { label: title },
             ]}
           />
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
             <div>
               <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#6b7a8c]">
-                {content.eyebrow} · Service
+                {content.eyebrow} · {t.common.service}
               </p>
               <h1 className="mt-4 font-display text-[clamp(2rem,4.2vw,3.25rem)] font-semibold leading-[1.12] tracking-[-0.03em] text-navy-900">
                 {title}
@@ -85,7 +86,7 @@ export function ServiceLongForm({
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button asChild size="lg">
                   <Link to="/book-demo">
-                    Book assessment <ArrowRight className="h-4 w-4" />
+                    {t.common.bookAssessment} <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
@@ -94,7 +95,7 @@ export function ServiceLongForm({
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Talk to an expert
+                    {t.common.talkExpert}
                   </a>
                 </Button>
               </div>
@@ -123,9 +124,9 @@ export function ServiceLongForm({
       {/* Capabilities */}
       <SectionShell
         tone="navyLight"
-        eyebrow="Capabilities"
-        title="What we deliver"
-        lead="Modern building blocks — not a slide deck of buzzwords — so your team can operate what we leave behind."
+        eyebrow={t.common.capabilities}
+        title={t.common.whatWeDeliver}
+        lead={lf.capabilitiesLead}
       >
         <Stagger className="grid gap-4 md:grid-cols-2 xl:grid-cols-3" stagger={0.07}>
           {content.highlights.map((h, i) => {
@@ -154,16 +155,16 @@ export function ServiceLongForm({
       {/* Challenges / Outcomes */}
       <SectionShell
         tone="white"
-        eyebrow="Why it matters"
-        title="Challenges we see — outcomes we aim for"
-        lead="Most estates already have tools. The gap is usually clarity, ownership, and evidence."
+        eyebrow={lf.whyItMatters}
+        title={lf.challengesTitle}
+        lead={lf.challengesLead}
       >
         <div className="grid gap-6 lg:grid-cols-2">
           <IcCard className="h-full border-orange-500/20 bg-orange-500/[0.03]">
             <div className="flex items-center gap-2">
               <ChallengeIcon className="h-4 w-4 text-orange-500" aria-hidden />
               <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
-                Challenges
+                {t.common.challenges}
               </p>
             </div>
             <ul className="mt-4 space-y-3">
@@ -179,7 +180,7 @@ export function ServiceLongForm({
             <div className="flex items-center gap-2">
               <OutcomeIcon className="h-4 w-4 text-navy-900" aria-hidden />
               <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-navy-900">
-                Outcomes
+                {lf.outcomes}
               </p>
             </div>
             <ul className="mt-4 space-y-3">
@@ -197,9 +198,9 @@ export function ServiceLongForm({
       {/* Deliverables */}
       <SectionShell
         tone="navyLight"
-        eyebrow="Deliverables"
-        title="Artifacts you keep"
-        lead="Concrete outputs — blueprints, IaC, runbooks — so the engagement does not vanish into slideware."
+        eyebrow={t.common.deliverables}
+        title={lf.deliverablesTitle}
+        lead={lf.deliverablesLead}
       >
         <div className="grid gap-4 md:grid-cols-2">
           {content.deliverables.map((d, i) => {
@@ -227,7 +228,7 @@ export function ServiceLongForm({
       {/* Approach steps */}
       <SectionShell
         tone="white"
-        eyebrow="How we deliver"
+        eyebrow={lf.howWeDeliver}
         title={content.approachTitle}
         lead={content.approachLead}
       >
@@ -267,7 +268,7 @@ export function ServiceLongForm({
       {/* Architecture visual */}
       <SectionShell
         tone="navyLight"
-        eyebrow="Architecture lens"
+        eyebrow={t.common.architectureLens}
         title={content.architectureTitle}
         lead={content.architectureLead}
         aside={
@@ -285,9 +286,9 @@ export function ServiceLongForm({
       {/* Use cases */}
       <SectionShell
         tone="white"
-        eyebrow="Use cases"
-        title="How teams apply this service"
-        lead="Illustrative scenarios based on common engagement shapes — your path is scoped in assessment."
+        eyebrow={t.common.useCases}
+        title={lf.useCasesTitle}
+        lead={lf.useCasesLead}
       >
         <div className="grid gap-5 lg:grid-cols-3">
           {content.useCases.map((u, i) => {
@@ -302,7 +303,7 @@ export function ServiceLongForm({
                 <p className="mt-5 border-t border-border-200 pt-4 text-sm font-medium text-navy-900">
                   <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
                     <Package className="h-3.5 w-3.5" aria-hidden />
-                    Outcome
+                    {t.common.outcome}
                   </span>
                   <span className="mt-1.5 block">{u.outcome}</span>
                 </p>
@@ -317,9 +318,9 @@ export function ServiceLongForm({
       {/* FAQ */}
       <SectionShell
         tone="white"
-        eyebrow="FAQ"
-        title={`Questions about ${title}`}
-        lead="Straight answers on scope, ownership, and how engagements usually run."
+        eyebrow={t.nav.faq}
+        title={lf.faqTitle.replace("{title}", title)}
+        lead={lf.faqLead}
       >
         <IcCard className="p-2 sm:p-4">
           <Accordion type="single" collapsible>
@@ -348,7 +349,7 @@ export function ServiceLongForm({
         <div className="container-ic relative grid gap-10 py-16 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:gap-14 lg:py-20">
           <div>
             <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-white/55">
-              Next step
+              {lf.nextStep}
             </p>
             <h2 className="mt-4 max-w-2xl font-display text-[clamp(1.75rem,3.2vw,2.35rem)] font-semibold leading-[1.15] tracking-[-0.03em] text-white">
               Ready to scope {title.toLowerCase()} for your estate?
@@ -360,7 +361,7 @@ export function ServiceLongForm({
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg">
                 <Link to="/book-demo">
-                  Book assessment <ArrowRight className="h-4 w-4" />
+                  {t.common.bookAssessment} <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -375,14 +376,14 @@ export function ServiceLongForm({
                   rel="noreferrer"
                 >
                   <MessageCircle className="h-4 w-4" />
-                  WhatsApp an expert
+                  {t.common.talkExpert}
                 </a>
               </Button>
             </div>
           </div>
           {related.length > 0 ? (
             <div>
-              <p className="text-sm font-medium text-white/55">Related services</p>
+              <p className="text-sm font-medium text-white/55">{t.common.relatedServices}</p>
               <ul className="mt-4 space-y-3">
                 {related.map((r) => (
                   <li key={r.slug}>

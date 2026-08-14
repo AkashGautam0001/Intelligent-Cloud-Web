@@ -10,6 +10,7 @@ import {
   Shield,
   User,
   Wrench,
+  type LucideIcon,
 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { getResourcePage, support as supportFallback } from "@/content/resources";
@@ -35,56 +36,20 @@ import { cn } from "@/lib/utils";
 import {
   controlClass,
   email as validateEmail,
+  fillTemplate,
   hasErrors,
   minLength,
   type FieldErrors,
+  type ValidationMessages,
 } from "@/lib/validation";
 
-const tiers = [
-  {
-    id: "standard" as const,
-    title: "Standard Support",
-    short: "STD",
-    Icon: Headphones,
-    body: "Business-hours support for setup, configuration, and how-to questions on active engagements.",
-    points: [
-      "Email ticket intake during business hours",
-      "Guidance on platform and service configuration",
-      "Best for non-production or advisory follow-ups",
-    ],
-  },
-  {
-    id: "managed-operations" as const,
-    title: "Managed Operations (24×7)",
-    short: "OPS",
-    Icon: Shield,
-    body: "Round-the-clock monitoring and incident response for production estates under managed operations.",
-    points: [
-      "Alerting tied to agreed SLOs and runbooks",
-      "Incident triage with change-window discipline",
-      "Handoffs documented for your internal owners",
-    ],
-  },
-  {
-    id: "priority" as const,
-    title: "Priority Support (Enterprise)",
-    short: "PRI",
-    Icon: AlertTriangle,
-    body: "Dedicated response SLAs and a named point of contact for complex or multi-team estates.",
-    points: [
-      "Named escalation path and response targets",
-      "Priority queue for production-impacting issues",
-      "Quarterly ops reviews when contracted",
-    ],
-  },
-];
+const tierIcons: Record<string, LucideIcon> = {
+  standard: Headphones,
+  "managed-operations": Shield,
+  priority: AlertTriangle,
+};
 
-const flow = [
-  { step: "01", title: "Open", body: "Submit with environment, severity, and blast radius.", Icon: ClipboardList },
-  { step: "02", title: "Triage", body: "We confirm impact and change-window constraints.", Icon: Wrench },
-  { step: "03", title: "Act", body: "Remediate with runbooks and documented ownership.", Icon: Shield },
-  { step: "04", title: "Close", body: "Confirm resolution and capture follow-up actions.", Icon: CheckCircle2 },
-] as const;
+const flowIcons = [ClipboardList, Wrench, Shield, CheckCircle2] as const;
 
 type SupportForm = {
   name: string;
@@ -95,12 +60,18 @@ type SupportForm = {
 
 type SupportField = keyof SupportForm;
 
-function validateSupport(form: SupportForm): FieldErrors<SupportField> {
+type TierId = "standard" | "managed-operations" | "priority";
+
+function validateSupport(
+  form: SupportForm,
+  labels: { name: string; email: string; subject: string; details: string },
+  msgs: ValidationMessages,
+): FieldErrors<SupportField> {
   return {
-    name: minLength(form.name, 2, "Name"),
-    email: validateEmail(form.email),
-    subject: minLength(form.subject, 5, "Subject"),
-    body: minLength(form.body, 20, "Details"),
+    name: minLength(form.name, 2, labels.name, msgs),
+    email: validateEmail(form.email, labels.email, msgs),
+    subject: minLength(form.subject, 5, labels.subject, msgs),
+    body: minLength(form.body, 20, labels.details, msgs),
   };
 }
 
@@ -109,7 +80,7 @@ export function SupportPage() {
   const supportContent = getResourcePage("support", locale) ?? supportFallback;
   const formStartedAt = useFormStartedAt();
   const [website, setWebsite] = useState("");
-  const [tier, setTier] = useState<(typeof tiers)[number]["id"]>("standard");
+  const [tier, setTier] = useState<TierId>("standard");
   const [submitting, setSubmitting] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const [errors, setErrors] = useState<FieldErrors<SupportField>>({});
@@ -119,6 +90,10 @@ export function SupportPage() {
     subject: "",
     body: "",
   });
+
+  const s = t.pages.support;
+  const tiers = s.tiers;
+  const flow = s.flow;
 
   const setField = <K extends SupportField>(key: K, value: SupportForm[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -131,7 +106,8 @@ export function SupportPage() {
     setWebsite("");
   };
 
-  const selected = tiers.find((item) => item.id === tier) ?? tiers[0];
+  const selected = tiers.find((item) => item.id === tier) ?? tiers[0]!;
+  const SelectedIcon = tierIcons[selected.id] ?? Headphones;
 
   return (
     <ResourceLongForm
@@ -143,69 +119,77 @@ export function SupportPage() {
               <LifeBuoy className="h-7 w-7" aria-hidden />
             </IcIconTile>
             <div>
-              <p className="font-display text-sm font-semibold text-navy-900">Support desk</p>
-              <p className="mt-1 text-sm text-text-600">STD · OPS · PRI</p>
+              <p className="font-display text-sm font-semibold text-navy-900">
+                {s.supportDesk}
+              </p>
+              <p className="mt-1 text-sm text-text-600">{s.deskLead}</p>
             </div>
           </div>
           <ul className="mt-6 grid grid-cols-2 gap-2">
-            {flow.map((f) => (
-              <li
-                key={f.step}
-                className="flex items-center gap-2 rounded-[10px] border border-border-200 bg-[#eef3f8]/80 px-3 py-2"
-              >
-                <f.Icon className="h-3.5 w-3.5 text-orange-500" aria-hidden />
-                <div>
-                  <p className="font-mono text-[10px] text-orange-500">{f.step}</p>
-                  <p className="text-sm font-medium text-navy-900">{f.title}</p>
-                </div>
-              </li>
-            ))}
+            {flow.map((f, i) => {
+              const Icon = flowIcons[i] ?? ClipboardList;
+              return (
+                <li
+                  key={f.step}
+                  className="flex items-center gap-2 rounded-[10px] border border-border-200 bg-[#eef3f8]/80 px-3 py-2"
+                >
+                  <Icon className="h-3.5 w-3.5 text-orange-500" aria-hidden />
+                  <div>
+                    <p className="font-mono text-[10px] text-orange-500">{f.step}</p>
+                    <p className="text-sm font-medium text-navy-900">{f.title}</p>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </IcCard>
       }
     >
       <SectionShell
         tone="navyLight"
-        eyebrow="Support"
-        title="Open a ticket"
-        lead="Choose a tier, then submit details so we can triage and route correctly."
+        eyebrow={s.openTicketEyebrow}
+        title={s.openTicketTitle}
+        lead={s.openTicketLead}
       >
         <div className="mb-8 grid gap-4 md:grid-cols-3">
-          {tiers.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => setTier(item.id)}
-              className="text-start"
-            >
-              <IcCard
-                interactive
-                animateIn={false}
-                className={cn("h-full p-6", tier === item.id && "border-orange-500")}
+          {tiers.map((item) => {
+            const Icon = tierIcons[item.id] ?? Headphones;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setTier(item.id as TierId)}
+                className="text-start"
               >
-                <div className="flex items-center justify-between gap-3">
-                  <IcIconTile size="sm">
-                    <item.Icon className="h-4 w-4" aria-hidden />
-                  </IcIconTile>
-                  <IcChip as="span" active={tier === item.id}>
-                    {item.short}
-                  </IcChip>
-                </div>
-                <h3 className="mt-3 font-display text-lg font-semibold text-navy-900">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm text-text-600">{item.body}</p>
-                <ul className="mt-3 space-y-1 text-xs text-text-600">
-                  {item.points.map((p) => (
-                    <li key={p} className="flex gap-2">
-                      <CheckCircle2 className="mt-0.5 h-3 w-3 shrink-0 text-orange-500" aria-hidden />
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-              </IcCard>
-            </button>
-          ))}
+                <IcCard
+                  interactive
+                  animateIn={false}
+                  className={cn("h-full p-6", tier === item.id && "border-orange-500")}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <IcIconTile size="sm">
+                      <Icon className="h-4 w-4" aria-hidden />
+                    </IcIconTile>
+                    <IcChip as="span" active={tier === item.id}>
+                      {item.short}
+                    </IcChip>
+                  </div>
+                  <h3 className="mt-3 font-display text-lg font-semibold text-navy-900">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-text-600">{item.body}</p>
+                  <ul className="mt-3 space-y-1 text-xs text-text-600">
+                    {item.points.map((p) => (
+                      <li key={p} className="flex gap-2">
+                        <CheckCircle2 className="mt-0.5 h-3 w-3 shrink-0 text-orange-500" aria-hidden />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </IcCard>
+              </button>
+            );
+          })}
         </div>
 
         <ModernFormSplit
@@ -213,13 +197,13 @@ export function SupportPage() {
             <IcCard className="h-full space-y-4 p-6">
               <div className="flex items-center gap-3">
                 <IcIconTile size="md">
-                  <selected.Icon className="h-5 w-5" aria-hidden />
+                  <SelectedIcon className="h-5 w-5" aria-hidden />
                 </IcIconTile>
                 <div>
                   <p className="font-display text-base font-semibold text-navy-900">
                     {selected.title}
                   </p>
-                  <p className="text-sm text-text-600">Attached to this ticket</p>
+                  <p className="text-sm text-text-600">{s.attachedHint}</p>
                 </div>
               </div>
               <p className="text-sm leading-relaxed text-text-600">{selected.body}</p>
@@ -239,7 +223,16 @@ export function SupportPage() {
             noValidate
             onSubmit={(e) => {
               e.preventDefault();
-              const next = validateSupport(form);
+              const next = validateSupport(
+                form,
+                {
+                  name: t.forms.name,
+                  email: t.forms.email,
+                  subject: t.forms.subject,
+                  details: s.details,
+                },
+                t.validation,
+              );
               setErrors(next);
               if (hasErrors(next)) {
                 toast.error(t.forms.fixFields);
@@ -264,11 +257,11 @@ export function SupportPage() {
           >
             <HoneypotField value={website} onChange={setWebsite} />
             <ModernFormCard
-              title="Open a ticket"
+              title={s.formTitle}
               subtitle={
                 <span className="inline-flex items-center gap-2">
-                  <selected.Icon className="h-3.5 w-3.5 text-orange-500" aria-hidden />
-                  Tier: {selected.title}
+                  <SelectedIcon className="h-3.5 w-3.5 text-orange-500" aria-hidden />
+                  {fillTemplate(s.tierLabel, { title: selected.title })}
                 </span>
               }
               icon={LifeBuoy}
@@ -305,11 +298,11 @@ export function SupportPage() {
               </FormField>
               <FormField
                 id="body"
-                label="Details"
+                label={s.details}
                 icon={ClipboardList}
                 required
                 error={errors.body}
-                hint={errors.body ? undefined : "Include environment, severity, impact, and recent changes."}
+                hint={errors.body ? undefined : s.hint}
               >
                 <textarea
                   id="body"

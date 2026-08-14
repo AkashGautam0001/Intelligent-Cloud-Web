@@ -9,7 +9,7 @@ import { useI18n } from "@/i18n";
 
 export function ServiceDetailPage() {
   const { slug } = useParams();
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   const staticContent = getServicePage(slug, locale);
   const { data: cms, isLoading, isError } = useService(slug);
 
@@ -21,9 +21,9 @@ export function ServiceDetailPage() {
   if (!staticContent && (isError || !cms)) {
     return (
       <section className="container-ic py-20">
-        <h1 className="text-2xl font-semibold text-navy-900">Service not found</h1>
+        <h1 className="text-2xl font-semibold text-navy-900">{t.common.notFoundService}</h1>
         <Button asChild className="mt-4" variant="secondary">
-          <Link to="/services">Back to services</Link>
+          <Link to="/services">{t.common.backToServices}</Link>
         </Button>
       </section>
     );
@@ -52,15 +52,15 @@ export function ServiceDetailPage() {
         content={{
           slug: cms!.slug,
           title: cms!.title,
-          eyebrow: "Service",
+          eyebrow: t.common.service,
           tagline: cms!.summary,
           summary: cms!.summary,
           iconKey: cms!.iconKey,
           category: "platforms",
-          architectureTitle: "Architecture overview",
+          architectureTitle: t.pages.longForm.architectureOverview,
           architectureLead: cms!.summary,
-          approachTitle: "How we deliver",
-          approachLead: "Scoped with your team during assessment.",
+          approachTitle: t.pages.longForm.howWeDeliver,
+          approachLead: t.pages.longForm.scopedDuringAssessment,
           metrics: [],
           highlights: [],
           challenges: [],

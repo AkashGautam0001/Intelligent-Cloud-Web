@@ -1,9 +1,10 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, CalendarDays, FileText, Scale, Shield } from "lucide-react";
 import { getResourcePage, privacy as privacyFallback, terms as termsFallback } from "@/content/resources";
 import { ResourceLongForm } from "@/components/resources/ResourceLongForm";
 import { useI18n } from "@/i18n";
+import { fillTemplate } from "@/lib/validation";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { cn } from "@/lib/utils";
@@ -17,21 +18,64 @@ type LegalSection = {
 };
 
 type LegalDocumentProps = {
-  kind: "privacy" | "terms";
   intro: ReactNode;
   sections: LegalSection[];
   contactEmail: string;
   contactLabel: string;
   sibling: { label: string; to: string };
+  updatedLabel: string;
+  banner: string;
+  onThisPage: string;
+  respondHint: string;
 };
 
+/** Split body on blank lines; lines starting with `- ` become list items. */
+function renderLegalBody(body: string): ReactNode {
+  const blocks = body.split(/\n\n+/).map((b) => b.trim()).filter(Boolean);
+
+  return blocks.map((block, blockIndex) => {
+    const lines = block.split("\n").map((l) => l.trimEnd()).filter((l) => l.length > 0);
+    const listLines = lines.filter((l) => l.startsWith("- "));
+    const isList = listLines.length > 0 && listLines.length === lines.length;
+
+    if (isList) {
+      return (
+        <ul key={blockIndex} className="list-disc space-y-2 ps-5">
+          {listLines.map((line, i) => (
+            <li key={i}>{line.slice(2).trim()}</li>
+          ))}
+        </ul>
+      );
+    }
+
+    return (
+      <p key={blockIndex}>
+        {lines.join(" ")}
+      </p>
+    );
+  });
+}
+
+function sectionsFromMessages(
+  items: ReadonlyArray<{ id: string; title: string; body: string }>,
+): LegalSection[] {
+  return items.map((item) => ({
+    id: item.id,
+    title: item.title,
+    body: <div className="space-y-3">{renderLegalBody(item.body)}</div>,
+  }));
+}
+
 function LegalDocument({
-  kind,
   intro,
   sections,
   contactEmail,
   contactLabel,
   sibling,
+  updatedLabel,
+  banner,
+  onThisPage,
+  respondHint,
 }: LegalDocumentProps) {
   const [activeId, setActiveId] = useState(sections[0]?.id ?? "");
 
@@ -63,14 +107,10 @@ function LegalDocument({
           <div className="flex min-w-0 flex-1 flex-wrap items-center gap-3 px-5 py-4 text-sm text-text-600">
             <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-navy-900">
               <CalendarDays className="h-3.5 w-3.5 text-orange-500" aria-hidden />
-              Updated {LAST_UPDATED}
+              {updatedLabel}
             </span>
             <span className="hidden h-1 w-1 rounded-full bg-border-200 sm:inline" />
-            <span>
-              {kind === "privacy"
-                ? "Applies to website and inquiry data"
-                : "Website terms — SOWs take precedence"}
-            </span>
+            <span>{banner}</span>
           </div>
           <Link
             to={sibling.to}
@@ -84,7 +124,7 @@ function LegalDocument({
         <div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)]">
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[#6b7a8c]">
-              On this page
+              {onThisPage}
             </p>
             <nav className="ic-scroll max-h-[min(70vh,28rem)] space-y-0.5 overflow-y-auto pe-2">
               {sections.map((section, index) => (
@@ -147,7 +187,7 @@ function LegalDocument({
             <div className="mt-8 flex flex-col gap-3 rounded-[14px] border border-orange-500/20 bg-orange-500/[0.04] px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
               <div>
                 <p className="font-display text-base font-semibold text-navy-900">{contactLabel}</p>
-                <p className="mt-1 text-sm text-text-600">We respond to legal and privacy requests by email.</p>
+                <p className="mt-1 text-sm text-text-600">{respondHint}</p>
               </div>
               <a
                 href={`mailto:${contactEmail}`}
@@ -164,195 +204,14 @@ function LegalDocument({
   );
 }
 
-const privacySections: LegalSection[] = [
-  {
-    id: "collect",
-    title: "Information we collect",
-    body: (
-      <ul className="list-disc space-y-2 ps-5">
-        <li>
-          Contact information you provide (name, email, phone, company) via enquiry forms or demo
-          bookings
-        </li>
-        <li>
-          Usage and analytics data for measuring website traffic: pages visited, approximate visit
-          counts, unique visitor identifiers stored in your browser, referrer URL, and approximate
-          country/region derived from network information (we do not sell this data)
-        </li>
-        <li>
-          Information shared during consulting engagements, handled under separate
-          confidentiality/NDA terms where applicable
-        </li>
-        <li>Support ticket details you submit (subject, environment context, and message body)</li>
-      </ul>
-    ),
-  },
-  {
-    id: "use",
-    title: "How we use your information",
-    body: (
-      <ul className="list-disc space-y-2 ps-5">
-        <li>To respond to inquiries and provide requested services</li>
-        <li>
-          To operate first-party website analytics (visits, unique visitors, and country aggregates)
-          so we can understand demand and improve the site
-        </li>
-        <li>To improve our website and service offerings</li>
-        <li>To send relevant updates (with opt-out available at any time)</li>
-        <li>To route and resolve support tickets according to the selected tier</li>
-      </ul>
-    ),
-  },
-  {
-    id: "analytics",
-    title: "Analytics",
-    body: (
-      <div className="space-y-3">
-        <p>
-          We collect limited first-party analytics on our website — including page views, a random
-          visitor ID kept in local browser storage, referrer, and approximate country — to measure
-          traffic and improve content. Aggregated stats may be shown in our internal admin console.
-        </p>
-        <p>
-          We may also use optional third-party analytics or tag managers (for example Google Analytics /
-          Tag Manager or Microsoft Clarity) when configured. Those providers process data under their
-          own terms and privacy policies. We use analytics only to understand site usage, not to sell
-          personal data.
-        </p>
-      </div>
-    ),
-  },
-  {
-    id: "sharing",
-    title: "Data sharing",
-    body: (
-      <p>
-        We do not sell your personal data. We may share data with service providers (e.g., hosting,
-        analytics, email delivery) strictly to operate our business, under confidentiality
-        obligations.
-      </p>
-    ),
-  },
-  {
-    id: "security",
-    title: "Data security",
-    body: (
-      <p>
-        We apply industry-standard security practices to protect your information, consistent with
-        the same cloud security principles we implement for clients — least privilege, encrypted
-        transit where applicable, and access limited to staff who need it.
-      </p>
-    ),
-  },
-  {
-    id: "rights",
-    title: "Your rights",
-    body: (
-      <p>
-        You may request access to, correction of, or deletion of your personal data by contacting{" "}
-        <a className="font-medium text-orange-500 hover:underline" href="mailto:privacy@intelligent-cloud.com">
-          privacy@intelligent-cloud.com
-        </a>
-        . You can clear your browser storage to reset the anonymous visitor ID used for analytics.
-      </p>
-    ),
-  },
-  {
-    id: "changes",
-    title: "Changes to this policy",
-    body: (
-      <p>
-        We may update this policy periodically. Material changes will be posted on this page with an
-        updated date.
-      </p>
-    ),
-  },
-];
-
-const termsSections: LegalSection[] = [
-  {
-    id: "services",
-    title: "Services",
-    body: (
-      <p>
-        Intelligent Cloud provides cloud consulting, managed services, and related technical
-        services as described on this website or in a separate signed agreement/SOW for specific
-        engagements — including migration, platform engineering, security baselines, and operations.
-      </p>
-    ),
-  },
-  {
-    id: "engagement",
-    title: "Engagement terms",
-    body: (
-      <p>
-        Specific project scope, pricing, timelines, and deliverables are governed by individually
-        signed agreements, which take precedence over general website content. Website copy is
-        illustrative and not a binding quote.
-      </p>
-    ),
-  },
-  {
-    id: "analytics",
-    title: "Website analytics",
-    body: (
-      <p>
-        By using this website you acknowledge that we collect limited usage information for analytics
-        — including page views, an anonymous visitor identifier in your browser, referrer, and
-        approximate country — to understand traffic and improve the site. Details are described in our{" "}
-        <a className="font-medium text-orange-500 hover:underline" href="/privacy">
-          Privacy Policy
-        </a>
-        . Optional third-party analytics tools may also run when configured.
-      </p>
-    ),
-  },
-  {
-    id: "ip",
-    title: "Intellectual property",
-    body: (
-      <p>
-        All website content, branding, and documentation are the property of Intelligent Cloud
-        unless otherwise stated. Client-owned code, infrastructure configurations, and data remain
-        the property of the client.
-      </p>
-    ),
-  },
-  {
-    id: "liability",
-    title: "Limitation of liability",
-    body: (
-      <p>
-        Intelligent Cloud will perform services with professional care; however, liability for
-        indirect or consequential damages is limited as detailed in individual service agreements.
-      </p>
-    ),
-  },
-  {
-    id: "confidentiality",
-    title: "Confidentiality",
-    body: (
-      <p>
-        Information shared during consulting engagements is treated as confidential and may be
-        governed by a separate NDA.
-      </p>
-    ),
-  },
-  {
-    id: "governing-law",
-    title: "Governing law",
-    body: (
-      <p>
-        These terms are governed by applicable law in the jurisdiction of the contracting entity,
-        without regard to conflict-of-law principles.
-      </p>
-    ),
-  },
-];
-
 export function PrivacyPage() {
-  const { locale } = useI18n();
+  const { t, locale } = useI18n();
   const privacyContent = getResourcePage("privacy", locale) ?? privacyFallback;
+  const legal = t.pages.legal;
+  const sections = useMemo(
+    () => sectionsFromMessages(t.pages.privacySections),
+    [t.pages.privacySections],
+  );
 
   return (
     <ResourceLongForm
@@ -373,11 +232,12 @@ export function PrivacyPage() {
               <IcIconTile size="lg" className="h-14 w-14 rounded-[14px] bg-white/10 text-orange-500">
                 <Shield className="h-7 w-7" aria-hidden />
               </IcIconTile>
-              <p className="mt-5 font-display text-lg font-semibold">Privacy Policy</p>
-              <p className="mt-2 text-sm text-white/70">Last updated {LAST_UPDATED}</p>
+              <p className="mt-5 font-display text-lg font-semibold">{legal.privacyHeroTitle}</p>
+              <p className="mt-2 text-sm text-white/70">
+                {fillTemplate(legal.lastUpdated, { date: LAST_UPDATED })}
+              </p>
               <p className="mt-4 text-sm leading-relaxed text-white/80">
-                Website and inquiry data. Engagement work under SOW/NDA is also governed by those
-                agreements.
+                {legal.privacyHeroBody}
               </p>
             </div>
           </div>
@@ -385,27 +245,28 @@ export function PrivacyPage() {
       }
     >
       <LegalDocument
-        kind="privacy"
-        intro={
-          <p>
-            Intelligent Cloud (“we,” “us,” “our”) respects your privacy. This policy explains what
-            information we collect, how we use it, and your rights regarding that information.
-            Engagement data under a signed SOW or NDA is governed by those agreements in addition to
-            this policy.
-          </p>
-        }
-        sections={privacySections}
+        intro={<p>{legal.privacyIntro}</p>}
+        sections={sections}
         contactEmail="privacy@intelligent-cloud.com"
-        contactLabel="Privacy requests"
-        sibling={{ label: "Terms of use", to: "/terms" }}
+        contactLabel={legal.privacyContactLabel}
+        sibling={{ label: legal.termsSibling, to: "/terms" }}
+        updatedLabel={fillTemplate(legal.updated, { date: LAST_UPDATED })}
+        banner={legal.privacyBanner}
+        onThisPage={legal.onThisPage}
+        respondHint={legal.respondHint}
       />
     </ResourceLongForm>
   );
 }
 
 export function TermsPage() {
-  const { locale } = useI18n();
+  const { t, locale } = useI18n();
   const termsContent = getResourcePage("terms", locale) ?? termsFallback;
+  const legal = t.pages.legal;
+  const sections = useMemo(
+    () => sectionsFromMessages(t.pages.termsSections),
+    [t.pages.termsSections],
+  );
 
   return (
     <ResourceLongForm
@@ -426,11 +287,12 @@ export function TermsPage() {
               <IcIconTile size="lg" className="h-14 w-14 rounded-[14px] bg-white/10 text-orange-500">
                 <Scale className="h-7 w-7" aria-hidden />
               </IcIconTile>
-              <p className="mt-5 font-display text-lg font-semibold">Terms of use</p>
-              <p className="mt-2 text-sm text-white/70">Last updated {LAST_UPDATED}</p>
+              <p className="mt-5 font-display text-lg font-semibold">{legal.termsHeroTitle}</p>
+              <p className="mt-2 text-sm text-white/70">
+                {fillTemplate(legal.lastUpdated, { date: LAST_UPDATED })}
+              </p>
               <p className="mt-4 text-sm leading-relaxed text-white/80">
-                Website terms are illustrative. Signed SOWs and MSAs take precedence for paid
-                engagements.
+                {legal.termsHeroBody}
               </p>
             </div>
           </div>
@@ -438,18 +300,15 @@ export function TermsPage() {
       }
     >
       <LegalDocument
-        kind="terms"
-        intro={
-          <p>
-            By accessing or using the Intelligent Cloud website or services, you agree to the
-            following terms. Signed statements of work and master service agreements take precedence
-            for paid engagements.
-          </p>
-        }
-        sections={termsSections}
+        intro={<p>{legal.termsIntro}</p>}
+        sections={sections}
         contactEmail="legal@intelligent-cloud.com"
-        contactLabel="Legal questions"
-        sibling={{ label: "Privacy policy", to: "/privacy" }}
+        contactLabel={legal.termsContactLabel}
+        sibling={{ label: legal.privacySibling, to: "/privacy" }}
+        updatedLabel={fillTemplate(legal.updated, { date: LAST_UPDATED })}
+        banner={legal.termsBanner}
+        onThisPage={legal.onThisPage}
+        respondHint={legal.respondHint}
       />
     </ResourceLongForm>
   );

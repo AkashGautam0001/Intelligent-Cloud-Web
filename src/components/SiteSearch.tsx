@@ -306,8 +306,8 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "max-w-2xl gap-0 overflow-hidden border-white/10 p-0",
-          "rounded-[20px] bg-white shadow-[0_32px_100px_-28px_rgba(4,39,95,0.55)]",
+          "max-w-2xl gap-0 overflow-hidden border-white/50 p-0",
+          "rounded-[20px] bg-white/85 shadow-[0_32px_100px_-28px_rgba(4,39,95,0.55)] backdrop-blur-xl",
           "[&>button]:hidden",
         )}
       >

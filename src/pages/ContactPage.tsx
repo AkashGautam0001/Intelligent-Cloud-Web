@@ -41,35 +41,44 @@ import {
   phone as validatePhone,
   sanitizePhoneInput,
   type FieldErrors,
+  type ValidationMessages,
 } from "@/lib/validation";
 
-const needs = [
-  "Cloud Migration",
-  "Managed Services",
-  "Kubernetes",
-  "DevOps Consulting",
-  "Partnership",
-  "Other",
+/** Stable English values for the API; labels come from i18n. */
+const NEED_OPTIONS = [
+  { value: "Cloud Migration", key: "cloudMigration" },
+  { value: "Managed Services", key: "managedServices" },
+  { value: "Kubernetes", key: "kubernetes" },
+  { value: "DevOps Consulting", key: "devops" },
+  { value: "Partnership", key: "partnership" },
+  { value: "Other", key: "other" },
 ] as const;
+
+type ContactNeedValue = (typeof NEED_OPTIONS)[number]["value"];
+type ContactNeedKey = (typeof NEED_OPTIONS)[number]["key"];
 
 type ContactForm = {
   name: string;
   email: string;
   company: string;
   phone: string;
-  need: (typeof needs)[number];
+  need: ContactNeedValue;
   message: string;
 };
 
 type ContactField = keyof ContactForm;
 
-function validateContact(form: ContactForm): FieldErrors<ContactField> {
+function validateContact(
+  form: ContactForm,
+  labels: { name: string; company: string; email: string; phone: string; message: string },
+  msgs: ValidationMessages,
+): FieldErrors<ContactField> {
   return {
-    name: minLength(form.name, 2, "Name"),
-    email: validateEmail(form.email),
-    company: minLength(form.company, 2, "Company"),
-    phone: validatePhone(form.phone),
-    message: optionalMax(form.message, 2000, "Message"),
+    name: minLength(form.name, 2, labels.name, msgs),
+    email: validateEmail(form.email, labels.email, msgs),
+    company: minLength(form.company, 2, labels.company, msgs),
+    phone: validatePhone(form.phone, labels.phone, msgs),
+    message: optionalMax(form.message, 2000, labels.message, msgs),
   };
 }
 
@@ -87,9 +96,12 @@ export function ContactPage() {
     email: "",
     company: "",
     phone: "",
-    need: needs[0],
+    need: NEED_OPTIONS[0].value,
     message: "",
   });
+
+  const c = t.pages.contact;
+  const needLabels = c.needs;
 
   const resetForm = () => {
     setForm({
@@ -97,7 +109,7 @@ export function ContactPage() {
       email: "",
       company: "",
       phone: "",
-      need: needs[0],
+      need: NEED_OPTIONS[0].value,
       message: "",
     });
     setErrors({});
@@ -127,8 +139,10 @@ export function ContactPage() {
               <Mail className="h-7 w-7" aria-hidden />
             </IcIconTile>
             <div>
-              <p className="font-display text-sm font-semibold text-navy-900">Talk to sales</p>
-              <p className="mt-1 text-sm text-text-600">Or WhatsApp an engineer</p>
+              <p className="font-display text-sm font-semibold text-navy-900">
+                {c.talkToSales}
+              </p>
+              <p className="mt-1 text-sm text-text-600">{c.orWhatsApp}</p>
             </div>
           </div>
           <div className="space-y-3 border-t border-border-200 pt-4">
@@ -161,9 +175,9 @@ export function ContactPage() {
     >
       <SectionShell
         tone="navyLight"
-        eyebrow="Message"
-        title="Send a structured note"
-        lead="Channels and a message form — we reply by email."
+        eyebrow={c.messageEyebrow}
+        title={c.messageTitle}
+        lead={c.messageLead}
       >
         <ModernFormSplit
           aside={
@@ -173,8 +187,10 @@ export function ContactPage() {
                   <Send className="h-5 w-5" aria-hidden />
                 </IcIconTile>
                 <div>
-                  <p className="font-display text-base font-semibold text-navy-900">Direct channels</p>
-                  <p className="text-sm text-text-600">Pick the path that fits</p>
+                  <p className="font-display text-base font-semibold text-navy-900">
+                    {c.directChannels}
+                  </p>
+                  <p className="text-sm text-text-600">{c.pickPath}</p>
                 </div>
               </div>
               <ul className="space-y-4">
@@ -183,7 +199,7 @@ export function ContactPage() {
                   { Icon: Phone, label: t.forms.phone, value: phone || "—", href: `tel:${phone}` },
                   {
                     Icon: MessageCircle,
-                    label: "WhatsApp",
+                    label: c.whatsapp,
                     value: whatsapp,
                     href: whatsappExpertUrl(t.whatsapp.defaultMessage),
                     external: true,
@@ -210,9 +226,7 @@ export function ContactPage() {
               </ul>
               <div className="flex items-start gap-3 rounded-[12px] border border-border-200 bg-[#eef3f8]/80 p-4">
                 <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" aria-hidden />
-                <p className="text-sm leading-relaxed text-text-600">
-                  Typical reply within one business day. Prefer a timed assessment? Use Book demo.
-                </p>
+                <p className="text-sm leading-relaxed text-text-600">{c.replyHint}</p>
               </div>
             </IcCard>
           }
@@ -222,7 +236,17 @@ export function ContactPage() {
             noValidate
             onSubmit={(e) => {
               e.preventDefault();
-              const next = validateContact(form);
+              const next = validateContact(
+                form,
+                {
+                  name: t.forms.name,
+                  company: t.forms.company,
+                  email: t.forms.email,
+                  phone: t.forms.phone,
+                  message: t.forms.message,
+                },
+                t.validation,
+              );
               setErrors(next);
               if (hasErrors(next)) {
                 toast.error(t.forms.fixFields);
@@ -245,8 +269,8 @@ export function ContactPage() {
           >
             <HoneypotField value={website} onChange={setWebsite} />
             <ModernFormCard
-              title="Contact form"
-              subtitle="Name, email, company, and phone are required."
+              title={c.contactFormTitle}
+              subtitle={c.contactFormSubtitle}
               icon={MessageSquareText}
             >
               <div className="grid w-full gap-4 sm:grid-cols-2">
@@ -295,18 +319,16 @@ export function ContactPage() {
                   />
                 </FormField>
               </div>
-              <FormField id="need" label="What are you looking for?" icon={Send} required>
+              <FormField id="need" label={c.lookingFor} icon={Send} required>
                 <select
                   id="need"
                   className={cn(modernControlClass, "appearance-none")}
                   value={form.need}
-                  onChange={(e) =>
-                    setField("need", e.target.value as (typeof needs)[number])
-                  }
+                  onChange={(e) => setField("need", e.target.value as ContactNeedValue)}
                 >
-                  {needs.map((need) => (
-                    <option key={need} value={need}>
-                      {need}
+                  {NEED_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {needLabels[opt.key as ContactNeedKey]}
                     </option>
                   ))}
                 </select>

@@ -33,6 +33,7 @@ type SolutionLongFormProps = {
 
 export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps) {
   const { t, locale } = useI18n();
+  const lf = t.pages.longForm;
   const title = content.title;
   const summary = content.summary;
   const Icon = solutionIcon(content.iconKey);
@@ -54,15 +55,15 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
         <div className="container-ic relative py-12 lg:py-16">
           <Breadcrumbs
             items={[
-              { label: "Home", to: "/" },
-              { label: "Solutions", to: "/solutions" },
+              { label: t.common.home, to: "/" },
+              { label: t.nav.solutions, to: "/solutions" },
               { label: title },
             ]}
           />
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
             <div>
               <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#6b7a8c]">
-                {content.eyebrow} · Solution
+                {content.eyebrow} · {t.common.solution}
               </p>
               <h1 className="mt-4 font-display text-[clamp(2rem,4.2vw,3.25rem)] font-semibold leading-[1.12] tracking-[-0.03em] text-navy-900">
                 {title}
@@ -85,7 +86,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Talk to an expert
+                    {t.common.talkExpert}
                   </a>
                 </Button>
               </div>
@@ -110,9 +111,9 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
 
       <SectionShell
         tone="navyLight"
-        eyebrow="Capabilities"
-        title="What we deliver"
-        lead="Outcome-focused building blocks — not a recycled service brochure."
+        eyebrow={t.common.capabilities}
+        title={t.common.whatWeDeliver}
+        lead={lf.capabilitiesLeadSolution}
       >
         <Stagger className="grid gap-4 md:grid-cols-2 xl:grid-cols-3" stagger={0.07}>
           {content.highlights.map((h, i) => {
@@ -138,16 +139,16 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
 
       <SectionShell
         tone="white"
-        eyebrow="Why it matters"
-        title="Challenges we see — outcomes we aim for"
-        lead="Most organizations already have tools. The gap is usually path, ownership, and evidence."
+        eyebrow={lf.whyItMatters}
+        title={lf.challengesTitle}
+        lead={lf.challengesLead}
       >
         <div className="grid gap-6 lg:grid-cols-2">
           <IcCard className="h-full border-orange-500/20 bg-orange-500/[0.03]">
             <div className="flex items-center gap-2">
               <ChallengeIcon className="h-4 w-4 text-orange-500" aria-hidden />
               <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
-                Challenges
+                {t.common.challenges}
               </p>
             </div>
             <ul className="mt-4 space-y-3">
@@ -163,7 +164,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
             <div className="flex items-center gap-2">
               <OutcomeIcon className="h-4 w-4 text-navy-900" aria-hidden />
               <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-navy-900">
-                Outcomes
+                {lf.outcomes}
               </p>
             </div>
             <ul className="mt-4 space-y-3">
@@ -180,9 +181,9 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
 
       <SectionShell
         tone="navyLight"
-        eyebrow="Deliverables"
-        title="Artifacts you keep"
-        lead="Blueprints, runbooks, and operate packs — so the engagement does not vanish into slides."
+        eyebrow={t.common.deliverables}
+        title={lf.deliverablesTitle}
+        lead={lf.deliverablesLead}
       >
         <div className="grid gap-4 md:grid-cols-2">
           {content.deliverables.map((d, i) => {
@@ -207,7 +208,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
 
       <SectionShell
         tone="white"
-        eyebrow="How we deliver"
+        eyebrow={lf.howWeDeliver}
         title={content.approachTitle}
         lead={content.approachLead}
       >
@@ -244,7 +245,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
 
       <SectionShell
         tone="navyLight"
-        eyebrow="Architecture lens"
+        eyebrow={t.common.architectureLens}
         title={content.architectureTitle}
         lead={content.architectureLead}
         aside={
@@ -261,9 +262,9 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
 
       <SectionShell
         tone="white"
-        eyebrow="Use cases"
-        title="How teams apply this solution"
-        lead="Illustrative scenarios — your path is scoped in assessment."
+        eyebrow={t.common.useCases}
+        title={lf.useCasesTitleSolution}
+        lead={lf.useCasesLead}
       >
         <div className="grid gap-5 lg:grid-cols-3">
           {content.useCases.map((u, i) => {
@@ -278,7 +279,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
                 <p className="mt-5 border-t border-border-200 pt-4 text-sm font-medium text-navy-900">
                   <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
                     <Package className="h-3.5 w-3.5" aria-hidden />
-                    Outcome
+                    {t.common.outcome}
                   </span>
                   <span className="mt-1.5 block">{u.outcome}</span>
                 </p>
@@ -288,16 +289,13 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
         </div>
       </SectionShell>
 
-      <StackToolsSection
-        items={content.stack}
-        lead="Chosen with your team — Azure, AWS, and Kubernetes ecosystems you already run."
-      />
+      <StackToolsSection items={content.stack} />
 
       <SectionShell
         tone="white"
-        eyebrow="FAQ"
-        title={`Questions about ${title}`}
-        lead="Straight answers on scope, ownership, and how engagements usually run."
+        eyebrow={t.nav.faq}
+        title={lf.faqTitle.replace("{title}", title)}
+        lead={lf.faqLead}
       >
         <IcCard className="p-2 sm:p-4">
           <Accordion type="single" collapsible>
@@ -325,7 +323,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
         <div className="container-ic relative grid gap-10 py-16 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:gap-14 lg:py-20">
           <div>
             <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-white/55">
-              Next step
+              {lf.nextStep}
             </p>
             <h2 className="mt-4 max-w-2xl font-display text-[clamp(1.75rem,3.2vw,2.35rem)] font-semibold leading-[1.15] tracking-[-0.03em] text-white">
               Ready to scope {title.toLowerCase()} with an engineer?
@@ -352,14 +350,14 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
                   rel="noreferrer"
                 >
                   <MessageCircle className="h-4 w-4" />
-                  WhatsApp an expert
+                  {t.common.talkExpert}
                 </a>
               </Button>
             </div>
           </div>
           {related.length > 0 ? (
             <div>
-              <p className="text-sm font-medium text-white/55">Related solutions</p>
+              <p className="text-sm font-medium text-white/55">{t.common.relatedSolutions}</p>
               <ul className="mt-4 space-y-3">
                 {related.map((r) => (
                   <li key={r.slug}>

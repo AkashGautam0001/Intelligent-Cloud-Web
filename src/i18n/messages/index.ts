@@ -5,8 +5,8 @@ export type { Locale, Messages };
 export { en, ar };
 
 export const messagesByLocale: Record<Locale, Messages> = {
-  en,
-  ar,
+  en: en as Messages,
+  ar: ar as Messages,
 };
 
 export const LOCALES: Locale[] = ["en", "ar"];

@@ -18,13 +18,6 @@ import { cn } from "@/lib/utils";
 import { useI18n } from "@/i18n";
 import type { Locale } from "@/i18n/messages";
 
-const filters: Array<{ id: "all" | ServiceCategory; label: string }> = [
-  { id: "all", label: "All" },
-  { id: "platforms", label: "Platforms" },
-  { id: "data", label: "Data & AI" },
-  { id: "resilience", label: "Resilience" },
-];
-
 const catalogOrder = [
   "cloud-computing",
   "storage",
@@ -55,9 +48,20 @@ function mergeCatalog(
 }
 
 export function ServicesPage() {
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
+  const c = t.pages.servicesCatalog;
   const { data: cmsServices } = useServices();
   const [filter, setFilter] = useState<"all" | ServiceCategory>("all");
+
+  const filters: Array<{ id: "all" | ServiceCategory; label: string }> = useMemo(
+    () => [
+      { id: "all", label: c.filterAll },
+      { id: "platforms", label: c.filterPlatforms },
+      { id: "data", label: c.filterDataAi },
+      { id: "resilience", label: c.filterResilience },
+    ],
+    [c],
+  );
 
   const services = useMemo(() => {
     const cmsBySlug = new Map(
@@ -70,21 +74,14 @@ export function ServicesPage() {
 
   return (
     <>
-      <PageSeo
-        title="Cloud Services | Intelligent Cloud"
-        description="Platforms, data & AI, and resilience services — landing zones, storage, networking, databases, analytics, AI, integration, and disaster recovery."
-      />
-      <PageHero
-        eyebrow="Services"
-        title="Eight capabilities that compose into a production-ready estate"
-        description="Each service page is a full engagement story — unique challenges, deliverables, architecture, and FAQs — not a reused template of the same paragraphs."
-      />
+      <PageSeo title={c.seoTitle} description={c.seoDescription} />
+      <PageHero eyebrow={c.eyebrow} title={c.title} description={c.description} />
 
       <SectionShell
         tone="white"
-        eyebrow="Catalog"
-        title="Browse by domain"
-        lead="Platforms for foundations, Data & AI for insight and copilots, Resilience for connectivity and recovery. Filter, then open a page for the full story."
+        eyebrow={c.catalogEyebrow}
+        title={c.catalogTitle}
+        lead={c.catalogLead}
       >
         <div className="mb-8 flex flex-wrap gap-2">
           {filters.map((f) => (
@@ -138,7 +135,7 @@ export function ServicesPage() {
                         {service.summary}
                       </p>
                       <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-orange-500">
-                        Open service
+                        {c.openService}
                         <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5" />
                       </span>
                     </div>
@@ -153,16 +150,13 @@ export function ServicesPage() {
       <section className="section-ic bg-[#eef3f8]">
         <div className="container-ic">
           <IcCard className="bg-white p-8 text-center sm:p-10">
-            <p className="font-display text-xl font-semibold text-navy-900">
-              Not sure which service to start with?
-            </p>
+            <p className="font-display text-xl font-semibold text-navy-900">{c.ctaTitle}</p>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-text-600">
-              Book a free assessment and we&apos;ll map platforms, data, and resilience work to
-              your workload, risk, and operating model.
+              {c.ctaLead}
             </p>
             <Button asChild className="mt-6">
               <Link to="/book-demo">
-                Book assessment <ArrowRight className="h-4 w-4" />
+                {c.ctaPrimary} <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </IcCard>

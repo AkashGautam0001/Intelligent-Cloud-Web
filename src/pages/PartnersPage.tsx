@@ -11,41 +11,12 @@ import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { CardGridSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
 
-const pathDetails = [
-  {
-    id: "referral",
-    title: "Referral",
-    points: [
-      "Warm intros and joint discovery calls",
-      "Transparent commercial split on closed work",
-      "Optional technical shadowing during delivery",
-    ],
-  },
-  {
-    id: "reseller",
-    title: "Reseller",
-    points: [
-      "Co-branded proposals and scopes",
-      "Defined delivery ownership boundaries",
-      "Shared success criteria before kickoff",
-    ],
-  },
-  {
-    id: "solution",
-    title: "Solution partner",
-    points: [
-      "Joint architecture and RACI",
-      "Shared observability and escalation paths",
-      "Published logos only after written approval",
-    ],
-  },
-] as const;
-
 export function PartnersPage() {
-  const { locale } = useI18n();
+  const { t, locale } = useI18n();
   const partnersContent = getCompanyPage("partners", locale) ?? partnersFallback;
   const { data, isLoading, isError } = usePartners();
   const partnerList = data ?? [];
+  const p = t.pages.partners;
 
   return (
     <CompanyLongForm
@@ -57,17 +28,19 @@ export function PartnersPage() {
               <Handshake className="h-7 w-7" aria-hidden />
             </IcIconTile>
             <div>
-              <p className="font-display text-sm font-semibold text-navy-900">Partner program</p>
-              <p className="mt-1 text-sm text-text-600">Referral · Reseller · Solution</p>
+              <p className="font-display text-sm font-semibold text-navy-900">
+                {p.programTitle}
+              </p>
+              <p className="mt-1 text-sm text-text-600">{p.programLead}</p>
             </div>
           </div>
           <ul className="mt-6 space-y-2">
-            {pathDetails.map((p) => (
+            {p.paths.map((path) => (
               <li
-                key={p.id}
+                key={path.id}
                 className="rounded-[10px] border border-border-200 bg-[#eef3f8]/80 px-3 py-2.5 text-sm font-medium text-navy-900"
               >
-                {p.title}
+                {path.title}
               </li>
             ))}
           </ul>
@@ -76,14 +49,16 @@ export function PartnersPage() {
       afterHighlights={
         <SectionShell
           tone="white"
-          eyebrow="Partner paths"
-          title="What each model includes"
-          lead="Pick the path that matches how you sell — ownership stays explicit in every case."
+          eyebrow={p.pathsEyebrow}
+          title={p.pathsTitle}
+          lead={p.pathsLead}
         >
           <div className="grid gap-5 md:grid-cols-3">
-            {pathDetails.map((item) => (
+            {p.paths.map((item) => (
               <IcCard key={item.id} interactive className="flex h-full flex-col p-6">
-                <h2 className="font-display text-xl font-semibold text-navy-900">{item.title}</h2>
+                <h2 className="font-display text-xl font-semibold text-navy-900">
+                  {item.title}
+                </h2>
                 <ul className="mt-5 space-y-2 border-t border-border-200 pt-4">
                   {item.points.map((point) => (
                     <li key={point} className="text-sm leading-relaxed text-text-600">
@@ -99,23 +74,20 @@ export function PartnersPage() {
     >
       <SectionShell
         tone="navyLight"
-        eyebrow="Directory"
-        title="Our partners"
-        lead="Logos appear only when published from admin. Empty slots are never shown."
+        eyebrow={p.directoryEyebrow}
+        title={p.directoryTitle}
+        lead={p.directoryLead}
       >
         {isLoading ? (
           <CardGridSkeleton count={4} />
         ) : isError ? (
-          <p className="text-sm text-danger">Unable to load partners.</p>
+          <p className="text-sm text-danger">{p.loadError}</p>
         ) : partnerList.length === 0 ? (
           <IcCard className="bg-white p-8 text-center">
-            <p className="text-sm text-text-600">
-              Partner logos will appear here once published from admin. No empty slots — only
-              approved brands.
-            </p>
+            <p className="text-sm text-text-600">{p.empty}</p>
             <Button asChild className="mt-5">
               <Link to="/contact">
-                Become a partner <ArrowRight className="h-4 w-4" />
+                {p.becomePartner} <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </IcCard>
@@ -157,7 +129,7 @@ export function PartnersPage() {
             <div className="mt-8 text-center">
               <Button asChild>
                 <Link to="/contact">
-                  Become a partner <ArrowRight className="h-4 w-4" />
+                  {p.becomePartner} <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
             </div>

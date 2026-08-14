@@ -4,6 +4,7 @@ import { IcCard } from "@/components/ui/ic-card";
 import { TechBrandIcon } from "@/components/TechBrandIcon";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { brandsForStackChip } from "@/lib/stack-brands";
+import { useI18n } from "@/i18n";
 
 type StackToolsSectionProps = {
   items: string[];
@@ -11,18 +12,18 @@ type StackToolsSectionProps = {
 };
 
 /** Shared “Typical stack” block for service & solution detail pages. */
-export function StackToolsSection({
-  items,
-  lead = "Chosen with your team — we work inside Azure, AWS, and Kubernetes ecosystems you already run.",
-}: StackToolsSectionProps) {
+export function StackToolsSection({ items, lead }: StackToolsSectionProps) {
+  const { t } = useI18n();
+  const resolvedLead = lead ?? t.common.stackLead;
+
   if (!items.length) return null;
 
   return (
     <SectionShell
       tone="navyLight"
-      eyebrow="Typical stack"
-      title="Tools we commonly wire in"
-      lead={lead}
+      eyebrow={t.common.typicalStack}
+      title={t.pages.longForm.stackTitle}
+      lead={resolvedLead}
     >
       <Stagger className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3" stagger={0.05}>
         {items.map((label, index) => {

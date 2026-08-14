@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/i18n";
 
 export function PageHero({
   eyebrow,
@@ -38,8 +39,9 @@ export function Breadcrumbs({
 }: {
   items: Array<{ label: string; to?: string }>;
 }) {
+  const { t } = useI18n();
   return (
-    <nav aria-label="Breadcrumb" className="mb-6 text-sm text-text-600">
+    <nav aria-label={t.common.breadcrumb} className="mb-6 text-sm text-text-600">
       <ol className="flex flex-wrap items-center gap-2">
         {items.map((item, i) => (
           <li key={`${item.label}-${i}`} className="inline-flex items-center gap-2">

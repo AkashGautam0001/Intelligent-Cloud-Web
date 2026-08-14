@@ -43,10 +43,12 @@ export function ResourceLongForm({
   showHighlights = false,
   showPrinciples = false,
   showFaq = true,
-  highlightsTitle = "Highlights",
-  principlesTitle = "How we work",
+  highlightsTitle,
+  principlesTitle,
 }: ResourceLongFormProps) {
   const { t } = useI18n();
+  const resolvedHighlightsTitle = highlightsTitle ?? t.common.highlights;
+  const resolvedPrinciplesTitle = principlesTitle ?? t.common.howWeWork;
 
   return (
     <>
@@ -68,8 +70,8 @@ export function ResourceLongForm({
         <div className="container-ic relative py-12 lg:py-16">
           <Breadcrumbs
             items={[
-              { label: "Home", to: "/" },
-              { label: "Resources", to: "/documentation" },
+              { label: t.common.home, to: "/" },
+              { label: t.nav.resources, to: "/documentation" },
               { label: content.title },
             ]}
           />
@@ -135,7 +137,7 @@ export function ResourceLongForm({
       </div>
 
       {showHighlights ? (
-      <SectionShell tone="navyLight" eyebrow="Context" title={highlightsTitle}>
+      <SectionShell tone="navyLight" eyebrow={t.common.context} title={resolvedHighlightsTitle}>
         <Stagger className="grid gap-4 md:grid-cols-2 xl:grid-cols-3" stagger={0.07}>
           {content.highlights.map((h, i) => {
             const Icon = pickIcon(i);
@@ -162,7 +164,7 @@ export function ResourceLongForm({
       {afterHighlights}
 
       {showPrinciples ? (
-      <SectionShell tone="white" eyebrow="Principles" title={principlesTitle}>
+      <SectionShell tone="white" eyebrow={t.common.principles} title={resolvedPrinciplesTitle}>
         <div className="grid gap-4 md:grid-cols-2">
           {content.principles.map((p, i) => {
             const Icon = pickIcon(i + 8);
@@ -188,7 +190,7 @@ export function ResourceLongForm({
       {children}
 
       {showFaq && content.faqs.length > 0 ? (
-      <SectionShell tone="navyLight" eyebrow="FAQ" title="Common questions">
+      <SectionShell tone="navyLight" eyebrow={t.nav.faq} title={t.common.commonQuestions}>
         <IcCard className="p-2 sm:p-4">
           <Accordion type="single" collapsible>
             {content.faqs.map((item, i) => (

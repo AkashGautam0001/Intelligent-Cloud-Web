@@ -52,6 +52,35 @@ export const en = {
     contactSales: "Contact sales",
     whatYouGet: "What you get",
     phase: "Phase",
+    breadcrumb: "Breadcrumb",
+    openService: "Open service",
+    openSolution: "Open solution",
+    service: "Service",
+    solution: "Solution",
+    company: "Company",
+    aboutUs: "About Us",
+    highlights: "Highlights",
+    howWeWork: "How we work",
+    context: "Context",
+    principles: "Principles",
+    commonQuestions: "Common questions",
+    capabilities: "Capabilities",
+    whatWeDeliver: "What we deliver",
+    challenges: "Challenges",
+    deliverables: "Deliverables",
+    architectureLens: "Architecture lens",
+    useCases: "Use cases",
+    outcome: "Outcome",
+    relatedServices: "Related services",
+    relatedSolutions: "Related solutions",
+    typicalStack: "Typical stack",
+    stackLead:
+      "Chosen with your team — we work inside Azure, AWS, and Kubernetes ecosystems you already run.",
+    notFoundService: "Service not found",
+    notFoundSolution: "Solution not found",
+    backToServices: "Back to services",
+    backToSolutions: "Back to solutions",
+    technologyPlatforms: "Technology platforms",
   },
   search: {
     title: "Site search",
@@ -99,8 +128,7 @@ export const en = {
     enquirySuccessBody:
       "Thanks — our team will follow up shortly. Check your inbox for a confirmation.",
     demoSuccessTitle: "Demo request received",
-    demoSuccessBody:
-      "Thanks — we'll confirm your preferred slot by email shortly.",
+    demoSuccessBody: "Thanks — we'll confirm your preferred slot by email shortly.",
     ticketSuccessTitle: "Ticket submitted",
     ticketSuccessBody:
       "Our team will follow up by email. You can also review FAQs while you wait.",
@@ -145,8 +173,7 @@ export const en = {
       },
       featured: {
         title: "Need a capability map?",
-        description:
-          "See how our services connect across Azure, AWS, and Kubernetes.",
+        description: "See how our services connect across Azure, AWS, and Kubernetes.",
         cta: "Explore services",
       },
     },
@@ -176,8 +203,7 @@ export const en = {
       },
       featured: {
         title: "Free cloud assessment",
-        description:
-          "30 minutes with an engineer — preferred time, confirmed manually.",
+        description: "30 minutes with an engineer — preferred time, confirmed manually.",
         cta: "Book a demo",
       },
     },
@@ -243,16 +269,15 @@ export const en = {
     hero: {
       platforms: "Azure · AWS · Kubernetes",
       title: "Grow Your Business — We'll Handle Your Cloud",
+      titleLine1: "Grow Your Business",
+      titleLine2: "We'll Handle Your Cloud",
       weEngineer: "We engineer",
       lead: "Enterprise cloud platforms engineered for scale, security, and operable delivery.",
       keywords: {
-        cloudMigration: "Cloud Migration",
-        landingZones: "Landing Zones",
-        aksEks: "AKS & EKS",
-        gitopsDelivery: "GitOps Delivery",
-        managedOperations: "Managed Operations",
-        securityBaselines: "Security Baselines",
         finopsGuardrails: "FinOps Guardrails",
+        costGuardrails: "Cost Guardrails",
+        cloudGuardrails: "Cloud Guardrails",
+        securityGuardrails: "Security Guardrails",
       },
     },
     problem: {
@@ -602,15 +627,465 @@ export const en = {
       lead: "Book a free assessment with an engineer, or message us on WhatsApp. We confirm timing manually — no calendar sync.",
       talkExpertBody: "WhatsApp an engineer for a quick scope conversation.",
       browseServices: "Browse services",
-      browseServicesBody:
-        "Migration, platforms, security, and managed operations.",
+      browseServicesBody: "Migration, platforms, security, and managed operations.",
+    },
+  },
+  validation: {
+    required: "{label} is required",
+    minLength: "{label} must be at least {min} characters",
+    maxLength: "{label} must be at most {max} characters",
+    emailInvalid: "Enter a valid email address",
+    phoneInvalid: "Enter a valid phone number (digits only, 8–15 digits)",
+    dateInvalid: "Enter a valid date",
+    dateFuture: "Choose today or a future date",
+  },
+  pages: {
+    servicesCatalog: {
+      seoTitle: "Cloud Services | Intelligent Cloud",
+      seoDescription:
+        "Platforms, data & AI, and resilience services — landing zones, storage, networking, databases, analytics, AI, integration, and disaster recovery.",
+      eyebrow: "Services",
+      title: "Eight capabilities that compose into a production-ready estate",
+      description:
+        "Each service page is a full engagement story — unique challenges, deliverables, architecture, and FAQs — not a reused template of the same paragraphs.",
+      catalogEyebrow: "Catalog",
+      catalogTitle: "Browse by domain",
+      catalogLead:
+        "Platforms for foundations, Data & AI for insight and copilots, Resilience for connectivity and recovery. Filter, then open a page for the full story.",
+      filterAll: "All",
+      filterPlatforms: "Platforms",
+      filterDataAi: "Data & AI",
+      filterResilience: "Resilience",
+      openService: "Open service",
+      ctaTitle: "Not sure which service to start with?",
+      ctaLead:
+        "Book a free assessment and we'll map platforms, data, and resilience work to your workload, risk, and operating model.",
+      ctaPrimary: "Book assessment",
+      ctaSecondary: "Contact sales",
+    },
+    solutionsCatalog: {
+      seoTitle: "Cloud Solutions | Intelligent Cloud",
+      seoDescription:
+        "Outcome and audience solutions — cloud migration, DevOps transformation, security & compliance, startups, and enterprises.",
+      eyebrow: "Solutions",
+      title: "Five solution paths — each with its own story",
+      description:
+        "By outcome (migration, DevOps, security) and by audience (startups, enterprises). Every page has unique challenges, deliverables, architecture, and FAQs.",
+      catalogEyebrow: "Catalog",
+      catalogTitle: "Browse solutions",
+      catalogLead:
+        "Filter by outcome or audience, then open a page for the full engagement narrative.",
+      filterAll: "All",
+      filterByOutcome: "By outcome",
+      filterByAudience: "By audience",
+      filterStartups: "Startups",
+      filterEnterprises: "Enterprises",
+      openSolution: "Open solution",
+      ctaTitle: "Not sure which path fits?",
+      ctaLead:
+        "Book a free assessment and we'll map migration, DevOps, security, and audience fit to your workload and operating model.",
+      ctaPrimary: "Book assessment",
+      ctaSecondary: "Contact sales",
+    },
+    about: {
+      seoTitle: "About | Intelligent Cloud",
+      eyebrow: "About Us",
+      heroTitle: "Built by Engineers Who've Run Production Cloud at Scale",
+      heroLead:
+        "Intelligent-Cloud was founded on a simple observation: most companies don't fail on the cloud because of bad ideas — they fail because of:",
+      breadcrumbCompany: "Company",
+      breadcrumbAbout: "About Us",
+      failureTitle: "Why programs stall",
+      failurePoints: [
+        "Fragile infrastructure",
+        "Unclear cost visibility",
+        "DevOps that doesn't scale past the first few engineers",
+      ],
+      experienceEyebrow: "Hands-on experience",
+      experienceTitle: "We started Intelligent-Cloud to fix that",
+      experiencePoints: [
+        "Azure landing zone design",
+        "AKS-based container platforms",
+        "Terraform-driven Infrastructure-as-Code",
+        "GitOps delivery pipelines for HA workloads",
+      ],
+      experienceFooter:
+        "Real high-availability workloads — not just theoretical best practices.",
+      foundationEyebrow: "Foundation",
+      foundationTitle: "Vision & Mission",
+      foundationLead: "What we believe — and what we build toward for every engagement.",
+      visionEyebrow: "Our Vision",
+      visionTitle: "Competitive advantage, not fire drills",
+      visionPoints: [
+        "Cloud infrastructure should be a competitive advantage — not a constant fire drill.",
+        "Growing companies deserve enterprise-grade reliability without an enterprise-sized team.",
+      ],
+      missionEyebrow: "Our Mission",
+      missionTitle: "Enterprise-grade — at every stage",
+      missionPoints: [
+        "Make enterprise-grade architecture, security, and automation accessible at every stage.",
+        "Support 5-person startups shipping their first product.",
+        "Help enterprise teams modernize a decade of technical debt.",
+      ],
+      approachEyebrow: "Approach",
+      approachTitle: "Our Approach",
+      approachLead: "How we design, ship, and stay with your team after go-live.",
+      approach: [
+        {
+          title: "Automation-First",
+          points: [
+            "If it can be scripted, it shouldn't be manual",
+            "Terraform, Helm, and ArgoCD by default",
+            "Version-controlled, auditable, and repeatable infrastructure",
+          ],
+        },
+        {
+          title: "Security",
+          points: [
+            "Landing zones designed in from day one",
+            "Network segmentation built into the foundation",
+            "Cost governance before audits or surprise bills",
+          ],
+        },
+        {
+          title: "Continuous Improvement",
+          points: [
+            "Observability by default — Prometheus, Grafana, Loki, Tempo",
+            "Work as an extension of your team",
+            "One-time migrations or ongoing 24×7 managed operations",
+          ],
+        },
+      ],
+      differentiatorsEyebrow: "Trust & credibility",
+      differentiatorsTitle: "What Makes Us Different",
+      differentiatorsLead: "Clear signals — not vague promises.",
+      differentiators: [
+        {
+          title: "Trusted Partner",
+          body: "Partnership, not just delivery — transparent, outcome-based engagements with no vague retainers.",
+        },
+        {
+          title: "Experienced Team",
+          body: "Deep Kubernetes & Azure specialization — not generalist IT support — with trunk-based CI/CD practices.",
+        },
+        {
+          title: "Modern Tech",
+          body: "Strategic technology partnerships across Azure and the open-source Kubernetes ecosystem.",
+        },
+        {
+          title: "Cost Effective",
+          body: "Pilot programs for early customers and proof-of-concept engagements.",
+        },
+      ],
+      browseServices: "Browse services",
+      browseSolutions: "Browse solutions",
+      ctaEyebrow: "Next step",
+      ctaTitle: "Ready to engineer a cloud estate you can operate?",
+    },
+    partners: {
+      seoTitle: "Partners | Intelligent Cloud",
+      programTitle: "Partner program",
+      programLead: "Referral · Reseller · Solution",
+      pathsEyebrow: "Partner paths",
+      pathsTitle: "What each model includes",
+      pathsLead: "Pick the path that matches how you sell — ownership stays explicit in every case.",
+      paths: [
+        {
+          id: "referral",
+          title: "Referral",
+          points: [
+            "Warm intros and joint discovery calls",
+            "Transparent commercial split on closed work",
+            "Optional technical shadowing during delivery",
+          ],
+        },
+        {
+          id: "reseller",
+          title: "Reseller",
+          points: [
+            "Co-branded proposals and scopes",
+            "Defined delivery ownership boundaries",
+            "Shared success criteria before kickoff",
+          ],
+        },
+        {
+          id: "solution",
+          title: "Solution partner",
+          points: [
+            "Joint architecture and RACI",
+            "Shared observability and escalation paths",
+            "Published logos only after written approval",
+          ],
+        },
+      ],
+      directoryEyebrow: "Directory",
+      directoryTitle: "Our partners",
+      directoryLead: "Logos appear only when published from admin. Empty slots are never shown.",
+      loadError: "Unable to load partners.",
+      empty:
+        "Partner logos will appear here once published from admin. No empty slots — only approved brands.",
+      becomePartner: "Become a partner",
+    },
+    contact: {
+      talkToSales: "Talk to sales",
+      orWhatsApp: "Or WhatsApp an engineer",
+      messageEyebrow: "Message",
+      messageTitle: "Send a structured note",
+      messageLead: "Channels and a message form — we reply by email.",
+      directChannels: "Direct channels",
+      pickPath: "Pick the path that fits",
+      replyHint:
+        "Typical reply within one business day. Prefer a timed assessment? Use Book demo.",
+      contactFormTitle: "Contact form",
+      contactFormSubtitle: "Name, email, company, and phone are required.",
+      lookingFor: "What are you looking for?",
+      whatsapp: "WhatsApp",
+      needs: {
+        cloudMigration: "Cloud Migration",
+        managedServices: "Managed Services",
+        kubernetes: "Kubernetes",
+        devops: "DevOps Consulting",
+        partnership: "Partnership",
+        other: "Other",
+      },
+    },
+    bookDemo: {
+      freeAssessment: "Free assessment",
+      engineerLed: "30 minutes · engineer-led",
+      heroChips: ["Migration readiness", "Platform / GitOps", "Managed operations"],
+      bookingEyebrow: "Booking",
+      bookingTitle: "Request a preferred slot",
+      bookingLead: "Tell us what you want to cover — we confirm the slot by email.",
+      whatYouGet: "What you get",
+      sessionLabel: "30-minute engineer session",
+      sessionPoints: [
+        "Workload-focused conversation — not a pitch deck",
+        "Preferred time confirmed manually by email",
+        "Written follow-up notes and next-step options",
+      ],
+      stepsAria: "Booking steps",
+      stepNeed: "Need",
+      stepIdentity: "Identity",
+      stepSchedule: "Schedule",
+      stepTitle: "Step {step}: {label}",
+      continue: "Continue",
+      back: "Back",
+      needHelp: "What do you need help with?",
+      preferredDate: "Preferred date",
+      preferredTime: "Preferred time",
+      notes: "Notes (optional)",
+      subtitleWizard: "Full-width booking wizard — no live calendar sync.",
+      needOptions: {
+        cloudMigration: "Cloud Migration",
+        managedCloud: "Managed Cloud",
+        kubernetes: "Kubernetes",
+        devops: "DevOps",
+        security: "Security",
+        other: "Other",
+      },
+    },
+    support: {
+      supportDesk: "Support desk",
+      deskLead: "STD · OPS · PRI",
+      openTicketEyebrow: "Support",
+      openTicketTitle: "Open a ticket",
+      openTicketLead: "Choose a tier, then submit details so we can triage and route correctly.",
+      formTitle: "Open a ticket",
+      tierLabel: "Tier: {title}",
+      attachedHint: "Attached to this ticket",
+      details: "Details",
+      hint: "Include environment, severity, impact, and recent changes.",
+      browseFaqs: "Browse FAQs",
+      tiers: [
+        {
+          id: "standard",
+          title: "Standard Support",
+          short: "STD",
+          body: "Business-hours support for setup, configuration, and how-to questions on active engagements.",
+          points: [
+            "Email ticket intake during business hours",
+            "Guidance on platform and service configuration",
+            "Best for non-production or advisory follow-ups",
+          ],
+        },
+        {
+          id: "managed-operations",
+          title: "Managed Operations (24×7)",
+          short: "OPS",
+          body: "Round-the-clock monitoring and incident response for production estates under managed operations.",
+          points: [
+            "Alerting tied to agreed SLOs and runbooks",
+            "Incident triage with change-window discipline",
+            "Handoffs documented for your internal owners",
+          ],
+        },
+        {
+          id: "priority",
+          title: "Priority Support (Enterprise)",
+          short: "PRI",
+          body: "Dedicated response SLAs and a named point of contact for complex or multi-team estates.",
+          points: [
+            "Named escalation path and response targets",
+            "Priority queue for production-impacting issues",
+            "Quarterly ops reviews when contracted",
+          ],
+        },
+      ],
+      flow: [
+        {
+          step: "01",
+          title: "Open",
+          body: "Submit with environment, severity, and blast radius.",
+        },
+        {
+          step: "02",
+          title: "Triage",
+          body: "We confirm impact and change-window constraints.",
+        },
+        {
+          step: "03",
+          title: "Act",
+          body: "Remediate with runbooks and documented ownership.",
+        },
+        {
+          step: "04",
+          title: "Close",
+          body: "Confirm resolution and capture follow-up actions.",
+        },
+      ],
+    },
+    legal: {
+      updated: "Updated {date}",
+      lastUpdated: "Last updated {date}",
+      onThisPage: "On this page",
+      privacyBanner: "Applies to website and inquiry data",
+      termsBanner: "Website terms — SOWs take precedence",
+      respondHint: "We respond to legal and privacy requests by email.",
+      privacyHeroTitle: "Privacy Policy",
+      privacyHeroBody:
+        "Website and inquiry data. Engagement work under SOW/NDA is also governed by those agreements.",
+      privacyIntro:
+        'Intelligent Cloud ("we," "us," "our") respects your privacy. This policy explains what information we collect, how we use it, and your rights regarding that information. Engagement data under a signed SOW or NDA is governed by those agreements in addition to this policy.',
+      privacyContactLabel: "Privacy requests",
+      termsSibling: "Terms of use",
+      termsHeroTitle: "Terms of use",
+      termsHeroBody:
+        "Website terms are illustrative. Signed SOWs and MSAs take precedence for paid engagements.",
+      termsIntro:
+        "By accessing or using the Intelligent Cloud website or services, you agree to the following terms. Signed statements of work and master service agreements take precedence for paid engagements.",
+      termsContactLabel: "Legal questions",
+      privacySibling: "Privacy policy",
+    },
+    privacySections: [
+      {
+        id: "collect",
+        title: "Information we collect",
+        body: "- Contact information you provide (name, email, phone, company) via enquiry forms or demo bookings\n- Usage and analytics data for measuring website traffic: pages visited, approximate visit counts, unique visitor identifiers stored in your browser, referrer URL, and approximate country/region derived from network information (we do not sell this data)\n- Information shared during consulting engagements, handled under separate confidentiality/NDA terms where applicable\n- Support ticket details you submit (subject, environment context, and message body)",
+      },
+      {
+        id: "use",
+        title: "How we use your information",
+        body: "- To respond to inquiries and provide requested services\n- To operate first-party website analytics (visits, unique visitors, and country aggregates) so we can understand demand and improve the site\n- To improve our website and service offerings\n- To send relevant updates (with opt-out available at any time)\n- To route and resolve support tickets according to the selected tier",
+      },
+      {
+        id: "analytics",
+        title: "Analytics",
+        body: "We collect limited first-party analytics on our website — including page views, a random visitor ID kept in local browser storage, referrer, and approximate country — to measure traffic and improve content. Aggregated stats may be shown in our internal admin console.\n\nWe may also use optional third-party analytics or tag managers (for example Google Analytics / Tag Manager or Microsoft Clarity) when configured. Those providers process data under their own terms and privacy policies. We use analytics only to understand site usage, not to sell personal data.",
+      },
+      {
+        id: "sharing",
+        title: "Data sharing",
+        body: "We do not sell your personal data. We may share data with service providers (e.g., hosting, analytics, email delivery) strictly to operate our business, under confidentiality obligations.",
+      },
+      {
+        id: "security",
+        title: "Data security",
+        body: "We apply industry-standard security practices to protect your information, consistent with the same cloud security principles we implement for clients — least privilege, encrypted transit where applicable, and access limited to staff who need it.",
+      },
+      {
+        id: "rights",
+        title: "Your rights",
+        body: "You may request access to, correction of, or deletion of your personal data by contacting privacy@intelligent-cloud.com. You can clear your browser storage to reset the anonymous visitor ID used for analytics.",
+      },
+      {
+        id: "changes",
+        title: "Changes to this policy",
+        body: "We may update this policy periodically. Material changes will be posted on this page with an updated date.",
+      },
+    ],
+    termsSections: [
+      {
+        id: "services",
+        title: "Services",
+        body: "Intelligent Cloud provides cloud consulting, managed services, and related technical services as described on this website or in a separate signed agreement/SOW for specific engagements — including migration, platform engineering, security baselines, and operations.",
+      },
+      {
+        id: "engagement",
+        title: "Engagement terms",
+        body: "Specific project scope, pricing, timelines, and deliverables are governed by individually signed agreements, which take precedence over general website content. Website copy is illustrative and not a binding quote.",
+      },
+      {
+        id: "analytics",
+        title: "Website analytics",
+        body: "By using this website you acknowledge that we collect limited usage information for analytics — including page views, an anonymous visitor identifier in your browser, referrer, and approximate country — to understand traffic and improve the site. Details are described in our Privacy Policy. Optional third-party analytics tools may also run when configured.",
+      },
+      {
+        id: "ip",
+        title: "Intellectual property",
+        body: "All website content, branding, and documentation are the property of Intelligent Cloud unless otherwise stated. Client-owned code, infrastructure configurations, and data remain the property of the client.",
+      },
+      {
+        id: "liability",
+        title: "Limitation of liability",
+        body: "Intelligent Cloud will perform services with professional care; however, liability for indirect or consequential damages is limited as detailed in individual service agreements.",
+      },
+      {
+        id: "confidentiality",
+        title: "Confidentiality",
+        body: "Information shared during consulting engagements is treated as confidential and may be governed by a separate NDA.",
+      },
+      {
+        id: "governing-law",
+        title: "Governing law",
+        body: "These terms are governed by applicable law in the jurisdiction of the contracting entity, without regard to conflict-of-law principles.",
+      },
+    ],
+    longForm: {
+      serviceSuffix: "Service",
+      solutionSuffix: "Solution",
+      faqAbout: "FAQs about {title}",
+      faqTitle: "Questions about {title}",
+      faqLead: "Straight answers on scope, ownership, and how engagements usually run.",
+      capabilitiesLead:
+        "Modern building blocks — not a slide deck of buzzwords — so your team can operate what we leave behind.",
+      capabilitiesLeadSolution:
+        "Outcome-focused building blocks — not a recycled service brochure.",
+      whyItMatters: "Why it matters",
+      challengesTitle: "Challenges we see — outcomes we aim for",
+      challengesLead:
+        "Most estates already have tools. The gap is usually clarity, ownership, and evidence.",
+      outcomes: "Outcomes",
+      deliverablesTitle: "Artifacts you keep",
+      deliverablesLead:
+        "Concrete outputs — blueprints, IaC, runbooks — so the engagement does not vanish into slideware.",
+      howWeDeliver: "How we deliver",
+      architectureOverview: "Architecture overview",
+      scopedDuringAssessment: "Scoped with your team during assessment.",
+      useCasesTitle: "How teams apply this service",
+      useCasesTitleSolution: "How teams apply this solution",
+      useCasesLead:
+        "Illustrative scenarios based on common engagement shapes — your path is scoped in assessment.",
+      stackTitle: "Tools we commonly wire in",
+      nextStep: "Next step",
     },
   },
 } as const;
 
-type DeepStringify<T> = {
-  [K in keyof T]: T[K] extends string ? string : DeepStringify<T[K]>;
-};
+type DeepStringify<T> = T extends string
+  ? string
+  : T extends ReadonlyArray<infer U>
+    ? readonly DeepStringify<U>[]
+    : { [K in keyof T]: DeepStringify<T[K]> };
 
 export type Messages = DeepStringify<typeof en>;
 

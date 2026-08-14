@@ -35,6 +35,7 @@ import { cn } from "@/lib/utils";
 import {
   controlClass,
   email as validateEmail,
+  fillTemplate,
   futureOrTodayDate,
   hasErrors,
   minLength,
@@ -43,19 +44,24 @@ import {
   sanitizePhoneInput,
   required,
   type FieldErrors,
+  type ValidationMessages,
 } from "@/lib/validation";
 
-const needs = [
-  "Cloud Migration",
-  "Managed Cloud",
-  "Kubernetes",
-  "DevOps",
-  "Security",
-  "Other",
+/** Stable English values for the API; labels come from i18n. */
+const NEED_OPTIONS = [
+  { value: "Cloud Migration", key: "cloudMigration" },
+  { value: "Managed Cloud", key: "managedCloud" },
+  { value: "Kubernetes", key: "kubernetes" },
+  { value: "DevOps", key: "devops" },
+  { value: "Security", key: "security" },
+  { value: "Other", key: "other" },
 ] as const;
 
+type NeedValue = (typeof NEED_OPTIONS)[number]["value"];
+type NeedKey = (typeof NEED_OPTIONS)[number]["key"];
+
 type FormState = {
-  need: (typeof needs)[number];
+  need: NeedValue;
   name: string;
   email: string;
   company: string;
@@ -78,28 +84,39 @@ const empty: FormState = {
   notes: "",
 };
 
-const stepLabels = [
-  { label: "Need", Icon: Target },
-  { label: "Identity", Icon: User },
-  { label: "Schedule", Icon: CalendarDays },
-] as const;
+const stepIcons = [Target, User, CalendarDays] as const;
+const sessionPointIcons = [Crosshair, Clock3, NotebookPen] as const;
 
-function validateStep(step: number, form: FormState): FieldErrors<BookingField> {
+function validateStep(
+  step: number,
+  form: FormState,
+  labels: {
+    need: string;
+    name: string;
+    company: string;
+    email: string;
+    phone: string;
+    preferredDate: string;
+    preferredTime: string;
+    notes: string;
+  },
+  msgs: ValidationMessages,
+): FieldErrors<BookingField> {
   if (step === 1) {
-    return { need: required(form.need, "Need") };
+    return { need: required(form.need, labels.need, msgs) };
   }
   if (step === 2) {
     return {
-      name: minLength(form.name, 2, "Name"),
-      company: minLength(form.company, 2, "Company"),
-      email: validateEmail(form.email),
-      phone: validatePhone(form.phone),
+      name: minLength(form.name, 2, labels.name, msgs),
+      company: minLength(form.company, 2, labels.company, msgs),
+      email: validateEmail(form.email, labels.email, msgs),
+      phone: validatePhone(form.phone, labels.phone, msgs),
     };
   }
   return {
-    preferredDate: futureOrTodayDate(form.preferredDate, "Preferred date"),
-    preferredTime: required(form.preferredTime, "Preferred time"),
-    notes: optionalMax(form.notes, 2000, "Notes"),
+    preferredDate: futureOrTodayDate(form.preferredDate, labels.preferredDate, msgs),
+    preferredTime: required(form.preferredTime, labels.preferredTime, msgs),
+    notes: optionalMax(form.notes, 2000, labels.notes, msgs),
   };
 }
 
@@ -114,6 +131,10 @@ export function BookDemoPage() {
   const [errors, setErrors] = useState<FieldErrors<BookingField>>({});
   const [form, setForm] = useState<FormState>(empty);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  const b = t.pages.bookDemo;
+  const stepLabels = [b.stepNeed, b.stepIdentity, b.stepSchedule] as const;
+  const needLabels = b.needOptions;
 
   useEffect(() => {
     panelRef.current?.focus();
@@ -131,6 +152,11 @@ export function BookDemoPage() {
     setWebsite("");
   };
 
+  const stepTitle = fillTemplate(b.stepTitle, {
+    step,
+    label: stepLabels[step - 1]!,
+  });
+
   return (
     <CompanyLongForm
       content={bookDemoContent}
@@ -141,12 +167,14 @@ export function BookDemoPage() {
               <CalendarCheck className="h-7 w-7" aria-hidden />
             </IcIconTile>
             <div>
-              <p className="font-display text-sm font-semibold text-navy-900">Free assessment</p>
-              <p className="mt-1 text-sm text-text-600">30 minutes · engineer-led</p>
+              <p className="font-display text-sm font-semibold text-navy-900">
+                {b.freeAssessment}
+              </p>
+              <p className="mt-1 text-sm text-text-600">{b.engineerLed}</p>
             </div>
           </div>
           <ul className="mt-6 flex flex-wrap gap-2">
-            {["Migration readiness", "Platform / GitOps", "Managed operations"].map((item) => (
+            {b.heroChips.map((item) => (
               <li key={item}>
                 <IcChip as="span">{item}</IcChip>
               </li>
@@ -157,9 +185,9 @@ export function BookDemoPage() {
     >
       <SectionShell
         tone="navyLight"
-        eyebrow="Booking"
-        title="Request a preferred slot"
-        lead="Tell us what you want to cover — we confirm the slot by email."
+        eyebrow={b.bookingEyebrow}
+        title={b.bookingTitle}
+        lead={b.bookingLead}
       >
         <ModernFormSplit
           aside={
@@ -170,32 +198,32 @@ export function BookDemoPage() {
                 </IcIconTile>
                 <div>
                   <p className="font-display text-base font-semibold text-navy-900">
-                    What you get
+                    {b.whatYouGet}
                   </p>
-                  <p className="text-sm text-text-600">30-minute engineer session</p>
+                  <p className="text-sm text-text-600">{b.sessionLabel}</p>
                 </div>
               </div>
               <ul className="space-y-3">
-                {[
-                  { Icon: Crosshair, text: "Workload-focused conversation — not a pitch deck" },
-                  { Icon: Clock3, text: "Preferred time confirmed manually by email" },
-                  { Icon: NotebookPen, text: "Written follow-up notes and next-step options" },
-                ].map((row) => (
-                  <li key={row.text} className="flex gap-3 text-sm leading-relaxed text-text-600">
-                    <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-orange-500/10 text-orange-500">
-                      <row.Icon className="h-4 w-4" aria-hidden />
-                    </span>
-                    {row.text}
-                  </li>
-                ))}
+                {b.sessionPoints.map((text, i) => {
+                  const Icon = sessionPointIcons[i] ?? Crosshair;
+                  return (
+                    <li key={text} className="flex gap-3 text-sm leading-relaxed text-text-600">
+                      <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-orange-500/10 text-orange-500">
+                        <Icon className="h-4 w-4" aria-hidden />
+                      </span>
+                      {text}
+                    </li>
+                  );
+                })}
               </ul>
             </IcCard>
           }
         >
           <div className="w-full space-y-5">
-            <ol className="grid w-full grid-cols-3 gap-2" aria-label="Booking steps">
-              {stepLabels.map(({ label, Icon }, index) => {
+            <ol className="grid w-full grid-cols-3 gap-2" aria-label={b.stepsAria}>
+              {stepLabels.map((label, index) => {
                 const n = index + 1;
+                const Icon = stepIcons[index]!;
                 return (
                   <li
                     key={label}
@@ -222,7 +250,21 @@ export function BookDemoPage() {
               noValidate
               onSubmit={(e) => {
                 e.preventDefault();
-                const next = validateStep(step, form);
+                const next = validateStep(
+                  step,
+                  form,
+                  {
+                    need: b.stepNeed,
+                    name: t.forms.name,
+                    company: t.forms.company,
+                    email: t.forms.email,
+                    phone: t.forms.phone,
+                    preferredDate: b.preferredDate,
+                    preferredTime: b.preferredTime,
+                    notes: b.notes,
+                  },
+                  t.validation,
+                );
                 setErrors(next);
                 if (hasErrors(next)) {
                   toast.error(t.forms.fixFields);
@@ -250,9 +292,9 @@ export function BookDemoPage() {
             >
                 <HoneypotField value={website} onChange={setWebsite} />
                 <ModernFormCard
-                  title={`Step ${step}: ${stepLabels[step - 1]!.label}`}
-                  subtitle="Full-width booking wizard — no live calendar sync."
-                  icon={stepLabels[step - 1]!.Icon}
+                  title={stepTitle}
+                  subtitle={b.subtitleWizard}
+                  icon={stepIcons[step - 1]!}
                 >
                   <div
                     ref={panelRef}
@@ -261,31 +303,31 @@ export function BookDemoPage() {
                     aria-labelledby={`booking-step-${step}`}
                   >
                     <p id={`booking-step-${step}`} className="sr-only">
-                      Step {step}: {stepLabels[step - 1]!.label}
+                      {stepTitle}
                     </p>
 
                     {step === 1 ? (
                       <div className="space-y-3">
                         <p className="inline-flex items-center gap-2 text-sm font-medium text-navy-900">
                           <Target className="h-4 w-4 text-orange-500" aria-hidden />
-                          What do you need help with?
+                          {b.needHelp}
                           <span className="text-orange-500">*</span>
                         </p>
                         <div className="grid w-full gap-2 sm:grid-cols-2">
-                          {needs.map((need) => (
+                          {NEED_OPTIONS.map((opt) => (
                             <button
-                              key={need}
+                              key={opt.value}
                               type="button"
-                              onClick={() => setField("need", need)}
+                              onClick={() => setField("need", opt.value)}
                               className={cn(
                                 "rounded-[12px] border px-4 py-3.5 text-start text-sm transition-colors duration-500",
-                                form.need === need
+                                form.need === opt.value
                                   ? "border-orange-500 bg-orange-500/[0.06] text-navy-900"
                                   : "border-border-200 bg-[#f8fafc] text-text-600 hover:border-orange-500/40",
-                                errors.need && form.need !== need && "border-danger/40",
+                                errors.need && form.need !== opt.value && "border-danger/40",
                               )}
                             >
-                              {need}
+                              {needLabels[opt.key as NeedKey]}
                             </button>
                           ))}
                         </div>
@@ -353,7 +395,7 @@ export function BookDemoPage() {
                         <div className="grid w-full gap-4 sm:grid-cols-2">
                           <FormField
                             id="date"
-                            label="Preferred date"
+                            label={b.preferredDate}
                             icon={CalendarDays}
                             required
                             error={errors.preferredDate}
@@ -369,7 +411,7 @@ export function BookDemoPage() {
                           </FormField>
                           <FormField
                             id="time"
-                            label="Preferred time"
+                            label={b.preferredTime}
                             icon={Clock3}
                             required
                             error={errors.preferredTime}
@@ -386,7 +428,7 @@ export function BookDemoPage() {
                         </div>
                         <FormField
                           id="notes"
-                          label="Notes (optional)"
+                          label={b.notes}
                           icon={NotebookPen}
                           error={errors.notes}
                         >
@@ -414,10 +456,10 @@ export function BookDemoPage() {
                       }}
                       className="w-full sm:w-auto"
                     >
-                      Back
+                      {b.back}
                     </Button>
                     <Button type="submit" disabled={submitting} size="lg" className="w-full sm:w-auto">
-                      {step < 3 ? "Continue" : submitting ? t.forms.sending : t.forms.submit}
+                      {step < 3 ? b.continue : submitting ? t.forms.sending : t.forms.submit}
                     </Button>
                   </div>
                 </ModernFormCard>

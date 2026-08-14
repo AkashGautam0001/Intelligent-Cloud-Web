@@ -1,9 +1,11 @@
 import { TechBrandChip } from "@/components/TechBrandIcon";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { primaryTechBrands } from "@/lib/tech-brands";
+import { useI18n } from "@/i18n";
 
 /** Trust strip — continuous LTR marquee (forced LTR so RTL page dir doesn't break the loop). */
 export function TrustBar() {
+  const { t } = useI18n();
   const brands = primaryTechBrands();
   const reduced = usePrefersReducedMotion();
   // Triple the set so the track is always wider than the viewport on large screens.
@@ -14,7 +16,7 @@ export function TrustBar() {
       <div className="container-ic">
         <div className="relative" dir="ltr">
           <p className="sr-only">
-            Technology platforms: {brands.map((b) => b.name).join(", ")}
+            {t.common.technologyPlatforms}: {brands.map((b) => b.name).join(", ")}
           </p>
           <div
             aria-hidden

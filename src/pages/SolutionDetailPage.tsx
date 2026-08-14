@@ -9,7 +9,7 @@ import { useI18n } from "@/i18n";
 
 export function SolutionDetailPage() {
   const { slug } = useParams();
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   const staticContent = getSolutionPage(slug, locale);
   const { data: cms, isLoading, isError } = useSolution(slug);
 
@@ -20,9 +20,9 @@ export function SolutionDetailPage() {
   if (!staticContent && (isError || !cms)) {
     return (
       <section className="container-ic py-20">
-        <h1 className="text-2xl font-semibold text-navy-900">Solution not found</h1>
+        <h1 className="text-2xl font-semibold text-navy-900">{t.common.notFoundSolution}</h1>
         <Button asChild className="mt-4" variant="secondary">
-          <Link to="/solutions">Back to solutions</Link>
+          <Link to="/solutions">{t.common.backToSolutions}</Link>
         </Button>
       </section>
     );
@@ -50,7 +50,7 @@ export function SolutionDetailPage() {
         content={{
           slug: cms!.slug,
           title: cms!.title,
-          eyebrow: "Solution",
+          eyebrow: t.common.solution,
           tagline: cms!.summary,
           summary: cms!.summary,
           iconKey: cms!.pillar,
@@ -62,12 +62,12 @@ export function SolutionDetailPage() {
               ? ["both"]
               : ["startup"]
             : ["enterprise"],
-          ctaLabel: "Book assessment",
+          ctaLabel: t.common.bookAssessment,
           ctaTo: "/book-demo",
-          architectureTitle: "Architecture overview",
+          architectureTitle: t.pages.longForm.architectureOverview,
           architectureLead: cms!.summary,
-          approachTitle: "How we deliver",
-          approachLead: "Scoped with your team during assessment.",
+          approachTitle: t.pages.longForm.howWeDeliver,
+          approachLead: t.pages.longForm.scopedDuringAssessment,
           metrics: [],
           highlights: (cms!.highlights ?? []).map((h) => ({ title: h, body: h })),
           challenges: [],

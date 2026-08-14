@@ -17,14 +17,6 @@ import { cn } from "@/lib/utils";
 import { useI18n } from "@/i18n";
 import type { Locale } from "@/i18n/messages";
 
-const filters: Array<{ id: "all" | SolutionKind | "startup" | "enterprise"; label: string }> = [
-  { id: "all", label: "All" },
-  { id: "outcome", label: "By outcome" },
-  { id: "audience", label: "By audience" },
-  { id: "startup", label: "Startups" },
-  { id: "enterprise", label: "Enterprises" },
-];
-
 const catalogOrder = [
   "cloud-migration",
   "devops-transformation",
@@ -40,8 +32,21 @@ function orderedSolutions(locale: Locale): SolutionPageContent[] {
 }
 
 export function SolutionsPage() {
-  const { locale } = useI18n();
-  const [filter, setFilter] = useState<(typeof filters)[number]["id"]>("all");
+  const { locale, t } = useI18n();
+  const c = t.pages.solutionsCatalog;
+  const [filter, setFilter] = useState<"all" | SolutionKind | "startup" | "enterprise">("all");
+
+  const filters: Array<{ id: "all" | SolutionKind | "startup" | "enterprise"; label: string }> =
+    useMemo(
+      () => [
+        { id: "all", label: c.filterAll },
+        { id: "outcome", label: c.filterByOutcome },
+        { id: "audience", label: c.filterByAudience },
+        { id: "startup", label: c.filterStartups },
+        { id: "enterprise", label: c.filterEnterprises },
+      ],
+      [c],
+    );
 
   const solutions = useMemo(() => {
     const all = orderedSolutions(locale);
@@ -64,21 +69,14 @@ export function SolutionsPage() {
 
   return (
     <>
-      <PageSeo
-        title="Cloud Solutions | Intelligent Cloud"
-        description="Outcome and audience solutions — cloud migration, DevOps transformation, security & compliance, startups, and enterprises."
-      />
-      <PageHero
-        eyebrow="Solutions"
-        title="Five solution paths — each with its own story"
-        description="By outcome (migration, DevOps, security) and by audience (startups, enterprises). Every page has unique challenges, deliverables, architecture, and FAQs."
-      />
+      <PageSeo title={c.seoTitle} description={c.seoDescription} />
+      <PageHero eyebrow={c.eyebrow} title={c.title} description={c.description} />
 
       <SectionShell
         tone="white"
-        eyebrow="Catalog"
-        title="Browse solutions"
-        lead="Filter by outcome or audience, then open a page for the full engagement narrative."
+        eyebrow={c.catalogEyebrow}
+        title={c.catalogTitle}
+        lead={c.catalogLead}
       >
         <div className="mb-8 flex flex-wrap gap-2">
           {filters.map((f) => (
@@ -125,7 +123,7 @@ export function SolutionsPage() {
                         {solution.summary}
                       </p>
                       <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-orange-500">
-                        Open solution
+                        {c.openSolution}
                         <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5" />
                       </span>
                     </div>
@@ -140,16 +138,13 @@ export function SolutionsPage() {
       <section className="section-ic bg-[#eef3f8]">
         <div className="container-ic">
           <IcCard className="bg-white p-8 text-center sm:p-10">
-            <p className="font-display text-xl font-semibold text-navy-900">
-              Not sure which path fits?
-            </p>
+            <p className="font-display text-xl font-semibold text-navy-900">{c.ctaTitle}</p>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-text-600">
-              Book a free assessment and we&apos;ll map migration, DevOps, security, and audience
-              fit to your workload and operating model.
+              {c.ctaLead}
             </p>
             <Button asChild className="mt-6">
               <Link to="/book-demo">
-                Book assessment <ArrowRight className="h-4 w-4" />
+                {c.ctaPrimary} <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </IcCard>
