@@ -43,7 +43,7 @@ export function ModernFormCard({
   return (
     <div
       className={cn(
-        "relative w-full space-y-5 rounded-[16px] border border-border-200 bg-white p-6 shadow-[0_20px_48px_-28px_rgba(4,39,95,0.28)] sm:p-8",
+        "relative w-full space-y-5 rounded-[16px] border border-border-200 bg-white p-6 shadow-[0_12px_32px_-24px_rgba(4,39,95,0.22)] sm:p-8",
         className,
       )}
     >

@@ -161,7 +161,7 @@ export function Navbar() {
         className={cn(
           "fixed inset-x-0 top-0 z-50 text-navy-900 transition-[background-color,box-shadow,border-color] duration-700 ease-out",
           solid
-            ? "border-b border-white/40 bg-white/75 shadow-[0_8px_30px_-18px_rgba(4,39,95,0.28)] backdrop-blur-xl"
+            ? "border-b border-border-200 bg-white shadow-[0_8px_24px_-18px_rgba(4,39,95,0.18)]"
             : "border-b border-transparent bg-transparent",
         )}
         onMouseLeave={scheduleClose}
@@ -264,7 +264,7 @@ export function Navbar() {
             <motion.div
               key="mega-shell"
               id={`${navId}-${activePanel.id}`}
-              className="origin-top overflow-hidden border-t border-white/50 bg-white/80 text-navy-900 shadow-[0_16px_40px_-20px_rgba(4,39,95,0.35)] backdrop-blur-xl"
+              className="origin-top overflow-hidden border-t border-border-200 bg-white text-navy-900 shadow-[0_16px_40px_-20px_rgba(4,39,95,0.28)]"
               initial={
                 reduced
                   ? { opacity: 1, height: "auto" }

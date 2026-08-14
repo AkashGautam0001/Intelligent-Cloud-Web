@@ -4,51 +4,42 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroAtmosphere } from "@/components/home/HeroAtmosphere";
+import { TechBrandIcon } from "@/components/TechBrandIcon";
 import { useI18n } from "@/i18n";
 import { whatsappExpertUrl } from "@/lib/whatsapp";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { easeOut } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-function PlatformStrip({
-  reduced,
-  platforms,
-}: {
-  reduced: boolean;
-  platforms: string;
-}) {
-  const tokens = platforms.split("·").map((s) => s.trim()).filter(Boolean);
+const platforms = [
+  { id: "azure", label: "Azure" },
+  { id: "aws", label: "AWS" },
+  { id: "kubernetes", label: "Kubernetes" },
+] as const;
 
+function PlatformRow({ reduced }: { reduced: boolean }) {
   return (
-    <div className="relative flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
-      {tokens.map((token, i) => (
-        <motion.span
-          key={token}
-          className="relative text-[12px] font-medium uppercase tracking-[0.16em] text-text-600"
-          initial={reduced ? false : { opacity: 0, y: 8, filter: "blur(6px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+    <div className="mb-5 flex flex-wrap items-center justify-center gap-3 sm:mb-6 sm:gap-0">
+      {platforms.map((p, i) => (
+        <motion.div
+          key={p.id}
+          className={cn(
+            "ic-platform-shake flex cursor-default items-center gap-2 sm:px-5",
+            i > 0 && "sm:border-s sm:border-navy-900/12",
+          )}
+          initial={reduced ? false : { opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: reduced ? 0 : 0.55,
-            delay: reduced ? 0 : 0.15 + i * 0.1,
+            duration: reduced ? 0 : 0.45,
+            delay: reduced ? 0 : 0.08 + i * 0.08,
             ease: easeOut,
           }}
         >
-          {token}
-          {i < tokens.length - 1 ? (
-            <motion.span
-              aria-hidden
-              className="pointer-events-none absolute -end-3 top-1/2 hidden h-px w-3 -translate-y-1/2 bg-gradient-to-r from-azure-500/50 to-orange-500/40 sm:block"
-              initial={reduced ? false : { scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              transition={{
-                delay: reduced ? 0 : 0.55 + i * 0.1,
-                duration: 0.35,
-                ease: easeOut,
-              }}
-              style={{ transformOrigin: "left center" }}
-            />
-          ) : null}
-        </motion.span>
+          <TechBrandIcon brand={p.id} size="md" />
+          <span className="text-[12px] font-semibold tracking-wide text-navy-900/75 sm:text-[13px]">
+            {p.label}
+          </span>
+        </motion.div>
       ))}
     </div>
   );
@@ -64,7 +55,7 @@ function MaskedHeadline({
   line2: string;
 }) {
   return (
-    <h1 className="relative mt-5 max-w-5xl text-center font-display text-[clamp(2.85rem,6.2vw,4.75rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-navy-900">
+    <h1 className="relative max-w-5xl text-center font-display text-[clamp(2.65rem,5.8vw,4.65rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-navy-900">
       {[line1, line2].map((line, i) => (
         <span key={line} className="relative block overflow-hidden">
           <motion.span
@@ -73,7 +64,7 @@ function MaskedHeadline({
             animate={{ y: "0%", opacity: 1 }}
             transition={{
               duration: reduced ? 0 : 0.9,
-              delay: reduced ? 0 : 0.45 + i * 0.18,
+              delay: reduced ? 0 : 0.35 + i * 0.16,
               ease: easeOut,
             }}
           >
@@ -82,12 +73,12 @@ function MaskedHeadline({
           {!reduced ? (
             <motion.span
               aria-hidden
-              className="pointer-events-none absolute inset-y-1 start-0 z-[2] w-[18%] skew-x-[-18deg] bg-gradient-to-r from-transparent via-[#438bd8]/45 to-transparent"
+              className="pointer-events-none absolute inset-y-1 start-0 z-[2] w-[18%] skew-x-[-18deg] bg-gradient-to-r from-transparent via-azure-500/45 to-transparent"
               initial={{ left: "-20%", opacity: 0 }}
               animate={{ left: ["-20%", "110%"], opacity: [0, 1, 0] }}
               transition={{
                 duration: 0.85,
-                delay: 0.55 + i * 0.18,
+                delay: 0.45 + i * 0.16,
                 ease: easeOut,
               }}
             />
@@ -118,29 +109,38 @@ function MorphKeywords({
   }, [reduced, keywords.length]);
 
   const current = keywords[index] ?? keywords[0] ?? "";
+  const longest = useMemo(
+    () => keywords.reduce((a, b) => (b.length > a.length ? b : a), ""),
+    [keywords],
+  );
 
   return (
-    <p className="mt-5 flex min-h-[2.75rem] flex-wrap items-center justify-center gap-x-2 text-center font-display text-[clamp(1.35rem,2.6vw,1.85rem)] font-semibold tracking-[-0.02em]">
+    <p className="mt-4 flex min-h-[2.5rem] flex-wrap items-center justify-center gap-x-1.5 text-center font-display text-[clamp(1.3rem,2.5vw,1.85rem)] font-semibold tracking-[-0.02em]">
       <span className="text-text-600">{prefix}</span>
-      <span className="relative inline-flex h-[1.35em] min-w-[12ch] items-center justify-center overflow-hidden text-orange-500 sm:min-w-[16ch]">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span
-            key={current}
-            className="absolute inset-x-0"
-            initial={
-              reduced ? false : { y: "85%", opacity: 0, filter: "blur(5px)" }
-            }
-            animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-            exit={
-              reduced
-                ? undefined
-                : { y: "-75%", opacity: 0, filter: "blur(5px)" }
-            }
-            transition={{ duration: reduced ? 0 : 0.7, ease: easeOut }}
-          >
-            {current}
-          </motion.span>
-        </AnimatePresence>
+      <span className="relative inline-grid text-start text-orange-500">
+        <span className="invisible col-start-1 row-start-1 whitespace-nowrap" aria-hidden>
+          {longest}
+        </span>
+        <span className="relative col-start-1 row-start-1 h-[1.35em] overflow-hidden whitespace-nowrap">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={current}
+              className="absolute inset-x-0 top-0"
+              initial={
+                reduced ? false : { y: "85%", opacity: 0, filter: "blur(5px)" }
+              }
+              animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+              exit={
+                reduced
+                  ? undefined
+                  : { y: "-75%", opacity: 0, filter: "blur(5px)" }
+              }
+              transition={{ duration: reduced ? 0 : 0.7, ease: easeOut }}
+            >
+              {current}
+            </motion.span>
+          </AnimatePresence>
+        </span>
       </span>
     </p>
   );
@@ -148,12 +148,10 @@ function MorphKeywords({
 
 function FlowArrow({ className }: { className?: string }) {
   return (
-    <span className={cn("relative inline-flex h-4 w-5 items-center", className)} aria-hidden>
-      <span className="absolute inset-y-0 start-0 w-full overflow-hidden">
-        <span className="ic-flow-dots absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/btn:opacity-100" />
-      </span>
-      <ArrowRight className="relative h-4 w-4 transition-transform duration-500 ease-out group-hover/btn:translate-x-0.5" />
-    </span>
+    <ArrowRight
+      className={cn("relative h-4 w-4", className)}
+      aria-hidden
+    />
   );
 }
 
@@ -176,9 +174,9 @@ export function HeroSection() {
     <section className="relative overflow-hidden bg-white text-navy-900">
       <HeroAtmosphere reduced={reduced} />
 
-      <div className="container-ic relative z-10 mx-auto pb-20 pt-32 text-center lg:pb-28 lg:pt-40">
-        <div className="pointer-events-auto mx-auto flex w-full max-w-6xl flex-col items-center">
-          <PlatformStrip reduced={reduced} platforms={h.platforms} />
+      <div className="container-ic relative z-10 mx-auto pb-20 pt-28 text-center sm:pt-32 lg:pb-28 lg:pt-36">
+        <div className="pointer-events-auto mx-auto flex w-full max-w-5xl flex-col items-center">
+          <PlatformRow reduced={reduced} />
 
           <MaskedHeadline
             reduced={reduced}
@@ -188,11 +186,11 @@ export function HeroSection() {
           <span className="sr-only">{h.title}</span>
 
           <motion.div
-            initial={reduced ? false : { opacity: 0, y: 12 }}
+            initial={reduced ? false : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: reduced ? 0 : 0.6,
-              delay: reduced ? 0 : 1.05,
+              duration: reduced ? 0 : 0.55,
+              delay: reduced ? 0 : 0.95,
               ease: easeOut,
             }}
             className="w-full"
@@ -205,12 +203,12 @@ export function HeroSection() {
           </motion.div>
 
           <motion.p
-            className="mt-5 max-w-3xl text-[clamp(1.05rem,1.5vw,1.25rem)] leading-[1.7] text-text-600"
+            className="mt-4 max-w-2xl text-[clamp(1.05rem,1.45vw,1.2rem)] leading-[1.7] text-text-600"
             initial={reduced ? false : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-              duration: reduced ? 0 : 0.6,
-              delay: reduced ? 0 : 1.2,
+              duration: reduced ? 0 : 0.55,
+              delay: reduced ? 0 : 1.1,
               ease: easeOut,
             }}
           >
@@ -218,26 +216,21 @@ export function HeroSection() {
           </motion.p>
 
           <motion.div
-            className="mt-10 flex flex-wrap justify-center gap-3"
+            className="mt-8 flex flex-wrap justify-center gap-3 sm:mt-9"
             initial={reduced ? false : { opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
               duration: reduced ? 0 : 0.5,
-              delay: reduced ? 0 : 1.35,
+              delay: reduced ? 0 : 1.25,
               ease: easeOut,
             }}
           >
-            <Button asChild size="lg" className="ic-cta-sweep">
+            <Button asChild size="lg">
               <Link to="/book-demo">
                 {t.nav.bookDemo} <FlowArrow />
               </Link>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="border-white/60 bg-white/55 backdrop-blur-md"
-            >
+            <Button asChild variant="outline" size="lg">
               <a
                 href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
                 target="_blank"

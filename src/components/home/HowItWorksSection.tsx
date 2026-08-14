@@ -123,12 +123,12 @@ export function HowItWorksSection() {
                   ease: easeOut,
                 }}
                 className={cn(
-                  "group/card relative isolate overflow-hidden rounded-[14px] border bg-white p-5 text-start outline-none",
-                  "transition-[border-color,background-color,transform] duration-700 ease-out",
+                  "group/card relative isolate overflow-hidden rounded-[14px] border border-border-200 bg-white p-5 text-start outline-none shadow-[0_1px_0_rgba(4,39,95,0.04)]",
+                  "transition-[border-color,background-color,transform,box-shadow] duration-700 ease-out",
                   "focus-visible:ring-2 focus-visible:ring-orange-500/40 focus-visible:ring-offset-2",
                   isActive
-                    ? "border-orange-500/55"
-                    : "border-border-200 hover:border-orange-500/40",
+                    ? "border-orange-500/55 shadow-[0_12px_28px_-20px_rgba(242,106,19,0.28)]"
+                    : "hover:border-orange-500/40",
                 )}
                 aria-pressed={isActive}
                 aria-controls="how-it-works-detail"
@@ -196,7 +196,7 @@ export function HowItWorksSection() {
             animate={{ opacity: 1 }}
             exit={reduced ? undefined : { opacity: 0 }}
             transition={{ duration: reduced ? 0 : 0.75, ease: easeOut }}
-            className="overflow-hidden rounded-[16px] border border-border-200 bg-surface-50"
+            className="overflow-hidden rounded-[16px] border border-border-200 bg-surface-50 shadow-[0_1px_0_rgba(4,39,95,0.04)]"
           >
             <div className="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
               <div className="relative overflow-hidden border-b border-border-200 bg-navy-950 p-6 sm:p-8 lg:border-b-0 lg:border-r">

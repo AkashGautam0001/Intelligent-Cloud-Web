@@ -274,6 +274,8 @@ export const ar: Messages = {
       titleLine2: "نحن نتولى سحابتك",
       weEngineer: "نُهندس",
       lead: "منصات سحابية للمؤسسات مُصمَّمة للتوسع والأمن والتسليم القابل للتشغيل.",
+      finopsNode: "ضوابط FinOps",
+      businessNode: "نمو الأعمال",
       keywords: {
         finopsGuardrails: "ضوابط FinOps",
         costGuardrails: "ضوابط التكلفة",

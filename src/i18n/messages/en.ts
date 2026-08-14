@@ -273,6 +273,8 @@ export const en = {
       titleLine2: "We'll Handle Your Cloud",
       weEngineer: "We engineer",
       lead: "Enterprise cloud platforms engineered for scale, security, and operable delivery.",
+      finopsNode: "FinOps Guardrails",
+      businessNode: "Business Growth",
       keywords: {
         finopsGuardrails: "FinOps Guardrails",
         costGuardrails: "Cost Guardrails",

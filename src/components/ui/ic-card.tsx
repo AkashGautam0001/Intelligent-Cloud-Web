@@ -25,10 +25,10 @@ export function IcCard({
 }: IcCardProps) {
   const reduced = usePrefersReducedMotion();
   const classes = cn(
-    "group/card rounded-[14px] border border-white/70 bg-white/70 p-5 shadow-[0_1px_0_rgba(4,39,95,0.04)] backdrop-blur-md",
+    "group/card rounded-[16px] border border-border-200 bg-white p-5 shadow-[0_1px_0_rgba(4,39,95,0.04)]",
     /* Avoid transform/filter on the text container — they cause fuzzy glyphs on hover */
     interactive &&
-      "relative overflow-hidden transition-[border-color,background-color,box-shadow] duration-500 ease-out hover:border-orange-500/35 hover:bg-white/85 hover:shadow-[0_18px_44px_-28px_rgba(4,39,95,0.32)] focus-within:border-orange-500 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-orange-500 before:to-[#ff8a3d] before:transition-transform before:duration-500 before:ease-out hover:before:scale-x-100",
+      "relative overflow-hidden transition-[border-color,background-color,box-shadow,transform] duration-500 ease-out hover:-translate-y-0.5 hover:border-orange-500/40 hover:shadow-[0_16px_36px_-24px_rgba(4,39,95,0.28)] focus-within:border-orange-500 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-0.5 before:origin-left before:scale-x-0 before:bg-gradient-to-r before:from-orange-500 before:to-[#ff8a3d] before:transition-transform before:duration-500 before:ease-out hover:before:scale-x-100",
     className,
   );
 

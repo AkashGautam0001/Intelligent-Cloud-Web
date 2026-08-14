@@ -5,35 +5,33 @@ import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
   [
-    "group/btn relative isolate inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-[10px] text-sm font-medium",
-    "transition-[color,border-color,box-shadow] duration-500 ease-out",
+    "group/btn relative isolate inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-[12px] text-sm font-medium",
+    "transition-[color,border-color,background-color,box-shadow,transform] duration-300 ease-out",
     "disabled:pointer-events-none disabled:opacity-50",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2",
-    // Icons only — no transform on text nodes (avoids fuzzy glyphs)
-    "[&_svg]:relative [&_svg]:transition-transform [&_svg]:duration-500 [&_svg]:ease-out",
-    "hover:[&_svg]:translate-x-1 active:[&_svg]:translate-x-0.5",
-    // Progress-bar navy fill (left → right), behind content via isolate + -z-10
-    "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:bg-navy-900 before:transition-transform before:duration-[600ms] before:ease-out",
-    "hover:before:scale-x-100",
+    "active:scale-[0.98]",
+    // Soft shine sweep on hover
+    "after:pointer-events-none after:absolute after:inset-y-0 after:-start-1/2 after:w-1/2 after:skew-x-[-20deg] after:bg-gradient-to-r after:from-transparent after:via-white/25 after:to-transparent after:opacity-0 after:transition-[transform,opacity] after:duration-500 after:ease-out",
+    "hover:after:translate-x-[220%] hover:after:opacity-100",
   ].join(" "),
   {
     variants: {
       variant: {
         default:
-          "bg-orange-500 text-white shadow-[0_0_0_0_rgba(242,106,19,0)] hover:text-white hover:shadow-[0_14px_36px_-14px_rgba(4,39,95,0.45)]",
+          "border border-orange-500 bg-orange-500 text-white hover:bg-[#e86110] hover:border-[#e86110] hover:shadow-[0_8px_20px_-12px_rgba(242,106,19,0.55)]",
         secondary:
-          "border border-navy-900 bg-transparent text-navy-900 hover:border-navy-900 hover:text-white hover:shadow-[0_14px_36px_-16px_rgba(4,39,95,0.35)]",
+          "border border-navy-900 bg-navy-900 text-white hover:bg-[#031f4d] hover:border-[#031f4d] hover:shadow-[0_8px_20px_-12px_rgba(4,39,95,0.35)]",
         ghost:
-          "text-navy-900 before:bg-navy-900/90 hover:text-white",
+          "border border-transparent text-navy-900 after:via-navy-900/5 hover:bg-surface-50",
         outline:
-          "border border-border-200 bg-white text-text-900 hover:border-navy-900 hover:text-white hover:shadow-[0_14px_36px_-16px_rgba(4,39,95,0.28)]",
+          "border border-border-200 bg-white text-navy-900 after:via-navy-900/8 hover:border-navy-900/25 hover:bg-surface-50 hover:shadow-[0_6px_16px_-12px_rgba(4,39,95,0.2)]",
         danger:
-          "bg-danger text-white before:bg-navy-900 hover:text-white hover:shadow-[0_14px_36px_-16px_rgba(4,39,95,0.35)]",
+          "border border-danger bg-danger text-white hover:brightness-95",
       },
       size: {
         default: "h-11 px-5 py-2",
-        sm: "h-9 rounded-[8px] px-3",
-        lg: "h-12 rounded-[12px] px-8 text-base",
+        sm: "h-9 rounded-[10px] px-3",
+        lg: "h-12 rounded-[14px] px-8 text-base",
         icon: "h-10 w-10",
       },
     },

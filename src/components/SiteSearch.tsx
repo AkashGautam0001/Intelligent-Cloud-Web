@@ -306,24 +306,24 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "max-w-2xl gap-0 overflow-hidden border-white/50 p-0",
-          "rounded-[20px] bg-white/85 shadow-[0_32px_100px_-28px_rgba(4,39,95,0.55)] backdrop-blur-xl",
+          "max-w-xl gap-0 overflow-hidden border-border-200 p-0",
+          "rounded-[16px] bg-white shadow-[0_24px_64px_-24px_rgba(4,39,95,0.4)]",
           "[&>button]:hidden",
         )}
       >
         <DialogTitle className="sr-only">{t.search.title}</DialogTitle>
 
-        <div className="border-b border-border-200 bg-[radial-gradient(120%_80%_at_50%_-20%,rgba(67,139,216,0.18),transparent_55%)] px-4 pb-4 pt-4 sm:px-5">
-          <div className="flex items-center gap-3 rounded-2xl border border-border-200 bg-white/95 px-3.5 shadow-[0_1px_0_rgba(4,39,95,0.04)] backdrop-blur focus-within:border-orange-500/55 focus-within:ring-4 focus-within:ring-orange-500/10">
-            <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-orange-500/10 text-orange-500">
-              <Search className="h-4 w-4" aria-hidden />
+        <div className="border-b border-border-200 px-3 py-2.5 sm:px-4">
+          <div className="flex items-center gap-2 rounded-xl border border-border-200 bg-white px-2.5 focus-within:border-orange-500/55 focus-within:ring-2 focus-within:ring-orange-500/10">
+            <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-orange-500/10 text-orange-500">
+              <Search className="h-3.5 w-3.5" aria-hidden />
             </span>
             <input
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t.search.placeholder}
-              className="h-14 w-full bg-transparent font-display text-base font-medium text-navy-900 outline-none placeholder:font-sans placeholder:text-sm placeholder:font-normal placeholder:text-text-600"
+              className="h-10 w-full bg-transparent text-sm font-medium text-navy-900 outline-none placeholder:font-normal placeholder:text-text-600"
               onKeyDown={(e) => {
                 if (e.key === "ArrowDown") {
                   e.preventDefault();
@@ -337,27 +337,27 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                 }
               }}
             />
-            <kbd className="hidden shrink-0 items-center gap-1 rounded-lg border border-border-200 bg-surface-50 px-2 py-1 font-mono text-[10px] text-text-600 sm:inline-flex">
+            <kbd className="hidden shrink-0 items-center gap-1 rounded-md border border-border-200 bg-surface-50 px-1.5 py-0.5 font-mono text-[10px] text-text-600 sm:inline-flex">
               ESC
             </kbd>
           </div>
         </div>
 
-        <div className="ic-scroll max-h-[min(28rem,55vh)] overflow-y-auto px-2 py-2 sm:px-3">
+        <div className="ic-scroll max-h-[min(22rem,50vh)] overflow-y-auto px-1.5 py-1.5 sm:px-2">
           {results.length === 0 ? (
-            <div className="px-4 py-14 text-center">
-              <span className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#eef3f8] text-navy-900/50">
-                <Search className="h-5 w-5" aria-hidden />
+            <div className="px-3 py-10 text-center">
+              <span className="mx-auto mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[#eef3f8] text-navy-900/50">
+                <Search className="h-4 w-4" aria-hidden />
               </span>
-              <p className="font-display text-base font-semibold text-navy-900">
+              <p className="text-sm font-semibold text-navy-900">
                 {t.search.noMatches}
               </p>
-              <p className="mt-2 text-sm text-text-600">
+              <p className="mt-1 text-xs text-text-600">
                 {t.search.noMatchesHint.replace("{query}", query)}
               </p>
             </div>
           ) : (
-            <ul className="space-y-1">
+            <ul className="space-y-0.5">
               {results.map((hit, indexRow) => {
                 const Icon = groupIcon(hit.group);
                 const label =
@@ -370,9 +370,9 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                     <button
                       type="button"
                       className={cn(
-                        "group flex w-full items-start gap-3 rounded-2xl border px-3 py-3 text-start transition-all",
+                        "group flex w-full items-center gap-2.5 rounded-xl border px-2.5 py-2 text-start transition-colors",
                         isActive
-                          ? "border-border-200 bg-[#eef3f8] shadow-[0_8px_24px_-20px_rgba(4,39,95,0.45)]"
+                          ? "border-border-200 bg-[#eef3f8]"
                           : "border-transparent hover:bg-[#f7f9fc]",
                       )}
                       onMouseEnter={() => setActive(indexRow)}
@@ -380,39 +380,39 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                     >
                       <span
                         className={cn(
-                          "mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
+                          "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
                           isActive
-                            ? "bg-white text-orange-500 shadow-sm ring-1 ring-border-200"
+                            ? "bg-white text-orange-500 ring-1 ring-border-200"
                             : "bg-[#eef3f8] text-navy-900/70",
                         )}
                       >
-                        <Icon className="h-4 w-4" aria-hidden />
+                        <Icon className="h-3.5 w-3.5" aria-hidden />
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="flex flex-wrap items-center gap-2">
-                          <span className="font-display text-sm font-semibold leading-snug text-navy-900">
+                        <span className="flex flex-wrap items-center gap-1.5">
+                          <span className="text-[13px] font-semibold leading-tight text-navy-900">
                             <HighlightText text={hit.title} query={query} />
                           </span>
                           {label ? (
-                            <span className="rounded-full bg-white px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.08em] text-text-600 ring-1 ring-border-200">
+                            <span className="rounded-full bg-white px-1.5 py-px font-mono text-[9px] uppercase tracking-[0.08em] text-text-600 ring-1 ring-border-200">
                               {label}
                             </span>
                           ) : null}
                         </span>
-                        <span className="mt-1.5 block text-sm leading-relaxed text-text-600">
+                        <span className="mt-0.5 block truncate text-xs leading-snug text-text-600">
                           <HighlightText text={description} query={query} />
                         </span>
                       </span>
                       <span
                         className={cn(
-                          "mt-1 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-all",
+                          "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors",
                           isActive
-                            ? "bg-orange-500 text-white shadow-[0_8px_18px_-10px_rgba(242,106,19,0.9)]"
-                            : "border border-transparent bg-transparent text-navy-900/40 opacity-0 group-hover:border-border-200 group-hover:bg-white group-hover:opacity-100",
+                            ? "bg-orange-500 text-white"
+                            : "border border-transparent text-navy-900/40 opacity-0 group-hover:border-border-200 group-hover:bg-white group-hover:opacity-100",
                         )}
                         aria-hidden
                       >
-                        <ArrowUpRight className="h-4 w-4" />
+                        <ArrowUpRight className="h-3.5 w-3.5" />
                       </span>
                     </button>
                   </li>
@@ -422,13 +422,13 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-3 border-t border-border-200 bg-[#f7f9fc] px-4 py-3 text-[11px] text-text-600 sm:px-5">
-          <span className="inline-flex flex-wrap items-center gap-3">
+        <div className="flex items-center justify-between gap-3 border-t border-border-200 bg-[#f7f9fc] px-3 py-2 text-[11px] text-text-600 sm:px-4">
+          <span className="inline-flex flex-wrap items-center gap-2.5">
             <Hint>
-              <kbd className="rounded-md border border-border-200 bg-white px-1.5 py-0.5 font-mono text-[10px]">
+              <kbd className="rounded border border-border-200 bg-white px-1 py-0.5 font-mono text-[10px]">
                 ↑
               </kbd>
-              <kbd className="rounded-md border border-border-200 bg-white px-1.5 py-0.5 font-mono text-[10px]">
+              <kbd className="rounded border border-border-200 bg-white px-1 py-0.5 font-mono text-[10px]">
                 ↓
               </kbd>
               {t.search.navigate}

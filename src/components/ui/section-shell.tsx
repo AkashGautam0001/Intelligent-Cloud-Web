@@ -19,8 +19,8 @@ type SectionShellProps = {
 };
 
 const toneBg: Record<SectionTone, string> = {
-  white: "bg-white",
-  navyLight: "bg-[#eef3f8]",
+  white: "bg-gradient-to-b from-white via-white to-[#f7fafc]",
+  navyLight: "bg-gradient-to-b from-[#eef3f8] via-[#eef3f8] to-[#e8eef5]",
 };
 
 const viewport = { once: true, amount: 0.25, margin: "0px 0px -10% 0px" } as const;

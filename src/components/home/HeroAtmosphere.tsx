@@ -6,12 +6,23 @@ type HeroAtmosphereProps = {
   className?: string;
 };
 
-/**
- * Living Infrastructure atmosphere:
- * calm cloud wash, slow radial light, occasional grid illumination,
- * subtle path particles, and a rare orchestration pulse.
- */
+/** Soft cloud wash + white arcs that travel along circular paths. */
 export function HeroAtmosphere({ reduced, className }: HeroAtmosphereProps) {
+  const stroke = 4;
+  const arcs = [
+    { r: 560, duration: 32, reverse: false },
+    { r: 530, duration: 28, reverse: true },
+    { r: 500, duration: 30, reverse: false },
+    { r: 470, duration: 24, reverse: true },
+    { r: 440, duration: 26, reverse: false },
+    { r: 410, duration: 22, reverse: true },
+    { r: 380, duration: 25, reverse: false },
+    { r: 350, duration: 20, reverse: true },
+  ] as const;
+
+  const cx = 500;
+  const cy = 540;
+
   return (
     <div
       aria-hidden
@@ -21,167 +32,126 @@ export function HeroAtmosphere({ reduced, className }: HeroAtmosphereProps) {
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, #ffffff 0%, #f7fafc 42%, #eef3f8 100%)",
+            "linear-gradient(180deg, #ffffff 0%, #f7fafc 45%, #eef4f9 100%)",
         }}
       />
 
-      {/* Soft cloud pools */}
       {reduced ? (
         <>
-          <div className="absolute -left-[8%] top-[4%] h-[28rem] w-[28rem] rounded-full bg-[#438bd8]/14 blur-[110px]" />
-          <div className="absolute -right-[6%] top-[36%] h-[24rem] w-[24rem] rounded-full bg-[#f26a13]/10 blur-[110px]" />
+          <div className="absolute -left-[8%] top-[2%] h-[28rem] w-[28rem] rounded-full bg-azure-500/14 blur-[110px]" />
+          <div className="absolute -right-[6%] top-[36%] h-[24rem] w-[24rem] rounded-full bg-orange-500/09 blur-[110px]" />
         </>
       ) : (
         <>
           <motion.div
-            className="absolute -left-[10%] top-[2%] h-[30rem] w-[30rem] rounded-full bg-[#438bd8]/16 blur-[120px]"
-            animate={{ x: [0, 40, 10, 0], y: [0, 18, -8, 0], opacity: [0.45, 0.7, 0.5, 0.45] }}
+            className="absolute -left-[10%] top-0 h-[30rem] w-[30rem] rounded-full bg-azure-500/16 blur-[120px]"
+            animate={{ x: [0, 36, 8, 0], y: [0, 16, -6, 0], opacity: [0.4, 0.65, 0.48, 0.4] }}
             transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
-            className="absolute -right-[8%] top-[34%] h-[26rem] w-[26rem] rounded-full bg-[#f26a13]/12 blur-[120px]"
-            animate={{ x: [0, -30, -8, 0], y: [0, -20, 10, 0], opacity: [0.35, 0.58, 0.4, 0.35] }}
+            className="absolute -right-[8%] top-[30%] h-[26rem] w-[26rem] rounded-full bg-orange-500/10 blur-[120px]"
+            animate={{ x: [0, -28, -6, 0], y: [0, -16, 10, 0], opacity: [0.28, 0.5, 0.34, 0.28] }}
             transition={{ duration: 32, repeat: Infinity, ease: "easeInOut" }}
           />
         </>
       )}
 
-      {/* Architectural grid — illuminates occasionally */}
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(4,39,95,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(4,39,95,0.045) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
-          maskImage:
-            "radial-gradient(ellipse 72% 58% at 50% 36%, black 15%, transparent 78%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 72% 58% at 50% 36%, black 15%, transparent 78%)",
-        }}
-        animate={
-          reduced
-            ? undefined
-            : { opacity: [0.28, 0.28, 0.55, 0.28, 0.28] }
-        }
-        transition={
-          reduced
-            ? undefined
-            : { duration: 7, repeat: Infinity, ease: "easeInOut", times: [0, 0.55, 0.62, 0.72, 1] }
-        }
-      />
-
-      {/* Extremely slow radial light */}
-      {!reduced ? (
-        <motion.div
-          className="absolute h-[42rem] w-[42rem] rounded-full"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(67,139,216,0.16) 0%, rgba(242,106,19,0.06) 34%, transparent 68%)",
-          }}
-          animate={{
-            left: ["8%", "58%", "28%", "8%"],
-            top: ["6%", "18%", "40%", "6%"],
-          }}
-          transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
-        />
-      ) : null}
-
-      {/* Invisible infrastructure paths with tiny particles */}
-      {!reduced ? (
+      <div className="absolute left-1/2 top-[-2%] w-[min(160vw,96rem)] -translate-x-1/2">
         <svg
-          className="absolute inset-0 h-full w-full opacity-70"
-          viewBox="0 0 1200 700"
-          preserveAspectRatio="xMidYMid slice"
+          className="block h-auto w-full"
+          viewBox="0 -30 1000 590"
+          preserveAspectRatio="xMidYMin meet"
         >
           <defs>
-            <linearGradient id="ic-path" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(67,139,216,0)" />
-              <stop offset="50%" stopColor="rgba(67,139,216,0.22)" />
-              <stop offset="100%" stopColor="rgba(242,106,19,0)" />
+            <linearGradient id="ic-hero-arc-white" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+              <stop offset="18%" stopColor="rgba(255,255,255,0.45)" />
+              <stop offset="50%" stopColor="rgba(255,255,255,1)" />
+              <stop offset="82%" stopColor="rgba(255,255,255,0.45)" />
+              <stop offset="100%" stopColor="rgba(255,255,255,0)" />
             </linearGradient>
+            {/* Show only the upper half of the rings */}
+            <clipPath id="ic-hero-arc-clip">
+              <rect x="0" y="0" width="1000" height={cy} />
+            </clipPath>
           </defs>
+
           <path
-            d="M220 140 C360 180, 420 260, 600 250 C780 240, 860 170, 980 150"
-            fill="none"
-            stroke="url(#ic-path)"
-            strokeWidth="1"
+            d={`M ${cx - 350} ${cy} A 350 350 0 0 1 ${cx + 350} ${cy} L ${cx + 350} ${cy + 20} L ${cx - 350} ${cy + 20} Z`}
+            fill="rgba(255,255,255,0.28)"
           />
-          <path
-            d="M260 420 C400 360, 480 320, 600 330 C760 345, 840 410, 960 390"
-            fill="none"
-            stroke="url(#ic-path)"
-            strokeWidth="1"
-          />
-          <path
-            d="M600 120 C600 220, 600 300, 600 460"
-            fill="none"
-            stroke="rgba(4,39,95,0.08)"
-            strokeWidth="1"
-            strokeDasharray="3 8"
-          />
+
+          <g clipPath="url(#ic-hero-arc-clip)">
+            {arcs.map((arc, i) => {
+              const circumference = 2 * Math.PI * arc.r;
+              const dash = circumference * 0.4;
+              const gap = circumference - dash;
+
+              return (
+                <motion.circle
+                  key={arc.r}
+                  cx={cx}
+                  cy={cy}
+                  r={arc.r}
+                  fill="none"
+                  stroke="url(#ic-hero-arc-white)"
+                  strokeWidth={stroke}
+                  strokeLinecap="round"
+                  strokeDasharray={`${dash} ${gap}`}
+                  initial={
+                    reduced
+                      ? false
+                      : { opacity: 0, strokeDashoffset: 0 }
+                  }
+                  animate={
+                    reduced
+                      ? { opacity: 0.85 }
+                      : {
+                          opacity: 0.85,
+                          strokeDashoffset: arc.reverse
+                            ? [0, circumference]
+                            : [0, -circumference],
+                        }
+                  }
+                  transition={{
+                    opacity: {
+                      duration: 0.9,
+                      delay: 0.04 + i * 0.05,
+                      ease: [0.22, 1, 0.36, 1],
+                    },
+                    strokeDashoffset: reduced
+                      ? { duration: 0 }
+                      : {
+                          duration: arc.duration,
+                          repeat: Infinity,
+                          ease: "linear",
+                          delay: 0.25 + i * 0.06,
+                        },
+                  }}
+                />
+              );
+            })}
+          </g>
         </svg>
-      ) : null}
-
-      {/* Path particles (CSS/Framer positions — no WebGL) */}
-      {!reduced ? (
-        <>
-          <motion.span
-            className="absolute h-1.5 w-1.5 rounded-full bg-azure-500/80 shadow-[0_0_10px_rgba(67,139,216,0.55)]"
-            animate={{
-              left: ["18%", "35%", "50%", "68%", "82%"],
-              top: ["22%", "28%", "36%", "28%", "24%"],
-              opacity: [0, 1, 1, 1, 0],
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.span
-            className="absolute h-1.5 w-1.5 rounded-full bg-orange-500/80 shadow-[0_0_10px_rgba(242,106,19,0.55)]"
-            animate={{
-              left: ["20%", "38%", "50%", "70%", "80%"],
-              top: ["62%", "52%", "48%", "55%", "58%"],
-              opacity: [0, 1, 1, 1, 0],
-            }}
-            transition={{ duration: 11.5, repeat: Infinity, ease: "easeInOut", delay: 1.6 }}
-          />
-          <motion.span
-            className="absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-navy-900/50"
-            animate={{
-              top: ["18%", "32%", "45%", "58%", "70%"],
-              opacity: [0, 0.9, 0.9, 0.9, 0],
-            }}
-            transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-          />
-        </>
-      ) : null}
-
-      {/* Orchestration pulse — rare cascade through hierarchy */}
-      {!reduced ? (
-        <motion.div
-          className="absolute left-1/2 top-[12%] h-[72%] w-[min(28rem,70vw)] -translate-x-1/2 rounded-full"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(67,139,216,0.18), rgba(242,106,19,0.1), transparent)",
-            filter: "blur(28px)",
-          }}
-          animate={{
-            opacity: [0, 0, 0.55, 0.2, 0],
-            y: ["0%", "0%", "18%", "55%", "85%"],
-            scaleY: [0.4, 0.4, 1, 1.1, 0.8],
-          }}
-          transition={{
-            duration: 6.5,
-            repeat: Infinity,
-            repeatDelay: 5.5,
-            ease: "easeInOut",
-            times: [0, 0.12, 0.35, 0.7, 1],
-          }}
-        />
-      ) : null}
+      </div>
 
       <div
-        className="absolute inset-x-0 bottom-0 h-32"
+        className="absolute inset-0 opacity-24"
         style={{
-          background: "linear-gradient(180deg, transparent, #eef3f8)",
+          backgroundImage:
+            "linear-gradient(rgba(4,39,95,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(4,39,95,0.04) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          maskImage:
+            "radial-gradient(ellipse 70% 55% at 50% 28%, black 12%, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 70% 55% at 50% 28%, black 12%, transparent 75%)",
+        }}
+      />
+
+      <div
+        className="absolute inset-x-0 bottom-0 h-28"
+        style={{
+          background: "linear-gradient(180deg, transparent, #eef4f9)",
         }}
       />
     </div>
