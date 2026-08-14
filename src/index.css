@@ -100,7 +100,16 @@
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-orange-500;
+    outline: 2px solid var(--color-orange-500);
+    outline-offset: 2px;
+  }
+
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [data-ic-field]:focus-visible {
+    outline: none;
+    outline-offset: 0;
   }
 
   a,

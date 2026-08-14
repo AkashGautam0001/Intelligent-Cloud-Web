@@ -105,7 +105,7 @@ export function FormField({
 }
 
 export const modernControlClass =
-  "flex h-12 w-full rounded-[12px] border border-border-200 bg-[#f8fafc] px-3.5 text-sm text-text-900 transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-text-600/80 hover:border-navy-900/20 focus-visible:border-orange-500 focus-visible:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/30";
+  "flex h-12 w-full rounded-[12px] border border-border-200 bg-[#f8fafc] px-3.5 text-sm text-text-900 transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-text-600/80 hover:border-navy-900/20 focus-visible:border-orange-500 focus-visible:bg-white focus-visible:outline-none focus-visible:shadow-[inset_0_0_0_2px_rgba(242,106,19,0.9)]";
 
 export const modernTextareaClass =
-  "flex min-h-[120px] w-full rounded-[12px] border border-border-200 bg-[#f8fafc] px-3.5 py-3 text-sm text-text-900 transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-text-600/80 hover:border-navy-900/20 focus-visible:border-orange-500 focus-visible:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/30";
+  "flex min-h-[120px] w-full rounded-[12px] border border-border-200 bg-[#f8fafc] px-3.5 py-3 text-sm text-text-900 transition-[border-color,box-shadow,background-color] duration-300 placeholder:text-text-600/80 hover:border-navy-900/20 focus-visible:border-orange-500 focus-visible:bg-white focus-visible:outline-none focus-visible:shadow-[inset_0_0_0_2px_rgba(242,106,19,0.9)]";

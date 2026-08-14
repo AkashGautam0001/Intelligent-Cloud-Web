@@ -27,11 +27,17 @@ import { SectionShell } from "@/components/ui/section-shell";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { SuccessDialog } from "@/components/ui/success-dialog";
 import { toast } from "@/components/ui/toast";
 import { WHATSAPP_DISPLAY, whatsappExpertUrl } from "@/lib/whatsapp";
 import { useI18n } from "@/i18n";
-import { cn } from "@/lib/utils";
 import {
   controlClass,
   email as validateEmail,
@@ -320,18 +326,23 @@ export function ContactPage() {
                 </FormField>
               </div>
               <FormField id="need" label={c.lookingFor} icon={Send} required>
-                <select
-                  id="need"
-                  className={cn(modernControlClass, "appearance-none")}
+                <Select
                   value={form.need}
-                  onChange={(e) => setField("need", e.target.value as ContactNeedValue)}
+                  onValueChange={(value) =>
+                    setField("need", value as ContactNeedValue)
+                  }
                 >
-                  {NEED_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {needLabels[opt.key as ContactNeedKey]}
-                    </option>
-                  ))}
-                </select>
+                  <SelectTrigger id="need" className={modernControlClass}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {NEED_OPTIONS.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {needLabels[opt.key as ContactNeedKey]}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormField>
               <FormField
                 id="message"
