@@ -8,17 +8,12 @@ type HeroAtmosphereProps = {
 
 /** Soft cloud wash + white arcs that travel along circular paths. */
 export function HeroAtmosphere({ reduced, className }: HeroAtmosphereProps) {
-  const stroke = 4;
-  const arcs = [
-    { r: 560, duration: 32, reverse: false },
-    { r: 530, duration: 28, reverse: true },
-    { r: 500, duration: 30, reverse: false },
-    { r: 470, duration: 24, reverse: true },
-    { r: 440, duration: 26, reverse: false },
-    { r: 410, duration: 22, reverse: true },
-    { r: 380, duration: 25, reverse: false },
-    { r: 350, duration: 20, reverse: true },
-  ] as const;
+  const stroke = 3.5;
+  const arcs = Array.from({ length: 18 }, (_, i) => ({
+    r: 575 - i * 15,
+    duration: 20 + (i % 6) * 2.5,
+    reverse: i % 2 === 1,
+  }));
 
   const cx = 500;
   const cy = 540;
