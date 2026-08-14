@@ -54,48 +54,32 @@ function MaskedHeadline({
   line1: string;
   line2: string;
 }) {
+  const { locale } = useI18n();
+
   return (
-    <h1 className="relative max-w-5xl text-center font-display text-[clamp(2.65rem,5.8vw,4.65rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-navy-900">
-      {[line1, line2].map((line, i) => (
-        <span key={line} className="relative block overflow-hidden">
-          <motion.span
-            className="relative z-[1] block"
-            initial={reduced ? false : { y: "110%", opacity: 0.2 }}
-            animate={{ y: "0%", opacity: 1 }}
-            transition={{
-              duration: reduced ? 0 : 0.9,
-              delay: reduced ? 0 : 0.35 + i * 0.16,
-              ease: easeOut,
-            }}
-          >
-            {i === 0 ? (
-              <span className="inline-flex items-baseline justify-center gap-[0.28em]">
-                {line}{" "}
-                <span
-                  aria-hidden
-                  className="inline-block h-[0.07em] w-[0.62em] shrink-0 translate-y-[-0.18em] bg-navy-900"
-                />
-              </span>
-            ) : (
-              <span className="text-navy-900/90">{line}</span>
-            )}
-          </motion.span>
-          {!reduced ? (
-            <motion.span
-              aria-hidden
-              className="pointer-events-none absolute inset-y-1 start-0 z-[2] w-[18%] skew-x-[-18deg] bg-gradient-to-r from-transparent via-azure-500/45 to-transparent"
-              initial={{ left: "-20%", opacity: 0 }}
-              animate={{ left: ["-20%", "110%"], opacity: [0, 1, 0] }}
-              transition={{
-                duration: 0.85,
-                delay: 0.45 + i * 0.16,
-                ease: easeOut,
-              }}
-            />
-          ) : null}
-        </span>
-      ))}
-    </h1>
+    <div className="relative max-w-5xl">
+      <AnimatePresence mode="wait">
+        <motion.h1
+          key={locale}
+          initial={reduced ? false : { opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduced ? undefined : { opacity: 0, y: -8 }}
+          transition={{ duration: reduced ? 0 : 0.28, ease: "easeOut" }}
+          className="text-center font-display text-[clamp(2.65rem,5.8vw,4.65rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-navy-900"
+        >
+          <span className="block">
+            <span className="inline-flex items-baseline justify-center gap-[0.28em]">
+              {line1}{" "}
+              <span
+                aria-hidden
+                className="inline-block h-[0.07em] w-[0.62em] shrink-0 translate-y-[-0.18em] bg-navy-900"
+              />
+            </span>
+          </span>
+          <span className="block text-navy-900/90">{line2}</span>
+        </motion.h1>
+      </AnimatePresence>
+    </div>
   );
 }
 

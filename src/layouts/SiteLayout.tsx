@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useAnimationControls } from "framer-motion";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFab } from "@/components/layout/WhatsAppFab";
@@ -10,11 +10,34 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { easeOut } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
+function useLocaleContentMotion() {
+  const { locale } = useI18n();
+  const reduced = usePrefersReducedMotion();
+  const controls = useAnimationControls();
+  const skip = useRef(true);
+
+  useEffect(() => {
+    if (skip.current) {
+      skip.current = false;
+      return;
+    }
+    if (reduced) return;
+    controls.set({ opacity: 0.55, y: 6 });
+    void controls.start({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.28, ease: easeOut },
+    });
+  }, [locale, reduced, controls]);
+
+  return controls;
+}
+
 export function SiteLayout() {
   const location = useLocation();
-  const { locale } = useI18n();
   const isHome = location.pathname === "/";
   const reduced = usePrefersReducedMotion();
+  const contentMotion = useLocaleContentMotion();
 
   useEffect(() => {
     if (location.hash) {
@@ -42,14 +65,12 @@ export function SiteLayout() {
         >
           Skip to content
         </a>
+        <Navbar />
         <motion.div
-          key={locale}
-          initial={reduced ? false : { opacity: 0, x: locale === "ar" ? 20 : -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: reduced ? 0 : 0.4, ease: easeOut }}
-          className="flex min-h-screen flex-col"
+          initial={false}
+          animate={contentMotion}
+          className="flex flex-1 flex-col"
         >
-          <Navbar />
           <main
             id="main-content"
             className={cn("flex-1", !isHome && "pt-16")}

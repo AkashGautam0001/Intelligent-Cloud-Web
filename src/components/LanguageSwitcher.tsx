@@ -151,7 +151,7 @@ function LanguagePill({ className }: { className?: string }) {
         aria-label={t.nav.english}
         aria-pressed={!isArabic}
         className={cn(
-          "relative z-10 grid h-full place-items-center text-[11px] font-semibold leading-none tracking-wide transition-colors duration-200",
+          "relative z-10 grid h-full place-items-center text-[11px] font-semibold leading-none tracking-wide transition-colors duration-300 ease-out",
           !isArabic ? "text-navy-900" : "text-navy-900/45 hover:text-navy-900",
         )}
       >
@@ -164,7 +164,7 @@ function LanguagePill({ className }: { className?: string }) {
         aria-label={t.nav.arabic}
         aria-pressed={isArabic}
         className={cn(
-          "relative z-10 grid h-full place-items-center transition-colors duration-200",
+          "relative z-10 grid h-full place-items-center transition-colors duration-300 ease-out",
           isArabic ? "text-navy-900" : "text-navy-900/45 hover:text-navy-900",
         )}
       >

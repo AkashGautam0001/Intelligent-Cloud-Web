@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
 import { ChevronDown, Menu, Search, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetTitle } from "@/components/ui/sheet";
@@ -96,7 +96,7 @@ function MegaPanelContent({
 }
 
 export function Navbar() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const location = useLocation();
   const reduced = usePrefersReducedMotion();
   const megaPanels = useMemo(() => getMegaPanels(t), [t]);
@@ -108,9 +108,24 @@ export function Navbar() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navId = useId();
   const isHome = location.pathname === "/";
+  const navFade = useAnimationControls();
+  const skipNavFade = useRef(true);
 
   const openSearch = useCallback(() => setSearchOpen(true), []);
   useSiteSearchHotkey(openSearch);
+
+  useEffect(() => {
+    if (skipNavFade.current) {
+      skipNavFade.current = false;
+      return;
+    }
+    if (reduced) return;
+    navFade.set({ opacity: 0.45 });
+    void navFade.start({
+      opacity: 1,
+      transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+    });
+  }, [locale, reduced, navFade]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48);
@@ -185,7 +200,9 @@ export function Navbar() {
             </span>
           </Link>
 
-          <nav
+          <motion.nav
+            initial={false}
+            animate={navFade}
             className="hidden items-center justify-center gap-2 lg:flex"
             aria-label="Primary"
           >
@@ -227,7 +244,7 @@ export function Navbar() {
                 </div>
               );
             })}
-          </nav>
+          </motion.nav>
 
           <div
             className="flex items-center justify-end gap-1.5 justify-self-end sm:gap-2"
