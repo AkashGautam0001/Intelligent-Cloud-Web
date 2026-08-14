@@ -41,12 +41,7 @@ export function CtaBand() {
                 {t.common.bookAssessment} <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-white/25 bg-transparent text-white hover:border-navy-900 hover:text-white"
-            >
+            <Button asChild size="lg" variant="light">
               <Link to="/contact">{t.common.contactSales}</Link>
             </Button>
           </div>

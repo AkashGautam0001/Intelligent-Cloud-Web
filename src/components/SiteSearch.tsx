@@ -370,7 +370,7 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                     <button
                       type="button"
                       className={cn(
-                        "group flex w-full items-center gap-2.5 rounded-xl border px-2.5 py-2 text-start transition-colors",
+                        "group flex w-full items-start gap-2.5 rounded-xl border px-2.5 py-2 text-start transition-colors",
                         isActive
                           ? "border-border-200 bg-[#eef3f8]"
                           : "border-transparent hover:bg-[#f7f9fc]",
@@ -380,7 +380,7 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                     >
                       <span
                         className={cn(
-                          "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
+                          "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
                           isActive
                             ? "bg-white text-orange-500 ring-1 ring-border-200"
                             : "bg-[#eef3f8] text-navy-900/70",
@@ -399,13 +399,13 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                             </span>
                           ) : null}
                         </span>
-                        <span className="mt-0.5 block truncate text-xs leading-snug text-text-600">
+                        <span className="mt-0.5 block line-clamp-3 text-xs leading-snug text-text-600">
                           <HighlightText text={description} query={query} />
                         </span>
                       </span>
                       <span
                         className={cn(
-                          "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors",
+                          "mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors",
                           isActive
                             ? "bg-orange-500 text-white"
                             : "border border-transparent text-navy-900/40 opacity-0 group-hover:border-border-200 group-hover:bg-white group-hover:opacity-100",

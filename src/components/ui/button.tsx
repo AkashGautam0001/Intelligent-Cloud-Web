@@ -21,10 +21,12 @@ const buttonVariants = cva(
           "border border-orange-500 bg-orange-500 text-white hover:bg-[#e86110] hover:border-[#e86110] hover:shadow-[0_8px_20px_-12px_rgba(242,106,19,0.55)]",
         secondary:
           "border border-navy-900 bg-navy-900 text-white hover:bg-[#031f4d] hover:border-[#031f4d] hover:shadow-[0_8px_20px_-12px_rgba(4,39,95,0.35)]",
-        ghost:
-          "border border-transparent text-navy-900 after:via-navy-900/5 hover:bg-surface-50",
         outline:
-          "border border-border-200 bg-white text-navy-900 after:via-navy-900/8 hover:border-navy-900/25 hover:bg-surface-50 hover:shadow-[0_6px_16px_-12px_rgba(4,39,95,0.2)]",
+          "border border-border-200 bg-white text-navy-900 after:via-navy-900/8 hover:border-navy-900/25 hover:bg-surface-50 hover:text-navy-900 hover:shadow-[0_6px_16px_-12px_rgba(4,39,95,0.2)]",
+        light:
+          "border border-white bg-white text-navy-900 after:via-navy-900/10 hover:bg-white hover:text-navy-900 hover:border-white",
+        ghost:
+          "border border-transparent text-navy-900 after:via-navy-900/5 hover:bg-surface-50 hover:text-navy-900",
         danger:
           "border border-danger bg-danger text-white hover:brightness-95",
       },
@@ -53,7 +55,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, size }), className)}
         ref={ref}
         {...props}
       />

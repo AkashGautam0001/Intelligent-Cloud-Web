@@ -236,8 +236,7 @@ export function CompanyLongForm({
               <Button
                 asChild
                 size="lg"
-                variant="outline"
-                className="border-white/25 bg-transparent text-white hover:border-navy-900 hover:text-white"
+                variant="light"
               >
                 <Link to={content.ctaSecondary.to}>{content.ctaSecondary.label}</Link>
               </Button>
@@ -245,8 +244,7 @@ export function CompanyLongForm({
               <Button
                 asChild
                 size="lg"
-                variant="outline"
-                className="border-white/25 bg-transparent text-white hover:border-navy-900 hover:text-white"
+                variant="light"
               >
                 <a
                   href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
