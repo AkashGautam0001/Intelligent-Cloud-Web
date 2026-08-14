@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Eye,
   GitCommitHorizontal,
@@ -12,50 +12,52 @@ import { IcCard } from "@/components/ui/ic-card";
 import { IcChip } from "@/components/ui/ic-chip";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { cn } from "@/lib/utils";
-
-const stages = [
-  {
-    label: "Commit",
-    body: "Protected branches and review gates that match how your teams ship.",
-    Icon: GitCommitHorizontal,
-  },
-  {
-    label: "Build",
-    body: "Repeatable pipelines with artifact provenance — not laptop-only builds.",
-    Icon: Hammer,
-  },
-  {
-    label: "Scan",
-    body: "Policy and security checks before promotion, not after production.",
-    Icon: ScanSearch,
-  },
-  {
-    label: "Deploy",
-    body: "Environment-gated promotion with rollback as a first-class path.",
-    Icon: Rocket,
-  },
-  {
-    label: "Verify",
-    body: "Post-deploy checks tied to SLOs — release isn't done at merge.",
-    Icon: ShieldCheck,
-  },
-  {
-    label: "Observe",
-    body: "GitOps reconciliation and signals that map to on-call ownership.",
-    Icon: Eye,
-  },
-] as const;
+import { useI18n } from "@/i18n";
 
 export function DevOpsStripSection() {
+  const { t } = useI18n();
+  const d = t.home.devops;
   const [active, setActive] = useState(3);
 
+  const stages = useMemo(
+    () =>
+      [
+        {
+          label: d.commit.label,
+          body: d.commit.body,
+          Icon: GitCommitHorizontal,
+        },
+        {
+          label: d.build.label,
+          body: d.build.body,
+          Icon: Hammer,
+        },
+        {
+          label: d.scan.label,
+          body: d.scan.body,
+          Icon: ScanSearch,
+        },
+        {
+          label: d.deploy.label,
+          body: d.deploy.body,
+          Icon: Rocket,
+        },
+        {
+          label: d.verify.label,
+          body: d.verify.body,
+          Icon: ShieldCheck,
+        },
+        {
+          label: d.observe.label,
+          body: d.observe.body,
+          Icon: Eye,
+        },
+      ] as const,
+    [d],
+  );
+
   return (
-    <SectionShell
-      tone="navyLight"
-      eyebrow="DevOps"
-      title="CI/CD and GitOps that auditors can follow"
-      lead="Promotion paths, environment gates, and desired-state sync — so releases are repeatable and the cluster never drifts from what's reviewed."
-    >
+    <SectionShell tone="navyLight" eyebrow={d.eyebrow} title={d.title} lead={d.lead}>
       <div className="flex flex-wrap gap-2">
         {stages.map((s, i) => (
           <IcChip key={s.label} active={active === i} onClick={() => setActive(i)}>
@@ -67,7 +69,7 @@ export function DevOpsStripSection() {
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {stages.map((s, i) => (
-          <button key={s.label} type="button" className="text-left" onClick={() => setActive(i)}>
+          <button key={s.label} type="button" className="text-start" onClick={() => setActive(i)}>
             <IcCard
               interactive
               className={cn("h-full p-5", active === i && "border-orange-500 before:scale-x-100")}

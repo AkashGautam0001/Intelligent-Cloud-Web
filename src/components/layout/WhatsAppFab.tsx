@@ -15,7 +15,7 @@ function WhatsAppGlyph({ className }: { className?: string }) {
   );
 }
 
-/** Modern WhatsApp side bar — overlays content, flush to the right edge. */
+/** WhatsApp side bar — flush to the inline-end edge (RTL-aware). */
 export function WhatsAppFab() {
   const { t } = useI18n();
 
@@ -25,13 +25,13 @@ export function WhatsAppFab() {
       target="_blank"
       rel="noreferrer"
       aria-label={t.whatsapp.label}
-      className="group/wa fixed bottom-24 right-0 z-[60] flex h-14 w-14 items-center overflow-hidden rounded-l-2xl rounded-r-none bg-orange-500 text-white shadow-[-8px_12px_32px_-12px_rgba(242,106,19,0.65)] transition-[width,background-color] duration-300 ease-out hover:w-[10.5rem] hover:bg-[#e05f0f] focus-visible:w-[10.5rem] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-navy-900"
+      className="group/wa fixed bottom-24 end-0 z-[60] flex h-14 w-14 items-center overflow-hidden rounded-s-2xl rounded-e-none bg-orange-500 text-white shadow-[-8px_12px_32px_-12px_rgba(242,106,19,0.65)] transition-[width,background-color] duration-300 ease-out hover:w-[10.5rem] hover:bg-[#e05f0f] focus-visible:w-[10.5rem] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-navy-900 rtl:shadow-[8px_12px_32px_-12px_rgba(242,106,19,0.65)]"
     >
       <span className="relative flex h-14 w-14 shrink-0 items-center justify-center">
         <WhatsAppGlyph className="h-6 w-6 transition-transform duration-300 group-hover/wa:scale-110" />
       </span>
       <span className="whitespace-nowrap pe-5 font-display text-sm font-semibold tracking-tight opacity-0 transition-opacity duration-300 group-hover/wa:opacity-100 group-focus-visible/wa:opacity-100">
-        Chat with us
+        {t.whatsapp.cta}
       </span>
     </a>
   );

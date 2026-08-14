@@ -1,8 +1,9 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, CalendarDays, FileText, Scale, Shield } from "lucide-react";
-import { privacy as privacyContent, terms as termsContent } from "@/content/resources";
+import { getResourcePage, privacy as privacyFallback, terms as termsFallback } from "@/content/resources";
 import { ResourceLongForm } from "@/components/resources/ResourceLongForm";
+import { useI18n } from "@/i18n";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { cn } from "@/lib/utils";
@@ -307,6 +308,9 @@ const termsSections: LegalSection[] = [
 ];
 
 export function PrivacyPage() {
+  const { locale } = useI18n();
+  const privacyContent = getResourcePage("privacy", locale) ?? privacyFallback;
+
   return (
     <ResourceLongForm
       content={privacyContent}
@@ -357,6 +361,9 @@ export function PrivacyPage() {
 }
 
 export function TermsPage() {
+  const { locale } = useI18n();
+  const termsContent = getResourcePage("terms", locale) ?? termsFallback;
+
   return (
     <ResourceLongForm
       content={termsContent}

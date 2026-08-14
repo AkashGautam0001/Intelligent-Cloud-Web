@@ -34,18 +34,15 @@ const queryClient = new QueryClient({
 });
 
 /**
- * Marketing routes (English, Phase 1).
- *
- * Future Arabic locale:
- * - Mount a parallel tree under `/ar/*`
- * - Wrap with <LocaleProvider initialLocale="ar">
+ * Marketing routes.
+ * Locale (EN/AR) is controlled by LocaleProvider — RTL flips automatically for Arabic.
  */
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <LocaleProvider initialLocale="en">
-        <MotionConfig transition={{ duration: 0.9, ease: easeOut }}>
-          <BrowserRouter>
+      <BrowserRouter>
+        <LocaleProvider initialLocale="en">
+          <MotionConfig transition={{ duration: 0.9, ease: easeOut }}>
             <Analytics />
             <Routes>
               <Route element={<DocsLayout />}>
@@ -72,10 +69,10 @@ export default function App() {
               </Route>
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </BrowserRouter>
-          <Toaster richColors position="top-right" />
-        </MotionConfig>
-      </LocaleProvider>
+            <Toaster richColors position="top-right" />
+          </MotionConfig>
+        </LocaleProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }

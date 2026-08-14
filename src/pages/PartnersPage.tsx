@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Handshake } from "lucide-react";
 import { API_URL } from "@/lib/api";
 import { usePartners } from "@/hooks/useCms";
-import { partners as partnersContent } from "@/content/company";
+import { getCompanyPage, partners as partnersFallback } from "@/content/company";
 import { CompanyLongForm } from "@/components/company/CompanyLongForm";
+import { useI18n } from "@/i18n";
 import { SectionShell } from "@/components/ui/section-shell";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
@@ -41,6 +42,8 @@ const pathDetails = [
 ] as const;
 
 export function PartnersPage() {
+  const { locale } = useI18n();
+  const partnersContent = getCompanyPage("partners", locale) ?? partnersFallback;
   const { data, isLoading, isError } = usePartners();
   const partnerList = data ?? [];
 

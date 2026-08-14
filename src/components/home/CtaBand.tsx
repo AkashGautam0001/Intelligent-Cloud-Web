@@ -7,6 +7,7 @@ import { useI18n } from "@/i18n";
 
 export function CtaBand() {
   const { t } = useI18n();
+  const c = t.home.ctaBand;
 
   return (
     <section className="relative overflow-hidden bg-navy-950 text-white">
@@ -31,18 +32,13 @@ export function CtaBand() {
 
       <div className="container-ic relative grid gap-10 py-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:gap-16 lg:pb-28 lg:pt-24">
         <Reveal>
-          <p className="text-mono-label text-white/55">Next step</p>
-          <h2 className="mt-4 max-w-3xl text-h2 text-white">
-            Ready to engineer a cloud estate you can operate?
-          </h2>
-          <p className="mt-5 max-w-lg text-lead text-white/60">
-            Book a free assessment with an engineer, or message us on WhatsApp. We confirm
-            timing manually — no calendar sync.
-          </p>
+          <p className="text-mono-label text-white/55">{c.eyebrow}</p>
+          <h2 className="mt-4 max-w-3xl text-h2 text-white">{c.title}</h2>
+          <p className="mt-5 max-w-lg text-lead text-white/60">{c.lead}</p>
           <div className="mt-9 flex flex-wrap gap-4">
             <Button asChild size="lg">
               <Link to="/book-demo">
-                Book assessment <ArrowRight className="h-4 w-4" />
+                {t.common.bookAssessment} <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
             <Button
@@ -51,7 +47,7 @@ export function CtaBand() {
               variant="outline"
               className="border-white/25 bg-transparent text-white hover:border-navy-900 hover:text-white"
             >
-              <Link to="/contact">Contact sales</Link>
+              <Link to="/contact">{t.common.contactSales}</Link>
             </Button>
           </div>
         </Reveal>
@@ -69,10 +65,10 @@ export function CtaBand() {
               </span>
               <span>
                 <span className="block font-display text-sm font-semibold text-white">
-                  Talk to an expert
+                  {t.common.talkExpert}
                 </span>
                 <span className="mt-1 block text-sm leading-relaxed text-white/55">
-                  WhatsApp an engineer for a quick scope conversation.
+                  {c.talkExpertBody}
                 </span>
               </span>
             </a>
@@ -87,10 +83,10 @@ export function CtaBand() {
               </span>
               <span>
                 <span className="block font-display text-sm font-semibold text-white">
-                  Browse services
+                  {c.browseServices}
                 </span>
                 <span className="mt-1 block text-sm leading-relaxed text-white/55">
-                  Migration, platforms, security, and managed operations.
+                  {c.browseServicesBody}
                 </span>
               </span>
             </Link>

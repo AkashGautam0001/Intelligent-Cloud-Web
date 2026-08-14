@@ -1,108 +1,33 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Boxes, CornerDownLeft, FileText, HelpCircle, Layers, Search } from "lucide-react";
+import {
+  ArrowRight,
+  Boxes,
+  Command,
+  CornerDownLeft,
+  FileText,
+  HelpCircle,
+  Layers,
+  Search,
+  Sparkles,
+} from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { listServicePages } from "@/content/services";
 import { listSolutionPages } from "@/content/solutions";
 import { useDocs, useFaqs, useServices, useSolutions } from "@/hooks/useCms";
+import { useI18n } from "@/i18n";
+import { localizedFaq } from "@/lib/localized-faq";
 import { cn } from "@/lib/utils";
+
+type SearchGroup = "services" | "solutions" | "docs" | "faq" | "site";
 
 export type SearchHit = {
   id: string;
   title: string;
   description: string;
   href: string;
-  group: "Services" | "Solutions" | "Docs" | "FAQ" | "Site";
+  group: SearchGroup;
 };
-
-const staticPages: SearchHit[] = [
-  {
-    id: "page-home",
-    title: "Home",
-    description: "Grow your business — we'll handle your cloud",
-    href: "/",
-    group: "Site",
-  },
-  {
-    id: "page-services",
-    title: "Services",
-    description: "Cloud services built for every stage of growth",
-    href: "/services",
-    group: "Site",
-  },
-  {
-    id: "page-solutions",
-    title: "Solutions",
-    description: "Startups, enterprises, migration, DevOps, security",
-    href: "/solutions",
-    group: "Site",
-  },
-  {
-    id: "page-about",
-    title: "About",
-    description: "Built by engineers who've run production cloud at scale",
-    href: "/about",
-    group: "Site",
-  },
-  {
-    id: "page-contact",
-    title: "Contact",
-    description: "Contact sales and talk to an expert",
-    href: "/contact",
-    group: "Site",
-  },
-  {
-    id: "page-docs",
-    title: "Documentation",
-    description: "Guides for architecture, Kubernetes, CI/CD, and more",
-    href: "/documentation",
-    group: "Site",
-  },
-  {
-    id: "page-faq",
-    title: "FAQ",
-    description: "Answers about Intelligent Cloud services and engagement",
-    href: "/faq",
-    group: "Site",
-  },
-  {
-    id: "page-partners",
-    title: "Partners",
-    description: "Partner program overview",
-    href: "/partners",
-    group: "Site",
-  },
-  {
-    id: "page-support",
-    title: "Support",
-    description: "Support tiers and ticket request",
-    href: "/support",
-    group: "Site",
-  },
-  {
-    id: "page-book",
-    title: "Book a Demo",
-    description: "Free cloud assessment call",
-    href: "/book-demo",
-    group: "Site",
-  },
-];
-
-const staticServiceHits: SearchHit[] = listServicePages().map((page) => ({
-  id: `static-service-${page.slug}`,
-  title: page.title,
-  description: page.summary || page.tagline || "",
-  href: `/services/${page.slug}`,
-  group: "Services" as const,
-}));
-
-const staticSolutionHits: SearchHit[] = listSolutionPages().map((page) => ({
-  id: `static-solution-${page.slug}`,
-  title: page.title,
-  description: page.summary || page.tagline || "",
-  href: `/solutions/${page.slug}`,
-  group: "Solutions" as const,
-}));
 
 function stripHtml(html: string) {
   return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -114,31 +39,25 @@ function matches(hit: SearchHit, q: string) {
   return terms.every((term) => hay.includes(term));
 }
 
-function groupIcon(group: SearchHit["group"]) {
+function groupIcon(group: SearchGroup) {
   switch (group) {
-    case "Services":
+    case "services":
       return Layers;
-    case "Solutions":
+    case "solutions":
       return Boxes;
-    case "Docs":
+    case "docs":
       return FileText;
-    case "FAQ":
+    case "faq":
       return HelpCircle;
     default:
-      return Search;
+      return Sparkles;
   }
-}
-
-function groupLabel(group: SearchHit["group"]) {
-  if (group === "Site") return null;
-  return group;
 }
 
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-/** Highlight every occurrence of the typed query (and each word) in title/description. */
 function HighlightText({ text, query }: { text: string; query: string }) {
   const raw = query.trim();
   if (!raw || !text) return <>{text}</>;
@@ -163,12 +82,12 @@ function HighlightText({ text, query }: { text: string; query: string }) {
         const isMatch = terms.some((t) => new RegExp(`^${t}$`, "i").test(part));
         if (isMatch) {
           return (
-            <span
+            <mark
               key={`${part}-${i}`}
-              className="rounded-[3px] bg-orange-500/25 px-0.5 font-semibold text-orange-600"
+              className="rounded-[4px] bg-orange-500/20 px-0.5 font-semibold text-orange-600"
             >
               {part}
-            </span>
+            </mark>
           );
         }
         return <span key={`${part}-${i}`}>{part}</span>;
@@ -184,6 +103,7 @@ type SiteSearchProps = {
 
 export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
   const navigate = useNavigate();
+  const { locale, t } = useI18n();
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
 
@@ -195,52 +115,157 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
   const index = useMemo<SearchHit[]>(() => {
     const byHref = new Map<string, SearchHit>();
 
-    const upsert = (hit: SearchHit) => {
+    const upsert = (hit: SearchHit, { preferExistingTitle = false } = {}) => {
       const prev = byHref.get(hit.href);
       if (!prev) {
         byHref.set(hit.href, hit);
         return;
       }
-      if ((hit.description?.length ?? 0) > (prev.description?.length ?? 0)) {
-        byHref.set(hit.href, { ...prev, ...hit, title: hit.title || prev.title });
-      }
+      byHref.set(hit.href, {
+        ...prev,
+        ...hit,
+        title: preferExistingTitle ? prev.title || hit.title : hit.title || prev.title,
+        description:
+          (hit.description?.length ?? 0) > (prev.description?.length ?? 0)
+            ? hit.description
+            : prev.description,
+      });
     };
 
-    for (const hit of [...staticPages, ...staticServiceHits, ...staticSolutionHits]) {
-      upsert(hit);
+    const pages: SearchHit[] = [
+      {
+        id: "page-home",
+        title: t.common.home,
+        description: t.search.pages.home,
+        href: "/",
+        group: "site",
+      },
+      {
+        id: "page-services",
+        title: t.nav.services,
+        description: t.search.pages.services,
+        href: "/services",
+        group: "site",
+      },
+      {
+        id: "page-solutions",
+        title: t.nav.solutions,
+        description: t.search.pages.solutions,
+        href: "/solutions",
+        group: "site",
+      },
+      {
+        id: "page-about",
+        title: t.nav.about,
+        description: t.search.pages.about,
+        href: "/about",
+        group: "site",
+      },
+      {
+        id: "page-contact",
+        title: t.nav.contactSales,
+        description: t.search.pages.contact,
+        href: "/contact",
+        group: "site",
+      },
+      {
+        id: "page-docs",
+        title: t.nav.docs,
+        description: t.search.pages.docs,
+        href: "/documentation",
+        group: "site",
+      },
+      {
+        id: "page-faq",
+        title: t.nav.faq,
+        description: t.search.pages.faq,
+        href: "/faq",
+        group: "site",
+      },
+      {
+        id: "page-partners",
+        title: t.nav.partners,
+        description: t.search.pages.partners,
+        href: "/partners",
+        group: "site",
+      },
+      {
+        id: "page-support",
+        title: t.nav.support,
+        description: t.search.pages.support,
+        href: "/support",
+        group: "site",
+      },
+      {
+        id: "page-book",
+        title: t.nav.bookDemo,
+        description: t.search.pages.book,
+        href: "/book-demo",
+        group: "site",
+      },
+    ];
+
+    for (const hit of pages) upsert(hit);
+
+    for (const page of listServicePages(locale)) {
+      upsert({
+        id: `static-service-${page.slug}`,
+        title: page.title,
+        description: page.summary || page.tagline || "",
+        href: `/services/${page.slug}`,
+        group: "services",
+      });
+    }
+
+    for (const page of listSolutionPages(locale)) {
+      upsert({
+        id: `static-solution-${page.slug}`,
+        title: page.title,
+        description: page.summary || page.tagline || "",
+        href: `/solutions/${page.slug}`,
+        group: "solutions",
+      });
     }
 
     for (const item of services.data ?? []) {
-      upsert({
-        id: `service-${item._id}`,
-        title: item.title,
-        description: item.summary || byHref.get(`/services/${item.slug}`)?.description || "",
-        href: `/services/${item.slug}`,
-        group: "Services",
-      });
+      upsert(
+        {
+          id: `service-${item._id}`,
+          title: item.title,
+          description: item.summary || "",
+          href: `/services/${item.slug}`,
+          group: "services",
+        },
+        { preferExistingTitle: locale === "ar" },
+      );
     }
 
     for (const item of solutions.data ?? []) {
-      upsert({
-        id: `solution-${item._id}`,
-        title: item.title,
-        description: item.summary || byHref.get(`/solutions/${item.slug}`)?.description || "",
-        href: `/solutions/${item.slug}`,
-        group: "Solutions",
-      });
+      upsert(
+        {
+          id: `solution-${item._id}`,
+          title: item.title,
+          description: item.summary || "",
+          href: `/solutions/${item.slug}`,
+          group: "solutions",
+        },
+        { preferExistingTitle: locale === "ar" },
+      );
     }
 
     for (const item of faqs.data ?? []) {
-      const answer = stripHtml(item.answerHtml);
+      const loc = localizedFaq(item, locale);
+      const answer = stripHtml(loc.answerHtml);
       upsert({
         id: `faq-${item._id}`,
-        title: item.question,
-        description: answer || `Category: ${item.category}`,
+        title: loc.question,
+        description: answer || item.category,
         href: `/faq#${item._id}`,
-        group: "FAQ",
+        group: "faq",
       });
     }
 
+    // Documentation stays English-only by product design.
     for (const category of docs.data ?? []) {
       for (const article of category.articles ?? []) {
         upsert({
@@ -248,13 +273,13 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
           title: article.title,
           description: article.summary || category.title,
           href: `/documentation/${category.slug}/${article.slug}`,
-          group: "Docs",
+          group: "docs",
         });
       }
     }
 
     return Array.from(byHref.values());
-  }, [services.data, solutions.data, faqs.data, docs.data]);
+  }, [services.data, solutions.data, faqs.data, docs.data, locale, t]);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -275,24 +300,29 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
     navigate(href);
   };
 
+  const groupLabels = t.search.groups;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
-          "max-w-2xl gap-0 overflow-hidden border-border-200/80 p-0 shadow-[0_28px_80px_-28px_rgba(4,39,95,0.45)]",
-          "rounded-[16px] bg-white [&>button]:hidden",
+          "max-w-2xl gap-0 overflow-hidden border-white/10 p-0",
+          "rounded-[20px] bg-white shadow-[0_32px_100px_-28px_rgba(4,39,95,0.55)]",
+          "[&>button]:hidden",
         )}
       >
-        <DialogTitle className="sr-only">Site search</DialogTitle>
+        <DialogTitle className="sr-only">{t.search.title}</DialogTitle>
 
-        <div className="relative border-b border-border-200 bg-[linear-gradient(180deg,#eef3f8_0%,#ffffff_100%)] px-4 pb-3 pt-4 sm:px-5">
-          <div className="flex items-center gap-3 rounded-[12px] border border-border-200 bg-white px-3.5 shadow-[0_1px_0_rgba(4,39,95,0.04)] focus-within:border-orange-500/50 focus-within:ring-2 focus-within:ring-orange-500/15">
-            <Search className="h-5 w-5 shrink-0 text-orange-500" aria-hidden />
+        <div className="border-b border-border-200 bg-[radial-gradient(120%_80%_at_50%_-20%,rgba(67,139,216,0.18),transparent_55%)] px-4 pb-4 pt-4 sm:px-5">
+          <div className="flex items-center gap-3 rounded-2xl border border-border-200 bg-white/95 px-3.5 shadow-[0_1px_0_rgba(4,39,95,0.04)] backdrop-blur focus-within:border-orange-500/55 focus-within:ring-4 focus-within:ring-orange-500/10">
+            <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-orange-500/10 text-orange-500">
+              <Search className="h-4 w-4" aria-hidden />
+            </span>
             <input
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search services, solutions, docs, FAQ…"
+              placeholder={t.search.placeholder}
               className="h-14 w-full bg-transparent font-display text-base font-medium text-navy-900 outline-none placeholder:font-sans placeholder:text-sm placeholder:font-normal placeholder:text-text-600"
               onKeyDown={(e) => {
                 if (e.key === "ArrowDown") {
@@ -307,7 +337,7 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                 }
               }}
             />
-            <kbd className="hidden shrink-0 rounded-[6px] border border-border-200 bg-surface-50 px-1.5 py-1 font-mono text-[10px] text-text-600 sm:inline">
+            <kbd className="hidden shrink-0 items-center gap-1 rounded-lg border border-border-200 bg-surface-50 px-2 py-1 font-mono text-[10px] text-text-600 sm:inline-flex">
               ESC
             </kbd>
           </div>
@@ -315,34 +345,45 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
 
         <div className="ic-scroll max-h-[min(28rem,55vh)] overflow-y-auto px-2 py-2 sm:px-3">
           {results.length === 0 ? (
-            <div className="px-4 py-12 text-center">
-              <p className="font-display text-base font-semibold text-navy-900">No matches</p>
+            <div className="px-4 py-14 text-center">
+              <span className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#eef3f8] text-navy-900/50">
+                <Search className="h-5 w-5" aria-hidden />
+              </span>
+              <p className="font-display text-base font-semibold text-navy-900">
+                {t.search.noMatches}
+              </p>
               <p className="mt-2 text-sm text-text-600">
-                Nothing found for “{query}”. Try another keyword.
+                {t.search.noMatchesHint.replace("{query}", query)}
               </p>
             </div>
           ) : (
             <ul className="space-y-1">
               {results.map((hit, indexRow) => {
                 const Icon = groupIcon(hit.group);
-                const label = groupLabel(hit.group);
+                const label =
+                  hit.group === "site" ? null : groupLabels[hit.group];
                 const isActive = indexRow === active;
-                const description = hit.description?.trim() || "No description available.";
+                const description =
+                  hit.description?.trim() || t.search.noDescription;
                 return (
                   <li key={hit.id}>
                     <button
                       type="button"
                       className={cn(
-                        "group flex w-full items-start gap-3 rounded-[12px] px-3 py-3 text-start transition-colors",
-                        isActive ? "bg-azure-100 text-navy-900" : "hover:bg-[#eef3f8]",
+                        "group flex w-full items-start gap-3 rounded-2xl px-3 py-3 text-start transition-all",
+                        isActive
+                          ? "bg-navy-900 text-white shadow-[0_12px_28px_-18px_rgba(4,39,95,0.7)]"
+                          : "hover:bg-[#eef3f8]",
                       )}
                       onMouseEnter={() => setActive(indexRow)}
                       onClick={() => go(hit.href)}
                     >
                       <span
                         className={cn(
-                          "mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px]",
-                          isActive ? "bg-white text-orange-500" : "bg-[#eef3f8] text-orange-500",
+                          "mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
+                          isActive
+                            ? "bg-white/12 text-orange-400"
+                            : "bg-[#eef3f8] text-orange-500",
                         )}
                       >
                         <Icon className="h-4 w-4" aria-hidden />
@@ -352,7 +393,7 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                           <span
                             className={cn(
                               "font-display text-sm font-semibold leading-snug",
-                              "text-navy-900",
+                              isActive ? "text-white" : "text-navy-900",
                             )}
                           >
                             <HighlightText text={hit.title} query={query} />
@@ -362,7 +403,7 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                               className={cn(
                                 "rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.08em]",
                                 isActive
-                                  ? "bg-white/80 text-navy-900/70"
+                                  ? "bg-white/12 text-white/70"
                                   : "bg-surface-50 text-text-600",
                               )}
                             >
@@ -373,7 +414,7 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                         <span
                           className={cn(
                             "mt-1.5 block text-sm leading-relaxed",
-                            isActive ? "text-navy-900/70" : "text-text-600",
+                            isActive ? "text-white/65" : "text-text-600",
                           )}
                         >
                           <HighlightText text={description} query={query} />
@@ -381,8 +422,10 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                       </span>
                       <ArrowRight
                         className={cn(
-                          "mt-2 h-4 w-4 shrink-0 opacity-0 transition-opacity",
-                          isActive ? "text-navy-900/60 opacity-100" : "text-text-600",
+                          "mt-2.5 h-4 w-4 shrink-0 transition-opacity rtl:rotate-180",
+                          isActive
+                            ? "text-white/70 opacity-100"
+                            : "text-text-600 opacity-0 group-hover:opacity-60",
                         )}
                         aria-hidden
                       />
@@ -394,20 +437,29 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-3 border-t border-border-200 bg-surface-50 px-4 py-2.5 text-[11px] text-text-600 sm:px-5">
-          <span className="inline-flex items-center gap-3">
+        <div className="flex items-center justify-between gap-3 border-t border-border-200 bg-[#f7f9fc] px-4 py-3 text-[11px] text-text-600 sm:px-5">
+          <span className="inline-flex flex-wrap items-center gap-3">
             <Hint>
-              <kbd className="rounded border border-border-200 bg-white px-1 font-mono">↑</kbd>
-              <kbd className="rounded border border-border-200 bg-white px-1 font-mono">↓</kbd>
-              navigate
+              <kbd className="rounded-md border border-border-200 bg-white px-1.5 py-0.5 font-mono text-[10px]">
+                ↑
+              </kbd>
+              <kbd className="rounded-md border border-border-200 bg-white px-1.5 py-0.5 font-mono text-[10px]">
+                ↓
+              </kbd>
+              {t.search.navigate}
             </Hint>
             <Hint>
               <CornerDownLeft className="h-3 w-3" aria-hidden />
-              open
+              {t.search.open}
+            </Hint>
+            <Hint className="hidden sm:inline-flex">
+              <Command className="h-3 w-3" aria-hidden />
+              K
             </Hint>
           </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.1em]">
-            {results.length} result{results.length === 1 ? "" : "s"}
+          <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-navy-900/45">
+            {results.length}{" "}
+            {results.length === 1 ? t.search.result : t.search.results}
           </span>
         </div>
       </DialogContent>
@@ -415,8 +467,18 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
   );
 }
 
-function Hint({ children }: { children: ReactNode }) {
-  return <span className="inline-flex items-center gap-1.5">{children}</span>;
+function Hint({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <span className={cn("inline-flex items-center gap-1.5", className)}>
+      {children}
+    </span>
+  );
 }
 
 /** Global ⌘K / Ctrl+K listener for site search. */

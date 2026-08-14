@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Menu, Search, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { SiteSearch, useSiteSearchHotkey } from "@/components/SiteSearch";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { cn } from "@/lib/utils";
 import { brand } from "@/lib/assets";
 import { useI18n } from "@/i18n";
-import { megaPanels, type MegaId, type MegaPanel } from "@/lib/nav";
+import { getMegaPanels, type MegaId, type MegaPanel } from "@/lib/nav";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 
 function MegaPanelContent({
@@ -98,6 +99,7 @@ export function Navbar() {
   const { t } = useI18n();
   const location = useLocation();
   const reduced = usePrefersReducedMotion();
+  const megaPanels = useMemo(() => getMegaPanels(t), [t]);
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -224,6 +226,7 @@ export function Navbar() {
             className="flex items-center gap-1.5 sm:gap-2"
             onMouseEnter={scheduleClose}
           >
+            <LanguageSwitcher className="hidden sm:inline-flex" />
             <Button
               type="button"
               size="icon"
@@ -343,7 +346,7 @@ export function Navbar() {
                 <div key={panel.id} className="border-b border-border-200">
                   <button
                     type="button"
-                    className="flex w-full items-center justify-between px-1 py-3 text-left text-sm font-semibold text-navy-900"
+                    className="flex w-full items-center justify-between px-1 py-3 text-start text-sm font-semibold text-navy-900"
                     aria-expanded={expanded}
                     onClick={() => setMobileSection(expanded ? null : panel.id)}
                   >
@@ -393,6 +396,7 @@ export function Navbar() {
           </nav>
 
           <div className="mt-auto flex flex-col gap-2 border-t border-border-200 pt-4">
+            <LanguageSwitcher variant="full" />
             <Button
               type="button"
               variant="outline"

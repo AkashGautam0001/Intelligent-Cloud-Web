@@ -67,28 +67,21 @@ function SocialButton({ href, label }: { href: string; label: string }) {
 }
 
 const companyLinks = [
-  { to: "/about", label: "About" },
-  { to: "/partners", label: "Partners" },
-  { to: "/book-demo", label: "Book assessment" },
-  { to: "/contact", label: "Contact" },
+  { to: "/about", key: "about" as const },
+  { to: "/partners", key: "partners" as const },
+  { to: "/book-demo", key: "bookDemo" as const },
+  { to: "/contact", key: "contact" as const },
 ];
 
 const engageLinks = [
-  { to: "/services", label: "All services" },
-  { to: "/solutions", label: "Solutions" },
-  { to: "/solutions/cloud-migration", label: "Cloud migration" },
-  { to: "/solutions/security-compliance", label: "Security" },
+  { to: "/services", key: "services" as const },
+  { to: "/solutions", key: "solutions" as const },
 ];
 
 const resourceLinks = [
-  { to: "/documentation", label: "Documentation" },
-  { to: "/faq", label: "FAQ" },
-  { to: "/support", label: "Support" },
-];
-
-const legalLinks = [
-  { to: "/privacy", label: "Privacy Policy" },
-  { to: "/terms", label: "Terms of Use" },
+  { to: "/documentation", key: "docs" as const },
+  { to: "/faq", key: "faq" as const },
+  { to: "/support", key: "support" as const },
 ];
 
 export function Footer() {
@@ -99,11 +92,27 @@ export function Footer() {
   const linkedin = settings.data?.social?.linkedin;
   const twitter = settings.data?.social?.twitter;
 
+  const companyLabels = {
+    about: t.nav.about,
+    partners: t.nav.partners,
+    bookDemo: t.nav.bookDemo,
+    contact: t.footer.contact,
+  };
+  const engageLabels = {
+    services: t.nav.services,
+    solutions: t.nav.solutions,
+  };
+  const resourceLabels = {
+    docs: t.nav.docs,
+    faq: t.nav.faq,
+    support: t.nav.support,
+  };
+
   return (
     <footer className="border-t border-[#E6E9EF] bg-[#F4F5F7] text-navy-900">
       <div className="border-b border-[#E6E9EF]">
         <div className="container-ic flex flex-col gap-5 py-9 sm:flex-row sm:items-center sm:gap-0 lg:py-10">
-          <Link to="/" className="inline-flex shrink-0 items-center gap-2.5 pr-6 sm:pr-8">
+          <Link to="/" className="inline-flex shrink-0 items-center gap-2.5 pe-6 sm:pe-8">
             <img
               src={brand.logo}
               alt=""
@@ -119,32 +128,30 @@ export function Footer() {
             </span>
           </Link>
           <div aria-hidden className="hidden h-8 w-px shrink-0 bg-[#D7DCE4] sm:block" />
-          <p className="max-w-xl text-[14px] leading-relaxed text-[#6B7280] sm:pl-8 lg:text-[15px]">
-            We design, engineer, and operate production-grade cloud platforms for
-            enterprises on Azure, AWS, and Kubernetes.
+          <p className="max-w-xl text-[14px] leading-relaxed text-[#6B7280] sm:ps-8 lg:text-[15px]">
+            {t.footer.blurb}
           </p>
         </div>
       </div>
 
       <div className="border-b border-[#E6E9EF]">
         <div className="container-ic grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12 lg:py-14">
-          {/* 1 — Contact */}
           <div className="space-y-8">
             <div>
-              <ColHeading>Contact</ColHeading>
+              <ColHeading>{t.footer.contact}</ColHeading>
               <div className="mt-4 space-y-4">
                 <ContactRow href={`mailto:${email}`} icon={Mail} label={email} />
                 <ContactRow
-                  href={whatsappExpertUrl()}
+                  href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
                   icon={Phone}
                   label={phone}
                   external
                 />
               </div>
             </div>
-            {(linkedin || twitter) ? (
+            {linkedin || twitter ? (
               <div>
-                <ColHeading>Follow</ColHeading>
+                <ColHeading>{t.footer.follow}</ColHeading>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {linkedin ? <SocialButton href={linkedin} label="LinkedIn" /> : null}
                   {twitter ? <SocialButton href={twitter} label="X" /> : null}
@@ -153,37 +160,34 @@ export function Footer() {
             ) : null}
           </div>
 
-          {/* 2 — Company */}
           <div>
-            <ColHeading>Company</ColHeading>
+            <ColHeading>{t.nav.company}</ColHeading>
             <ul className="mt-4 space-y-3">
               {companyLinks.map((l) => (
                 <li key={l.to}>
-                  <ColLink to={l.to}>{l.label}</ColLink>
+                  <ColLink to={l.to}>{companyLabels[l.key]}</ColLink>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* 3 — Engage */}
           <div>
-            <ColHeading>Engage</ColHeading>
+            <ColHeading>{t.footer.engage}</ColHeading>
             <ul className="mt-4 space-y-3">
               {engageLinks.map((l) => (
                 <li key={l.to}>
-                  <ColLink to={l.to}>{l.label}</ColLink>
+                  <ColLink to={l.to}>{engageLabels[l.key]}</ColLink>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* 4 — Resources */}
           <div>
-            <ColHeading>Resources</ColHeading>
+            <ColHeading>{t.footer.resources}</ColHeading>
             <ul className="mt-4 space-y-3">
               {resourceLinks.map((l) => (
                 <li key={l.to}>
-                  <ColLink to={l.to}>{l.label}</ColLink>
+                  <ColLink to={l.to}>{resourceLabels[l.key]}</ColLink>
                 </li>
               ))}
             </ul>
@@ -193,18 +197,21 @@ export function Footer() {
 
       <div className="container-ic flex flex-col gap-3 py-5 text-[13px] text-[#4B5563] sm:flex-row sm:items-center sm:justify-between">
         <p className="m-0 leading-5">
-          © {new Date().getFullYear()} {t.brand}. Enterprise cloud consulting.
+          © {new Date().getFullYear()} {t.brand}. {t.footer.rights}
         </p>
-        <nav className="flex items-center gap-6" aria-label="Legal">
-          {legalLinks.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className="inline-flex items-center leading-5 font-medium text-navy-900 transition-colors hover:text-orange-500"
-            >
-              {l.label}
-            </Link>
-          ))}
+        <nav className="flex items-center gap-6" aria-label={t.footer.legal}>
+          <Link
+            to="/privacy"
+            className="inline-flex items-center leading-5 font-medium text-navy-900 transition-colors hover:text-orange-500"
+          >
+            {t.footer.privacy}
+          </Link>
+          <Link
+            to="/terms"
+            className="inline-flex items-center leading-5 font-medium text-navy-900 transition-colors hover:text-orange-500"
+          >
+            {t.footer.terms}
+          </Link>
         </nav>
       </div>
     </footer>

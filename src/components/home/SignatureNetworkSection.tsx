@@ -9,48 +9,47 @@ import {
 import { SectionShell } from "@/components/ui/section-shell";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
-
-const points = [
-  {
-    title: "Control plane first",
-    body: "Identity, networking, and policy before workloads — so every environment inherits the same baselines.",
-    Icon: CircuitBoard,
-  },
-  {
-    title: "Private by default",
-    body: "Hub-and-spoke or mesh patterns that stay reviewable, without brittle VPN sprawl.",
-    Icon: Lock,
-  },
-  {
-    title: "Owned signals",
-    body: "Health wired to ownership — not vanity dashboards nobody pages on.",
-    Icon: Radar,
-  },
-  {
-    title: "Blast-radius boundaries",
-    body: "Explicit cells between production estates so one failure doesn't become every failure.",
-    Icon: Split,
-  },
-  {
-    title: "Service discovery that matches topology",
-    body: "DNS and discovery designed for how environments actually connect.",
-    Icon: Globe2,
-  },
-  {
-    title: "Progressive exposure",
-    body: "Edge → identity → workload → data — each layer intentional, not accidental.",
-    Icon: Route,
-  },
-] as const;
+import { useI18n } from "@/i18n";
 
 export function SignatureNetworkSection() {
+  const { t } = useI18n();
+  const sn = t.home.signatureNetwork;
+
+  const points = [
+    {
+      title: sn.controlPlane.title,
+      body: sn.controlPlane.body,
+      Icon: CircuitBoard,
+    },
+    {
+      title: sn.privateByDefault.title,
+      body: sn.privateByDefault.body,
+      Icon: Lock,
+    },
+    {
+      title: sn.ownedSignals.title,
+      body: sn.ownedSignals.body,
+      Icon: Radar,
+    },
+    {
+      title: sn.blastRadius.title,
+      body: sn.blastRadius.body,
+      Icon: Split,
+    },
+    {
+      title: sn.serviceDiscovery.title,
+      body: sn.serviceDiscovery.body,
+      Icon: Globe2,
+    },
+    {
+      title: sn.progressiveExposure.title,
+      body: sn.progressiveExposure.body,
+      Icon: Route,
+    },
+  ] as const;
+
   return (
-    <SectionShell
-      tone="navyLight"
-      eyebrow="Platform network"
-      title="From disconnected workloads to a healthy control plane"
-      lead="We connect identity, networking, clusters, and data services so the estate behaves like one system — not a pile of accounts."
-    >
+    <SectionShell tone="navyLight" eyebrow={sn.eyebrow} title={sn.title} lead={sn.lead}>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {points.map((p) => (
           <IcCard key={p.title} className="p-6">

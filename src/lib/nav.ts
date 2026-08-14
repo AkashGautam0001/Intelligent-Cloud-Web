@@ -17,6 +17,7 @@ import {
   Workflow,
   Boxes,
 } from "lucide-react";
+import type { Messages } from "@/i18n/messages";
 
 export type MegaLink = {
   title: string;
@@ -44,244 +45,251 @@ export type MegaPanel = {
   };
 };
 
+export type MegaId = MegaPanel["id"];
+
 /**
  * Desktop mega-menu IA for a cloud consulting site
  * (intent-based columns: Platforms / Data & AI / Resilience / Goals / Audiences).
  */
-export const megaPanels: MegaPanel[] = [
-  {
-    id: "services",
-    label: "Services",
-    overviewTo: "/services",
-    overviewLabel: "View all services",
-    columns: [
-      {
-        heading: "Platforms",
-        links: [
-          {
-            title: "Cloud Computing",
-            description: "Landing zones & scalable workloads",
-            to: "/services/cloud-computing",
-            icon: Cloud,
-          },
-          {
-            title: "Storage",
-            description: "Object, block & lifecycle policies",
-            to: "/services/storage",
-            icon: HardDrive,
-          },
-          {
-            title: "Networking",
-            description: "Secure connectivity & segmentation",
-            to: "/services/networking",
-            icon: Network,
-          },
-          {
-            title: "Database",
-            description: "Managed data tiers & migrations",
-            to: "/services/database",
-            icon: Database,
-          },
-        ],
-      },
-      {
-        heading: "Data & AI",
-        links: [
-          {
-            title: "Analytics",
-            description: "Pipelines for decision-ready insight",
-            to: "/services/analytics",
-            icon: LineChart,
-          },
-          {
-            title: "AI",
-            description: "Secure, governed AI platforms",
-            to: "/services/ai",
-            icon: BrainCircuit,
-          },
-        ],
-      },
-      {
-        heading: "Resilience",
-        links: [
-          {
-            title: "Integration",
-            description: "APIs, events & hybrid sync",
-            to: "/services/integration",
-            icon: Workflow,
-          },
-          {
-            title: "Disaster Recovery",
-            description: "Backup, failover & runbooks",
-            to: "/services/disaster-recovery",
-            icon: ShieldCheck,
-          },
-        ],
-      },
-    ],
-    featured: {
-      title: "Need a capability map?",
-      description: "See how our services connect across Azure, AWS, and Kubernetes.",
-      to: "/services",
-      cta: "Explore services",
-    },
-  },
-  {
-    id: "solutions",
-    label: "Solutions",
-    overviewTo: "/solutions",
-    overviewLabel: "View all solutions",
-    columns: [
-      {
-        heading: "By outcome",
-        links: [
-          {
-            title: "Cloud Migration",
-            description: "Move with clear cutover plans",
-            to: "/solutions/cloud-migration",
-            icon: CloudCog,
-          },
-          {
-            title: "DevOps Transformation",
-            description: "CI/CD, GitOps & platform engineering",
-            to: "/solutions/devops-transformation",
-            icon: Boxes,
-          },
-          {
-            title: "Security & Compliance",
-            description: "Identity, guardrails & audits",
-            to: "/solutions/security-compliance",
-            icon: ShieldCheck,
-          },
-        ],
-      },
-      {
-        heading: "By audience",
-        links: [
-          {
-            title: "For Startups",
-            description: "Launch fast without infrastructure debt",
-            to: "/solutions/startups",
-            icon: Rocket,
-          },
-          {
-            title: "For Enterprises",
-            description: "Landing zones & managed operations",
-            to: "/solutions/enterprises",
-            icon: Building2,
-          },
-        ],
-      },
-    ],
-    featured: {
-      title: "Free cloud assessment",
-      description: "30 minutes with an engineer — preferred time, confirmed manually.",
-      to: "/book-demo",
-      cta: "Book a demo",
-    },
-  },
-  {
-    id: "company",
-    label: "Company",
-    overviewTo: "/about",
-    overviewLabel: "About Intelligent Cloud",
-    columns: [
-      {
-        heading: "About us",
-        links: [
-          {
-            title: "About",
-            description: "Engineer-led cloud consulting",
-            to: "/about",
-            icon: Building2,
-          },
-          {
-            title: "Partners",
-            description: "Referral, reseller & solution paths",
-            to: "/partners",
-            icon: Handshake,
-          },
-        ],
-      },
-      {
-        heading: "Talk to us",
-        links: [
-          {
-            title: "Contact sales",
-            description: "Email, phone & WhatsApp",
-            to: "/contact",
-            icon: Cloud,
-          },
-          {
-            title: "Book a demo",
-            description: "Cloud assessment request",
-            to: "/book-demo",
-            icon: Rocket,
-          },
-        ],
-      },
-    ],
-    featured: {
-      title: "Partner with us",
-      description: "Grow with Intelligent Cloud through referral, reseller, and solution paths.",
-      to: "/partners",
-      cta: "Partner program",
-    },
-  },
-  {
-    id: "resources",
-    label: "Resources",
-    overviewTo: "/documentation",
-    overviewLabel: "Browse documentation",
-    columns: [
-      {
-        heading: "Learn",
-        links: [
-          {
-            title: "Documentation",
-            description: "Architecture, AKS, CI/CD & more",
-            to: "/documentation",
-            icon: BookOpen,
-          },
-          {
-            title: "FAQ",
-            description: "Direct answers on engagement",
-            to: "/faq",
-            icon: FileQuestion,
-          },
-        ],
-      },
-      {
-        heading: "Help",
-        links: [
-          {
-            title: "Support",
-            description: "Standard, managed & priority tiers",
-            to: "/support",
-            icon: LifeBuoy,
-          },
-          {
-            title: "Privacy Policy",
-            description: "How we handle your data",
-            to: "/privacy",
-            icon: ShieldCheck,
-          },
-          {
-            title: "Terms",
-            description: "Website & service terms",
-            to: "/terms",
-            icon: FileQuestion,
-          },
-        ],
-      },
-    ],
-    featured: {
-      title: "Open a ticket",
-      description: "Already a customer? Reach support with the right tier.",
-      to: "/support",
-      cta: "Get support",
-    },
-  },
-];
+export function getMegaPanels(t: Messages): MegaPanel[] {
+  const s = t.mega.services;
+  const sol = t.mega.solutions;
+  const co = t.mega.company;
+  const res = t.mega.resources;
 
-export type MegaId = MegaPanel["id"];
+  return [
+    {
+      id: "services",
+      label: t.nav.services,
+      overviewTo: "/services",
+      overviewLabel: s.overviewLabel,
+      columns: [
+        {
+          heading: s.platforms,
+          links: [
+            {
+              title: s.cloudComputing.title,
+              description: s.cloudComputing.description,
+              to: "/services/cloud-computing",
+              icon: Cloud,
+            },
+            {
+              title: s.storage.title,
+              description: s.storage.description,
+              to: "/services/storage",
+              icon: HardDrive,
+            },
+            {
+              title: s.networking.title,
+              description: s.networking.description,
+              to: "/services/networking",
+              icon: Network,
+            },
+            {
+              title: s.database.title,
+              description: s.database.description,
+              to: "/services/database",
+              icon: Database,
+            },
+          ],
+        },
+        {
+          heading: s.dataAi,
+          links: [
+            {
+              title: s.analytics.title,
+              description: s.analytics.description,
+              to: "/services/analytics",
+              icon: LineChart,
+            },
+            {
+              title: s.ai.title,
+              description: s.ai.description,
+              to: "/services/ai",
+              icon: BrainCircuit,
+            },
+          ],
+        },
+        {
+          heading: s.resilience,
+          links: [
+            {
+              title: s.integration.title,
+              description: s.integration.description,
+              to: "/services/integration",
+              icon: Workflow,
+            },
+            {
+              title: s.disasterRecovery.title,
+              description: s.disasterRecovery.description,
+              to: "/services/disaster-recovery",
+              icon: ShieldCheck,
+            },
+          ],
+        },
+      ],
+      featured: {
+        title: s.featured.title,
+        description: s.featured.description,
+        to: "/services",
+        cta: s.featured.cta,
+      },
+    },
+    {
+      id: "solutions",
+      label: t.nav.solutions,
+      overviewTo: "/solutions",
+      overviewLabel: sol.overviewLabel,
+      columns: [
+        {
+          heading: sol.byOutcome,
+          links: [
+            {
+              title: sol.cloudMigration.title,
+              description: sol.cloudMigration.description,
+              to: "/solutions/cloud-migration",
+              icon: CloudCog,
+            },
+            {
+              title: sol.devopsTransformation.title,
+              description: sol.devopsTransformation.description,
+              to: "/solutions/devops-transformation",
+              icon: Boxes,
+            },
+            {
+              title: sol.securityCompliance.title,
+              description: sol.securityCompliance.description,
+              to: "/solutions/security-compliance",
+              icon: ShieldCheck,
+            },
+          ],
+        },
+        {
+          heading: sol.byAudience,
+          links: [
+            {
+              title: sol.startups.title,
+              description: sol.startups.description,
+              to: "/solutions/startups",
+              icon: Rocket,
+            },
+            {
+              title: sol.enterprises.title,
+              description: sol.enterprises.description,
+              to: "/solutions/enterprises",
+              icon: Building2,
+            },
+          ],
+        },
+      ],
+      featured: {
+        title: sol.featured.title,
+        description: sol.featured.description,
+        to: "/book-demo",
+        cta: sol.featured.cta,
+      },
+    },
+    {
+      id: "company",
+      label: t.nav.company,
+      overviewTo: "/about",
+      overviewLabel: co.overviewLabel,
+      columns: [
+        {
+          heading: co.aboutUs,
+          links: [
+            {
+              title: co.about.title,
+              description: co.about.description,
+              to: "/about",
+              icon: Building2,
+            },
+            {
+              title: co.partners.title,
+              description: co.partners.description,
+              to: "/partners",
+              icon: Handshake,
+            },
+          ],
+        },
+        {
+          heading: co.talkToUs,
+          links: [
+            {
+              title: co.contactSales.title,
+              description: co.contactSales.description,
+              to: "/contact",
+              icon: Cloud,
+            },
+            {
+              title: co.bookDemo.title,
+              description: co.bookDemo.description,
+              to: "/book-demo",
+              icon: Rocket,
+            },
+          ],
+        },
+      ],
+      featured: {
+        title: co.featured.title,
+        description: co.featured.description,
+        to: "/partners",
+        cta: co.featured.cta,
+      },
+    },
+    {
+      id: "resources",
+      label: t.nav.resources,
+      overviewTo: "/documentation",
+      overviewLabel: res.overviewLabel,
+      columns: [
+        {
+          heading: res.learn,
+          links: [
+            {
+              title: res.documentation.title,
+              description: res.documentation.description,
+              to: "/documentation",
+              icon: BookOpen,
+            },
+            {
+              title: res.faq.title,
+              description: res.faq.description,
+              to: "/faq",
+              icon: FileQuestion,
+            },
+          ],
+        },
+        {
+          heading: res.help,
+          links: [
+            {
+              title: res.support.title,
+              description: res.support.description,
+              to: "/support",
+              icon: LifeBuoy,
+            },
+            {
+              title: res.privacy.title,
+              description: res.privacy.description,
+              to: "/privacy",
+              icon: ShieldCheck,
+            },
+            {
+              title: res.terms.title,
+              description: res.terms.description,
+              to: "/terms",
+              icon: FileQuestion,
+            },
+          ],
+        },
+      ],
+      featured: {
+        title: res.featured.title,
+        description: res.featured.description,
+        to: "/support",
+        cta: res.featured.cta,
+      },
+    },
+  ];
+}

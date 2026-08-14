@@ -5,10 +5,12 @@ import { PageSeo } from "@/components/PageSeo";
 import { PageHeroSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
 import { SolutionLongForm } from "@/components/solutions/SolutionLongForm";
+import { useI18n } from "@/i18n";
 
 export function SolutionDetailPage() {
   const { slug } = useParams();
-  const staticContent = getSolutionPage(slug);
+  const { locale } = useI18n();
+  const staticContent = getSolutionPage(slug, locale);
   const { data: cms, isLoading, isError } = useSolution(slug);
 
   if (!staticContent && isLoading) {
@@ -33,7 +35,10 @@ export function SolutionDetailPage() {
           title={`${staticContent.title} | Intelligent Cloud`}
           description={staticContent.summary}
         />
-        <SolutionLongForm content={staticContent} cmsBodyHtml={cms?.bodyHtml} />
+        <SolutionLongForm
+          content={staticContent}
+          cmsBodyHtml={locale === "ar" ? undefined : cms?.bodyHtml}
+        />
       </>
     );
   }
@@ -74,7 +79,7 @@ export function SolutionDetailPage() {
           faqs: [],
           related: [],
         }}
-        cmsBodyHtml={cms!.bodyHtml}
+        cmsBodyHtml={locale === "ar" ? undefined : cms!.bodyHtml}
       />
     </>
   );

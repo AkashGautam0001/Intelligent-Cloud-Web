@@ -3,39 +3,35 @@ import { ArrowRight, Handshake, FlaskConical, Target } from "lucide-react";
 import { SectionShell } from "@/components/ui/section-shell";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
+import { useI18n } from "@/i18n";
 
 export function CredibilitySection() {
+  const { t } = useI18n();
+  const c = t.home.credibility;
+
   return (
-    <SectionShell
-      tone="navyLight"
-      eyebrow="Engagement model"
-      title="Partnership over vague retainers"
-      lead="We sell outcomes you can inspect: landing zones, migrations, platforms, and operations with named owners — not open-ended hours that never change the estate."
-    >
+    <SectionShell tone="navyLight" eyebrow={c.eyebrow} title={c.title} lead={c.lead}>
       <div className="grid gap-4 md:grid-cols-3">
         <IcCard interactive className="p-6">
           <IcIconTile>
             <Target className="h-5 w-5" aria-hidden />
           </IcIconTile>
           <h3 className="font-display mt-4 text-lg font-semibold text-navy-900">
-            Outcome-based delivery
+            {c.outcomeBased.title}
           </h3>
-          <p className="mt-2 text-sm leading-relaxed text-text-600">
-            Transparent scopes focused on artifacts your team can operate: modules,
-            pipelines, runbooks, and dashboards with ownership.
-          </p>
+          <p className="mt-2 text-sm leading-relaxed text-text-600">{c.outcomeBased.body}</p>
           <ul className="mt-4 space-y-2 text-sm text-text-600">
             <li className="flex gap-2">
               <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-orange-500" aria-hidden />
-              Written acceptance criteria
+              {c.outcomeBased.criteria}
             </li>
             <li className="flex gap-2">
               <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-orange-500" aria-hidden />
-              Demoable increments
+              {c.outcomeBased.increments}
             </li>
             <li className="flex gap-2">
               <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-orange-500" aria-hidden />
-              Knowledge transfer baked in
+              {c.outcomeBased.knowledge}
             </li>
           </ul>
         </IcCard>
@@ -44,24 +40,21 @@ export function CredibilitySection() {
             <FlaskConical className="h-5 w-5" aria-hidden />
           </IcIconTile>
           <h3 className="font-display mt-4 text-lg font-semibold text-navy-900">
-            Proof of concept first
+            {c.poc.title}
           </h3>
-          <p className="mt-2 text-sm leading-relaxed text-text-600">
-            Start with a scoped assessment or pilot so risk stays visible and decisions
-            stay grounded in your real constraints.
-          </p>
+          <p className="mt-2 text-sm leading-relaxed text-text-600">{c.poc.body}</p>
           <ul className="mt-4 space-y-2 text-sm text-text-600">
             <li className="flex gap-2">
               <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-orange-500" aria-hidden />
-              30-minute assessment path
+              {c.poc.assessment}
             </li>
             <li className="flex gap-2">
               <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-orange-500" aria-hidden />
-              Pilot success metrics
+              {c.poc.metrics}
             </li>
             <li className="flex gap-2">
               <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-orange-500" aria-hidden />
-              Clear expand / stop gates
+              {c.poc.gates}
             </li>
           </ul>
         </IcCard>
@@ -70,17 +63,14 @@ export function CredibilitySection() {
             <Handshake className="h-5 w-5" aria-hidden />
           </IcIconTile>
           <h3 className="font-display mt-4 text-lg font-semibold text-navy-900">
-            Partner program
+            {c.partner.title}
           </h3>
-          <p className="mt-2 text-sm leading-relaxed text-text-600">
-            Referral, reseller, and solution partner paths with clear ownership.
-            We only publish logos we have approval to show.
-          </p>
+          <p className="mt-2 text-sm leading-relaxed text-text-600">{c.partner.body}</p>
           <Link
             to="/partners"
             className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-orange-500 hover:underline"
           >
-            Explore partner paths <ArrowRight className="h-3.5 w-3.5" />
+            {c.partner.cta} <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </IcCard>
       </div>

@@ -13,7 +13,7 @@ import {
   User,
 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
-import { bookDemo as bookDemoContent } from "@/content/company";
+import { bookDemo as bookDemoFallback, getCompanyPage } from "@/content/company";
 import { CompanyLongForm } from "@/components/company/CompanyLongForm";
 import { HoneypotField } from "@/components/HoneypotField";
 import { useFormStartedAt, withSpamFields } from "@/lib/forms";
@@ -30,6 +30,7 @@ import { IcChip } from "@/components/ui/ic-chip";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
+import { useI18n } from "@/i18n";
 import { cn } from "@/lib/utils";
 import {
   controlClass,
@@ -103,6 +104,8 @@ function validateStep(step: number, form: FormState): FieldErrors<BookingField> 
 }
 
 export function BookDemoPage() {
+  const { t, locale } = useI18n();
+  const bookDemoContent = getCompanyPage("book-demo", locale) ?? bookDemoFallback;
   const formStartedAt = useFormStartedAt();
   const [step, setStep] = useState(1);
   const [website, setWebsite] = useState("");
@@ -275,7 +278,7 @@ export function BookDemoPage() {
                               type="button"
                               onClick={() => setField("need", need)}
                               className={cn(
-                                "rounded-[12px] border px-4 py-3.5 text-left text-sm transition-colors duration-500",
+                                "rounded-[12px] border px-4 py-3.5 text-start text-sm transition-colors duration-500",
                                 form.need === need
                                   ? "border-orange-500 bg-orange-500/[0.06] text-navy-900"
                                   : "border-border-200 bg-[#f8fafc] text-text-600 hover:border-orange-500/40",
@@ -296,7 +299,7 @@ export function BookDemoPage() {
 
                     {step === 2 ? (
                       <div className="grid w-full gap-4 sm:grid-cols-2">
-                        <FormField id="name" label="Name" icon={User} required error={errors.name}>
+                        <FormField id="name" label={t.forms.name} icon={User} required error={errors.name}>
                           <input
                             id="name"
                             aria-invalid={Boolean(errors.name)}
@@ -307,7 +310,7 @@ export function BookDemoPage() {
                         </FormField>
                         <FormField
                           id="company"
-                          label="Company"
+                          label={t.forms.company}
                           icon={Building2}
                           required
                           error={errors.company}
@@ -320,7 +323,7 @@ export function BookDemoPage() {
                             onChange={(e) => setField("company", e.target.value)}
                           />
                         </FormField>
-                        <FormField id="email" label="Email" icon={Mail} required error={errors.email}>
+                        <FormField id="email" label={t.forms.email} icon={Mail} required error={errors.email}>
                           <input
                             id="email"
                             type="email"
@@ -330,7 +333,7 @@ export function BookDemoPage() {
                             onChange={(e) => setField("email", e.target.value)}
                           />
                         </FormField>
-                        <FormField id="phone" label="Phone" icon={Phone} required error={errors.phone}>
+                        <FormField id="phone" label={t.forms.phone} icon={Phone} required error={errors.phone}>
                           <input
                             id="phone"
                             type="tel"
@@ -414,7 +417,7 @@ export function BookDemoPage() {
                       Back
                     </Button>
                     <Button type="submit" disabled={submitting} size="lg" className="w-full sm:w-auto">
-                      {step < 3 ? "Continue" : submitting ? "Submitting…" : "Submit request"}
+                      {step < 3 ? "Continue" : submitting ? t.forms.sending : t.forms.submit}
                     </Button>
                   </div>
                 </ModernFormCard>

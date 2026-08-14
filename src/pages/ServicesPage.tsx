@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { ServiceSlugMark } from "@/components/services/service-svgs";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/i18n";
+import type { Locale } from "@/i18n/messages";
 
 const filters: Array<{ id: "all" | ServiceCategory; label: string }> = [
   { id: "all", label: "All" },
@@ -34,13 +36,16 @@ const catalogOrder = [
   "disaster-recovery",
 ];
 
-function mergeCatalog(cmsBySlug: Map<string, { title?: string; summary?: string }>) {
-  const staticPages = listServicePages().slice().sort((a, b) => {
+function mergeCatalog(
+  cmsBySlug: Map<string, { title?: string; summary?: string }>,
+  locale: Locale,
+) {
+  const staticPages = listServicePages(locale).slice().sort((a, b) => {
     return catalogOrder.indexOf(a.slug) - catalogOrder.indexOf(b.slug);
   });
   return staticPages.map((page) => {
     const cms = cmsBySlug.get(page.slug);
-    // Keep static lengthy summaries as source of truth for uniqueness
+    // Prefer static (locale-aware) copy; CMS only fills empty gaps
     return {
       ...page,
       title: page.title || cms?.title || page.title,
@@ -50,6 +55,7 @@ function mergeCatalog(cmsBySlug: Map<string, { title?: string; summary?: string 
 }
 
 export function ServicesPage() {
+  const { locale } = useI18n();
   const { data: cmsServices } = useServices();
   const [filter, setFilter] = useState<"all" | ServiceCategory>("all");
 
@@ -57,10 +63,10 @@ export function ServicesPage() {
     const cmsBySlug = new Map(
       (cmsServices ?? []).map((s) => [s.slug, { title: s.title, summary: s.summary }]),
     );
-    const all = mergeCatalog(cmsBySlug);
+    const all = mergeCatalog(cmsBySlug, locale);
     if (filter === "all") return all;
     return all.filter((s) => s.category === filter);
-  }, [cmsServices, filter]);
+  }, [cmsServices, filter, locale]);
 
   return (
     <>

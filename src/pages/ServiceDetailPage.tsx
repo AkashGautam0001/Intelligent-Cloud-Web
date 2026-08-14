@@ -5,10 +5,12 @@ import { PageSeo } from "@/components/PageSeo";
 import { PageHeroSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
 import { ServiceLongForm } from "@/components/services/ServiceLongForm";
+import { useI18n } from "@/i18n";
 
 export function ServiceDetailPage() {
   const { slug } = useParams();
-  const staticContent = getServicePage(slug);
+  const { locale } = useI18n();
+  const staticContent = getServicePage(slug, locale);
   const { data: cms, isLoading, isError } = useService(slug);
 
   // Static registry can render immediately; only wait on CMS when we have no static page
@@ -36,7 +38,7 @@ export function ServiceDetailPage() {
         />
         <ServiceLongForm
           content={staticContent}
-          cmsBodyHtml={cms?.bodyHtml}
+          cmsBodyHtml={locale === "ar" ? undefined : cms?.bodyHtml}
         />
       </>
     );
@@ -70,7 +72,7 @@ export function ServiceDetailPage() {
           faqs: [],
           related: [],
         }}
-        cmsBodyHtml={cms!.bodyHtml}
+        cmsBodyHtml={locale === "ar" ? undefined : cms!.bodyHtml}
       />
     </>
   );

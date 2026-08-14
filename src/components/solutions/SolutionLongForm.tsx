@@ -32,12 +32,12 @@ type SolutionLongFormProps = {
 };
 
 export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const title = content.title;
   const summary = content.summary;
   const Icon = solutionIcon(content.iconKey);
   const related = content.related
-    .map((slug) => getSolutionPage(slug))
+    .map((slug) => getSolutionPage(slug, locale))
     .filter(Boolean) as SolutionPageContent[];
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -8,28 +8,26 @@ import { whatsappExpertUrl } from "@/lib/whatsapp";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { easeOut } from "@/lib/motion";
 
-const keywords = [
-  "Cloud Migration",
-  "Landing Zones",
-  "AKS & EKS",
-  "GitOps Delivery",
-  "Managed Operations",
-  "Security Baselines",
-  "FinOps Guardrails",
-] as const;
-
-function TypingKeywords({ reduced }: { reduced: boolean }) {
+function TypingKeywords({
+  reduced,
+  prefix,
+  keywords,
+}: {
+  reduced: boolean;
+  prefix: string;
+  keywords: readonly string[];
+}) {
   const [index, setIndex] = useState(0);
-  const [text, setText] = useState(reduced ? keywords[0] : "");
+  const [text, setText] = useState(reduced ? keywords[0] ?? "" : "");
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     if (reduced) {
-      setText(keywords[0]);
+      setText(keywords[0] ?? "");
       return;
     }
 
-    const current = keywords[index];
+    const current = keywords[index] ?? "";
     const atEnd = text === current;
     const atStart = text.length === 0;
 
@@ -55,16 +53,16 @@ function TypingKeywords({ reduced }: { reduced: boolean }) {
     }, delay);
 
     return () => window.clearTimeout(timer);
-  }, [text, deleting, index, reduced]);
+  }, [text, deleting, index, reduced, keywords]);
 
   return (
     <p className="mt-5 flex min-h-[2.5rem] flex-wrap items-baseline justify-center gap-x-2 text-center font-display text-[clamp(1.35rem,2.6vw,1.85rem)] font-semibold tracking-[-0.02em] text-navy-900 sm:min-h-[2.75rem]">
-      <span className="text-text-600">We engineer</span>
+      <span className="text-text-600">{prefix}</span>
       <span className="inline-flex items-baseline text-orange-500">
         <span>{text}</span>
         <span
           aria-hidden
-          className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[0.12em] bg-orange-500"
+          className="ms-0.5 inline-block h-[1.05em] w-[2px] translate-y-[0.12em] bg-orange-500"
           style={
             reduced
               ? undefined
@@ -172,6 +170,20 @@ function HeroBackground({ reduced }: { reduced: boolean }) {
 export function HeroSection() {
   const { t } = useI18n();
   const reduced = usePrefersReducedMotion();
+  const h = t.home.hero;
+  const keywords = useMemo(
+    () =>
+      [
+        h.keywords.cloudMigration,
+        h.keywords.landingZones,
+        h.keywords.aksEks,
+        h.keywords.gitopsDelivery,
+        h.keywords.managedOperations,
+        h.keywords.securityBaselines,
+        h.keywords.finopsGuardrails,
+      ] as const,
+    [h.keywords],
+  );
 
   return (
     <section className="relative overflow-hidden bg-white text-navy-900">
@@ -185,16 +197,20 @@ export function HeroSection() {
           className="mx-auto flex w-full max-w-6xl flex-col items-center"
         >
           <p className="text-[12px] font-medium uppercase tracking-[0.16em] text-text-600">
-            Azure · AWS · Kubernetes
+            {h.platforms}
           </p>
           <h1 className="mt-5 max-w-5xl font-display text-[clamp(2.85rem,6.2vw,4.75rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-navy-900">
-            Grow Your Business — We&apos;ll Handle Your Cloud
+            {h.title}
           </h1>
 
-          <TypingKeywords reduced={reduced} />
+          <TypingKeywords
+            reduced={reduced}
+            prefix={h.weEngineer}
+            keywords={keywords}
+          />
 
           <p className="mt-5 max-w-3xl text-[clamp(1.05rem,1.5vw,1.25rem)] leading-[1.7] text-text-600">
-            Enterprise cloud platforms engineered for scale, security, and operable delivery.
+            {h.lead}
           </p>
 
           <div className="mt-10 flex flex-wrap justify-center gap-3">
@@ -209,7 +225,7 @@ export function HeroSection() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Talk to an Expert
+                {t.common.talkExpert}
               </a>
             </Button>
           </div>

@@ -10,42 +10,41 @@ import { SectionShell } from "@/components/ui/section-shell";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { Button } from "@/components/ui/button";
-
-const lanes = [
-  {
-    step: "01",
-    title: "On-prem discovery",
-    body: "Hard dependencies, data gravity, and freeze windows — not just a VM list.",
-    Icon: Binoculars,
-  },
-  {
-    step: "02",
-    title: "Landing zone",
-    body: "Identity, network, and policy baselines ready before the first wave lands.",
-    Icon: MapPinned,
-  },
-  {
-    step: "03",
-    title: "Rehearsed cutover",
-    body: "Go/no-go gates, named owners, and rollback criteria written before traffic moves.",
-    Icon: RefreshCcw,
-  },
-  {
-    step: "04",
-    title: "Optimize",
-    body: "Rightsizing and FinOps in the first 30 days so cost doesn't surprise anyone.",
-    Icon: TrendingDown,
-  },
-] as const;
+import { useI18n } from "@/i18n";
 
 export function MigrationBand() {
+  const { t } = useI18n();
+  const m = t.home.migration;
+
+  const lanes = [
+    {
+      step: "01",
+      title: m.discovery.title,
+      body: m.discovery.body,
+      Icon: Binoculars,
+    },
+    {
+      step: "02",
+      title: m.landingZone.title,
+      body: m.landingZone.body,
+      Icon: MapPinned,
+    },
+    {
+      step: "03",
+      title: m.cutover.title,
+      body: m.cutover.body,
+      Icon: RefreshCcw,
+    },
+    {
+      step: "04",
+      title: m.optimize.title,
+      body: m.optimize.body,
+      Icon: TrendingDown,
+    },
+  ] as const;
+
   return (
-    <SectionShell
-      tone="white"
-      eyebrow="Migration"
-      title="Move with rehearsal, not hope"
-      lead="Migrations fail on unknowns. We sequence waves, rehearse cutovers, and keep hybrid connectivity intact until the estate is proven in the target cloud."
-    >
+    <SectionShell tone="white" eyebrow={m.eyebrow} title={m.title} lead={m.lead}>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {lanes.map((lane) => (
           <IcCard key={lane.step} className="p-6">
@@ -66,7 +65,7 @@ export function MigrationBand() {
       </div>
       <Button asChild className="mt-8">
         <Link to="/solutions/cloud-migration">
-          Plan your migration <ArrowRight className="h-4 w-4" />
+          {m.cta} <ArrowRight className="h-4 w-4" />
         </Link>
       </Button>
     </SectionShell>

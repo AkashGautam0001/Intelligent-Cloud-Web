@@ -1,4 +1,7 @@
+import type { Locale } from "@/i18n/messages";
+import { mergeLocale } from "@/content/localize";
 import { about, bookDemo, contact, partners } from "./pages";
+import { arCompanyOverlays } from "./ar";
 import type { CompanyPageContent } from "./types";
 
 const registry: Record<string, CompanyPageContent> = {
@@ -8,9 +11,14 @@ const registry: Record<string, CompanyPageContent> = {
   "book-demo": bookDemo,
 };
 
-export function getCompanyPage(slug: string | undefined): CompanyPageContent | undefined {
+export function getCompanyPage(
+  slug: string | undefined,
+  locale: Locale = "en",
+): CompanyPageContent | undefined {
   if (!slug) return undefined;
-  return registry[slug];
+  const base = registry[slug];
+  if (!base) return undefined;
+  return mergeLocale(base, arCompanyOverlays[slug], locale);
 }
 
 export { about, partners, contact, bookDemo };

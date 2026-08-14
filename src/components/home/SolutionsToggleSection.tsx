@@ -20,76 +20,82 @@ import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/i18n";
 
-const pathByAudience = {
-  startup: [
-    {
-      title: "Pilot",
-      body: "Scoped proof on a real workload with clear success criteria.",
-      Icon: FlaskConical,
-    },
-    {
-      title: "Landing zone",
-      body: "Identity, network, and policy baselines before scale.",
-      Icon: MapPinned,
-    },
-    {
-      title: "GitOps",
-      body: "Repeatable delivery so the cluster matches what’s reviewed.",
-      Icon: GitBranch,
-    },
-    {
-      title: "Scale",
-      body: "Expand only when the pilot is operable by your team.",
-      Icon: TrendingUp,
-    },
-  ],
-  enterprise: [
-    {
-      title: "Assess",
-      body: "Estate inventory, risk, and wave priorities in writing.",
-      Icon: ClipboardList,
-    },
-    {
-      title: "Migrate",
-      body: "Rehearsed cutovers with RPO/RTO and rollback gates.",
-      Icon: CloudCog,
-    },
-    {
-      title: "Platform",
-      body: "AKS/EKS, Terraform, and promotion paths auditors can follow.",
-      Icon: Layers,
-    },
-    {
-      title: "Manage",
-      body: "SLO-backed operations with named ownership and escalation.",
-      Icon: Radar,
-    },
-  ],
-} as const;
-
-type Audience = keyof typeof pathByAudience;
+type Audience = "startup" | "enterprise";
 
 export function SolutionsToggleSection() {
+  const { t, locale } = useI18n();
+  const s = t.home.solutionsToggle;
   const reduced = usePrefersReducedMotion();
   const [audience, setAudience] = useState<Audience>("enterprise");
 
+  const pathByAudience = useMemo(
+    () => ({
+      startup: [
+        {
+          title: s.startupPath.pilot.title,
+          body: s.startupPath.pilot.body,
+          Icon: FlaskConical,
+        },
+        {
+          title: s.startupPath.landingZone.title,
+          body: s.startupPath.landingZone.body,
+          Icon: MapPinned,
+        },
+        {
+          title: s.startupPath.gitops.title,
+          body: s.startupPath.gitops.body,
+          Icon: GitBranch,
+        },
+        {
+          title: s.startupPath.scale.title,
+          body: s.startupPath.scale.body,
+          Icon: TrendingUp,
+        },
+      ],
+      enterprise: [
+        {
+          title: s.enterprisePath.assess.title,
+          body: s.enterprisePath.assess.body,
+          Icon: ClipboardList,
+        },
+        {
+          title: s.enterprisePath.migrate.title,
+          body: s.enterprisePath.migrate.body,
+          Icon: CloudCog,
+        },
+        {
+          title: s.enterprisePath.platform.title,
+          body: s.enterprisePath.platform.body,
+          Icon: Layers,
+        },
+        {
+          title: s.enterprisePath.manage.title,
+          body: s.enterprisePath.manage.body,
+          Icon: Radar,
+        },
+      ],
+    }),
+    [s],
+  );
+
   const filtered = useMemo(() => {
-    return listSolutionPages().filter((s) => {
+    return listSolutionPages(locale).filter((page) => {
       if (audience === "startup") {
         return (
-          s.slug === "startups" ||
-          s.audiences.includes("startup") ||
-          s.audiences.includes("both")
+          page.slug === "startups" ||
+          page.audiences.includes("startup") ||
+          page.audiences.includes("both")
         );
       }
       return (
-        s.slug === "enterprises" ||
-        s.audiences.includes("enterprise") ||
-        s.audiences.includes("both")
+        page.slug === "enterprises" ||
+        page.audiences.includes("enterprise") ||
+        page.audiences.includes("both")
       );
     });
-  }, [audience]);
+  }, [audience, locale]);
 
   const path = pathByAudience[audience];
 
@@ -102,21 +108,16 @@ export function SolutionsToggleSection() {
       };
 
   return (
-    <SectionShell
-      tone="navyLight"
-      eyebrow="Solutions"
-      title="Outcomes mapped to how you buy and operate"
-      lead="Startups need velocity with guardrails. Enterprises need landing zones, compliance evidence, and managed run. Switch audience to remap the path and matching solutions."
-    >
+    <SectionShell tone="navyLight" eyebrow={s.eyebrow} title={s.title} lead={s.lead}>
       <div
         className="inline-flex rounded-[12px] border border-border-200 bg-surface-50 p-1"
         role="tablist"
-        aria-label="Audience"
+        aria-label={s.audienceLabel}
       >
         {(
           [
-            { id: "startup" as const, label: "Startups", Icon: Rocket },
-            { id: "enterprise" as const, label: "Enterprises", Icon: Building2 },
+            { id: "startup" as const, label: s.startups, Icon: Rocket },
+            { id: "enterprise" as const, label: s.enterprises, Icon: Building2 },
           ] as const
         ).map(({ id, label, Icon }) => {
           const active = audience === id;
@@ -194,19 +195,19 @@ export function SolutionsToggleSection() {
       <div className="mt-10">
         <div className="mb-4 flex items-end justify-between gap-4">
           <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-text-600">
-            Matching solutions
+            {s.matchingSolutions}
           </p>
           <Link
             to="/solutions"
             className="inline-flex items-center gap-1 text-sm font-semibold text-orange-500 hover:underline"
           >
-            View all <ArrowRight className="h-3.5 w-3.5" />
+            {t.common.viewAll} <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
 
         {filtered.length === 0 ? (
           <IcCard className="bg-surface-50 p-6 text-center text-sm text-text-600">
-            No solutions for this audience yet.
+            {s.empty}
           </IcCard>
         ) : (
           <AnimatePresence mode="wait">

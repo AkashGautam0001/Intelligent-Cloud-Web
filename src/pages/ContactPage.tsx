@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { useSettings } from "@/hooks/useCms";
-import { contact as contactContent } from "@/content/company";
+import { contact as contactFallback, getCompanyPage } from "@/content/company";
 import { CompanyLongForm } from "@/components/company/CompanyLongForm";
 import { HoneypotField } from "@/components/HoneypotField";
 import { useFormStartedAt, withSpamFields } from "@/lib/forms";
@@ -74,7 +74,8 @@ function validateContact(form: ContactForm): FieldErrors<ContactField> {
 }
 
 export function ContactPage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const contactContent = getCompanyPage("contact", locale) ?? contactFallback;
   const settings = useSettings();
   const formStartedAt = useFormStartedAt();
   const [website, setWebsite] = useState("");
@@ -98,7 +99,10 @@ export function ContactPage() {
   const email = settings.data?.email || "sales@intelligent-cloud.com";
   const phone = settings.data?.phone || WHATSAPP_DISPLAY;
   const whatsapp = settings.data?.whatsapp || WHATSAPP_DISPLAY;
-  const address = settings.data?.address || "";
+  const address =
+    (locale === "ar"
+      ? settings.data?.addressAr?.trim() || settings.data?.address
+      : settings.data?.address) || "";
 
   return (
     <CompanyLongForm
@@ -162,8 +166,8 @@ export function ContactPage() {
               </div>
               <ul className="space-y-4">
                 {[
-                  { Icon: Mail, label: "Email", value: email, href: `mailto:${email}` },
-                  { Icon: Phone, label: "Phone", value: phone || "—", href: `tel:${phone}` },
+                  { Icon: Mail, label: t.forms.email, value: email, href: `mailto:${email}` },
+                  { Icon: Phone, label: t.forms.phone, value: phone || "—", href: `tel:${phone}` },
                   {
                     Icon: MessageCircle,
                     label: "WhatsApp",
@@ -240,7 +244,7 @@ export function ContactPage() {
                 icon={MessageSquareText}
               >
                 <div className="grid w-full gap-4 sm:grid-cols-2">
-                  <FormField id="name" label="Name" icon={User} required error={errors.name}>
+                  <FormField id="name" label={t.forms.name} icon={User} required error={errors.name}>
                     <input
                       id="name"
                       aria-invalid={Boolean(errors.name)}
@@ -250,7 +254,7 @@ export function ContactPage() {
                       onChange={(e) => setField("name", e.target.value)}
                     />
                   </FormField>
-                  <FormField id="email" label="Email" icon={Mail} required error={errors.email}>
+                  <FormField id="email" label={t.forms.email} icon={Mail} required error={errors.email}>
                     <input
                       id="email"
                       type="email"
@@ -261,7 +265,7 @@ export function ContactPage() {
                       onChange={(e) => setField("email", e.target.value)}
                     />
                   </FormField>
-                  <FormField id="company" label="Company" icon={Building2} required error={errors.company}>
+                  <FormField id="company" label={t.forms.company} icon={Building2} required error={errors.company}>
                     <input
                       id="company"
                       aria-invalid={Boolean(errors.company)}
@@ -271,7 +275,7 @@ export function ContactPage() {
                       onChange={(e) => setField("company", e.target.value)}
                     />
                   </FormField>
-                  <FormField id="phone" label="Phone" icon={Phone} required error={errors.phone}>
+                  <FormField id="phone" label={t.forms.phone} icon={Phone} required error={errors.phone}>
                       <input
                       id="phone"
                       type="tel"
@@ -303,7 +307,7 @@ export function ContactPage() {
                 </FormField>
                 <FormField
                   id="message"
-                  label="Message (optional)"
+                  label={t.forms.message}
                   icon={MessageSquareText}
                   error={errors.message}
                 >
@@ -319,7 +323,7 @@ export function ContactPage() {
                 </FormField>
                 <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
                   <Send className="h-4 w-4" />
-                  {submitting ? "Sending…" : "Send message"}
+                  {submitting ? t.forms.sending : t.forms.submit}
                 </Button>
               </ModernFormCard>
             </form>

@@ -4,6 +4,7 @@
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Outfit", "DM Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-arabic: "Noto Sans Arabic", "DM Sans", ui-sans-serif, system-ui, sans-serif;
 
   --color-navy-950: #071a3d;
   --color-navy-900: #04275f;
@@ -100,6 +101,27 @@
 
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-orange-500;
+  }
+
+  a,
+  button,
+  [role="button"],
+  summary,
+  label[for],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"],
+  input:disabled,
+  select:disabled {
+    cursor: not-allowed;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -285,16 +307,18 @@
 
 @keyframes ic-marquee {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(-50%);
+    /* Three copies → shift by one third for a seamless loop */
+    transform: translate3d(-33.333%, 0, 0);
   }
 }
 
 .ic-marquee {
-  animation: ic-marquee 42s linear infinite;
+  animation: ic-marquee 48s linear infinite;
   will-change: transform;
+  backface-visibility: hidden;
 }
 
 .ic-marquee:hover {
@@ -473,4 +497,17 @@
   background: #f5f8fb;
   color: var(--color-navy-900);
   font-weight: 600;
+}
+
+/* Arabic / RTL */
+html[dir="rtl"] body {
+  font-family: var(--font-arabic);
+}
+
+html[dir="rtl"] .font-display,
+html[dir="rtl"] .text-display,
+html[dir="rtl"] .text-h1,
+html[dir="rtl"] .text-h2 {
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
 }

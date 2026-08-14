@@ -40,12 +40,12 @@ export function ServiceLongForm({
   content,
   cmsBodyHtml,
 }: ServiceLongFormProps) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const title = content.title;
   const summary = content.summary;
   const Icon = serviceIcon(content.iconKey);
   const related = content.related
-    .map((slug) => getServicePage(slug))
+    .map((slug) => getServicePage(slug, locale))
     .filter(Boolean) as ServicePageContent[];
 
   return (

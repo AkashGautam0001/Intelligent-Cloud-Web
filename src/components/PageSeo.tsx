@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useLocation } from "react-router-dom";
 import { useSettings } from "@/hooks/useCms";
+import { useI18n } from "@/i18n";
 import {
   absoluteUrl,
   DEFAULT_DESCRIPTION,
@@ -67,6 +68,7 @@ function upsertJsonLd(id: string, data: Record<string, unknown>) {
 export function SeoProvider({ children }: { children: ReactNode }) {
   const location = useLocation();
   const settings = useSettings();
+  const { locale, t } = useI18n();
   const seo = settings.data?.seo;
   const [overrides, setOverrides] = useState<PageSeoProps>({});
 
@@ -74,12 +76,21 @@ export function SeoProvider({ children }: { children: ReactNode }) {
     const pathTitle = titleForPath(location.pathname);
     const pathDesc = descriptionForPath(location.pathname);
 
+    const defaultTitle =
+      locale === "ar"
+        ? seo?.defaultTitleAr?.trim() || seo?.defaultTitle
+        : seo?.defaultTitle;
+    const defaultDescription =
+      locale === "ar"
+        ? seo?.defaultDescriptionAr?.trim() || seo?.defaultDescription
+        : seo?.defaultDescription;
+
     const title =
-      overrides.title || pathTitle || seo?.defaultTitle || DEFAULT_TITLE;
+      overrides.title || pathTitle || defaultTitle || DEFAULT_TITLE;
     const description =
       overrides.description ||
       pathDesc ||
-      seo?.defaultDescription ||
+      defaultDescription ||
       DEFAULT_DESCRIPTION;
     const ogImage = absoluteUrl(
       overrides.ogImage || seo?.ogImageUrl || DEFAULT_OG_IMAGE,
@@ -101,11 +112,17 @@ export function SeoProvider({ children }: { children: ReactNode }) {
     upsertMeta("property", "og:description", description);
     upsertMeta("property", "og:url", canonical);
     upsertMeta("property", "og:image", ogImage);
+    upsertMeta("property", "og:locale", locale === "ar" ? "ar_SA" : "en_US");
 
     upsertMeta("name", "twitter:card", "summary_large_image");
     upsertMeta("name", "twitter:title", title);
     upsertMeta("name", "twitter:description", description);
     upsertMeta("name", "twitter:image", ogImage);
+
+    const displayAddress =
+      locale === "ar"
+        ? settings.data?.addressAr?.trim() || settings.data?.address
+        : settings.data?.address;
 
     const org = {
       "@context": "https://schema.org",
@@ -120,14 +137,14 @@ export function SeoProvider({ children }: { children: ReactNode }) {
         settings.data?.social?.twitter,
         settings.data?.social?.youtube,
       ].filter(Boolean),
-      address: settings.data?.address
+      address: displayAddress
         ? {
             "@type": "PostalAddress",
-            streetAddress: settings.data.address,
+            streetAddress: displayAddress,
           }
         : undefined,
       areaServed: "Worldwide",
-      slogan: "Secure. Innovate. Transform.",
+      slogan: t.tagline,
     };
     upsertJsonLd("ic-jsonld-organization", org);
 
@@ -145,12 +162,17 @@ export function SeoProvider({ children }: { children: ReactNode }) {
   }, [
     location.pathname,
     overrides,
+    locale,
+    t.tagline,
     seo?.defaultTitle,
+    seo?.defaultTitleAr,
     seo?.defaultDescription,
+    seo?.defaultDescriptionAr,
     seo?.ogImageUrl,
     settings.data?.email,
     settings.data?.phone,
     settings.data?.address,
+    settings.data?.addressAr,
     settings.data?.social?.linkedin,
     settings.data?.social?.twitter,
     settings.data?.social?.youtube,

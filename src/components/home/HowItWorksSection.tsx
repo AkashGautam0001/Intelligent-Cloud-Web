@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Activity,
@@ -12,81 +12,83 @@ import { SectionShell } from "@/components/ui/section-shell";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { easeOut, springSlow, staggerSlow } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-
-const steps: {
-  id: string;
-  title: string;
-  blurb: string;
-  Icon: LucideIcon;
-  accent: string;
-  points: string[];
-}[] = [
-  {
-    id: "assess",
-    title: "Assess",
-    blurb: "Map the estate before you move a single workload.",
-    Icon: ClipboardList,
-    accent: "from-orange-500 to-azure-500",
-    points: [
-      "Estate inventory across accounts and subscriptions",
-      "Cost, risk, and dependency heatmaps",
-      "Migration waves ranked by business criticality",
-      "Gap analysis vs landing-zone and IAM baselines",
-    ],
-  },
-  {
-    id: "design",
-    title: "Design",
-    blurb: "Architecture and contracts your auditors can follow.",
-    Icon: LayoutTemplate,
-    accent: "from-orange-500 to-navy-900",
-    points: [
-      "Target architecture and network topology",
-      "Identity model, secrets, and break-glass",
-      "Platform blueprints for AKS/EKS and data tiers",
-      "SLO and RPO/RTO contracts written early",
-    ],
-  },
-  {
-    id: "build",
-    title: "Build",
-    blurb: "Infrastructure as code with promotion gates.",
-    Icon: Blocks,
-    accent: "from-orange-500 to-[#e85a0a]",
-    points: [
-      "Terraform modules and policy-as-code",
-      "CI/CD promotion with environment gates",
-      "GitOps for cluster desired state",
-      "Observability baselines from day one",
-    ],
-  },
-  {
-    id: "operate",
-    title: "Operate",
-    blurb: "Runbooks, FinOps, and ownership that stick.",
-    Icon: Activity,
-    accent: "from-navy-900 to-azure-500",
-    points: [
-      "Managed operations with clear escalation",
-      "Drift detection and patch windows",
-      "FinOps reviews and capacity planning",
-      "Incident retros that change the platform",
-    ],
-  },
-];
+import { useI18n } from "@/i18n";
 
 export function HowItWorksSection() {
+  const { t } = useI18n();
+  const h = t.home.howItWorks;
   const [active, setActive] = useState(0);
   const reduced = usePrefersReducedMotion();
-  const step = steps[active];
+
+  const steps: {
+    id: string;
+    title: string;
+    blurb: string;
+    Icon: LucideIcon;
+    accent: string;
+    points: string[];
+  }[] = useMemo(
+    () => [
+      {
+        id: "assess",
+        title: h.assess.title,
+        blurb: h.assess.blurb,
+        Icon: ClipboardList,
+        accent: "from-orange-500 to-azure-500",
+        points: [
+          h.assess.points.inventory,
+          h.assess.points.heatmaps,
+          h.assess.points.waves,
+          h.assess.points.gap,
+        ],
+      },
+      {
+        id: "design",
+        title: h.design.title,
+        blurb: h.design.blurb,
+        Icon: LayoutTemplate,
+        accent: "from-orange-500 to-navy-900",
+        points: [
+          h.design.points.architecture,
+          h.design.points.identity,
+          h.design.points.blueprints,
+          h.design.points.contracts,
+        ],
+      },
+      {
+        id: "build",
+        title: h.build.title,
+        blurb: h.build.blurb,
+        Icon: Blocks,
+        accent: "from-orange-500 to-[#e85a0a]",
+        points: [
+          h.build.points.terraform,
+          h.build.points.cicd,
+          h.build.points.gitops,
+          h.build.points.observability,
+        ],
+      },
+      {
+        id: "operate",
+        title: h.operate.title,
+        blurb: h.operate.blurb,
+        Icon: Activity,
+        accent: "from-navy-900 to-azure-500",
+        points: [
+          h.operate.points.managed,
+          h.operate.points.drift,
+          h.operate.points.finops,
+          h.operate.points.retros,
+        ],
+      },
+    ],
+    [h],
+  );
+
+  const step = steps[active]!;
 
   return (
-    <SectionShell
-      tone="white"
-      eyebrow="How it works"
-      title="Assess → Design → Build → Operate"
-      lead="A repeatable engagement model. Each phase produces artifacts your team can own — not a black-box handoff."
-    >
+    <SectionShell tone="white" eyebrow={h.eyebrow} title={h.title} lead={h.lead}>
       <div className="relative">
         {/* Connector sits behind solid cards — only visible in the gaps */}
         <div
@@ -121,7 +123,7 @@ export function HowItWorksSection() {
                   ease: easeOut,
                 }}
                 className={cn(
-                  "group/card relative isolate overflow-hidden rounded-[14px] border bg-white p-5 text-left outline-none",
+                  "group/card relative isolate overflow-hidden rounded-[14px] border bg-white p-5 text-start outline-none",
                   "transition-[border-color,background-color,transform] duration-700 ease-out",
                   "focus-visible:ring-2 focus-visible:ring-orange-500/40 focus-visible:ring-offset-2",
                   isActive
@@ -189,7 +191,7 @@ export function HowItWorksSection() {
             id="how-it-works-detail"
             role="region"
             aria-live="polite"
-            aria-label={`${step.title} phase details`}
+            aria-label={`${step.title} ${h.phaseDetails}`}
             initial={reduced ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduced ? undefined : { opacity: 0 }}
@@ -216,7 +218,7 @@ export function HowItWorksSection() {
                 />
 
                 <p className="relative font-mono text-[11px] uppercase tracking-[0.16em] text-azure-100/60">
-                  Phase {String(active + 1).padStart(2, "0")} of{" "}
+                  {t.common.phase} {String(active + 1).padStart(2, "0")} {h.of}{" "}
                   {String(steps.length).padStart(2, "0")}
                 </p>
                 <div className="relative mt-5 flex items-center gap-4">
@@ -242,7 +244,7 @@ export function HowItWorksSection() {
                       key={s.id}
                       type="button"
                       onClick={() => setActive(i)}
-                      aria-label={`Go to ${s.title}`}
+                      aria-label={`${h.goTo} ${s.title}`}
                       className={cn(
                         "h-1.5 rounded-full transition-all duration-700 ease-out",
                         i === active
@@ -258,7 +260,7 @@ export function HowItWorksSection() {
 
               <div className="bg-white p-6 sm:p-8">
                 <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-text-600">
-                  What you get
+                  {t.common.whatYouGet}
                 </p>
                 <ul className="mt-5 grid gap-3 sm:grid-cols-2">
                   {step.points.map((point, i) => (

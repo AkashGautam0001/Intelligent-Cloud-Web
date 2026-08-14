@@ -56,12 +56,12 @@ export function SelectItem({
   return (
     <SelectPrimitive.Item
       className={cn(
-        "relative flex w-full cursor-default select-none items-center rounded-[8px] py-2 pl-8 pr-2 text-sm outline-none focus:bg-azure-100",
+        "relative flex w-full cursor-default select-none items-center rounded-[8px] py-2 ps-8 pe-2 text-sm outline-none focus:bg-azure-100",
         className,
       )}
       {...props}
     >
-      <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <span className="absolute start-2 flex h-3.5 w-3.5 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
           <Check className="h-4 w-4 text-orange-500" />
         </SelectPrimitive.ItemIndicator>

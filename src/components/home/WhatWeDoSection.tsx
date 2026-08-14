@@ -2,51 +2,50 @@ import { CloudCog, ShieldCheck, Boxes } from "lucide-react";
 import { SectionShell } from "@/components/ui/section-shell";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
-
-const capabilities = [
-  {
-    id: "migrate",
-    title: "Cloud migration",
-    icon: CloudCog,
-    points: [
-      "Wave planning with dependency mapping",
-      "Cutover runbooks and rollback criteria",
-      "RPO/RTO targets agreed before move day",
-      "Hybrid connectivity during transition",
-    ],
-  },
-  {
-    id: "platform",
-    title: "Platform engineering",
-    icon: Boxes,
-    points: [
-      "Terraform landing zones and modules",
-      "AKS/EKS baselines with GitOps",
-      "CI/CD promotion paths that audit cleanly",
-      "Self-service patterns without snowflakes",
-    ],
-  },
-  {
-    id: "secure",
-    title: "Security & operations",
-    icon: ShieldCheck,
-    points: [
-      "IAM least privilege and break-glass",
-      "WAF, network segmentation, secrets",
-      "SLO-backed managed operations",
-      "Incident response with clear ownership",
-    ],
-  },
-] as const;
+import { useI18n } from "@/i18n";
 
 export function WhatWeDoSection() {
+  const { t } = useI18n();
+  const w = t.home.whatWeDo;
+
+  const capabilities = [
+    {
+      id: "migrate",
+      title: w.migrate.title,
+      icon: CloudCog,
+      points: [
+        w.migrate.points.wavePlanning,
+        w.migrate.points.cutover,
+        w.migrate.points.rpoRto,
+        w.migrate.points.hybrid,
+      ],
+    },
+    {
+      id: "platform",
+      title: w.platform.title,
+      icon: Boxes,
+      points: [
+        w.platform.points.terraform,
+        w.platform.points.aksEks,
+        w.platform.points.cicd,
+        w.platform.points.selfService,
+      ],
+    },
+    {
+      id: "secure",
+      title: w.secure.title,
+      icon: ShieldCheck,
+      points: [
+        w.secure.points.iam,
+        w.secure.points.waf,
+        w.secure.points.slo,
+        w.secure.points.incident,
+      ],
+    },
+  ] as const;
+
   return (
-    <SectionShell
-      tone="navyLight"
-      eyebrow="What we do"
-      title="One engineered path from assessment to managed operations"
-      lead="Intelligent Cloud unifies architecture, delivery, and run — so Azure, AWS, and Kubernetes estates stay auditable, cost-aware, and operable by your team."
-    >
+    <SectionShell tone="navyLight" eyebrow={w.eyebrow} title={w.title} lead={w.lead}>
       <div className="grid gap-5 md:grid-cols-3">
         {capabilities.map((c) => {
           const Icon = c.icon;
@@ -59,9 +58,9 @@ export function WhatWeDoSection() {
                 {c.title}
               </h3>
               <ul className="mt-4 flex-1 space-y-2.5">
-                {c.points.map((p) => (
-                  <li key={p} className="text-sm leading-relaxed text-text-600">
-                    {p}
+                {c.points.map((point) => (
+                  <li key={point} className="text-sm leading-relaxed text-text-600">
+                    {point}
                   </li>
                 ))}
               </ul>

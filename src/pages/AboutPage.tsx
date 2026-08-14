@@ -10,7 +10,8 @@ import {
   Sparkles,
   Wallet,
 } from "lucide-react";
-import { about } from "@/content/company";
+import { about as aboutFallback, getCompanyPage } from "@/content/company";
+import { useI18n } from "@/i18n";
 import { Breadcrumbs } from "@/components/PageHero";
 import { PageSeo } from "@/components/PageSeo";
 import { TechBrandIcon } from "@/components/TechBrandIcon";
@@ -113,6 +114,9 @@ function PointList({ items }: { items: string[] }) {
 }
 
 export function AboutPage() {
+  const { locale } = useI18n();
+  const about = getCompanyPage("about", locale) ?? aboutFallback;
+
   return (
     <>
       <PageSeo title="About | Intelligent Cloud" description={about.summary} />

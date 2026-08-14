@@ -9,6 +9,7 @@ import { CardGridSkeleton } from "@/components/skeletons";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { easeOut } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/i18n";
 
 const catalogOrder = [
   "cloud-computing",
@@ -22,42 +23,39 @@ const catalogOrder = [
 ];
 
 export function ServicesBentoSection() {
+  const { t, locale } = useI18n();
+  const s = t.home.servicesBento;
   const { data, isLoading, isError } = useServices();
   const reduced = usePrefersReducedMotion();
 
   // Static registry is source of unique copy; CMS only fills gaps if a slug is missing
-  const staticPages = listServicePages()
+  const staticPages = listServicePages(locale)
     .slice()
     .sort((a, b) => catalogOrder.indexOf(a.slug) - catalogOrder.indexOf(b.slug));
-  const cmsBySlug = new Map((data ?? []).map((s) => [s.slug, s]));
+  const cmsBySlug = new Map((data ?? []).map((svc) => [svc.slug, svc]));
   const services =
     staticPages.length > 0
       ? staticPages
       : (data ?? [])
           .slice()
           .sort((a, b) => a.order - b.order)
-          .map((s) => ({
-            slug: s.slug,
-            title: s.title,
-            summary: s.summary,
-            tagline: s.summary,
-            iconKey: s.iconKey,
-            eyebrow: "Service",
+          .map((svc) => ({
+            slug: svc.slug,
+            title: svc.title,
+            summary: svc.summary,
+            tagline: svc.summary,
+            iconKey: svc.iconKey,
+            eyebrow: s.serviceEyebrow,
           }));
 
   const showSkeleton = isLoading && staticPages.length === 0;
 
   return (
-    <SectionShell
-      tone="white"
-      eyebrow="Services"
-      title="Capabilities that compound into a production-ready estate"
-      lead="From compute foundations to disaster recovery — each service integrates with landing zones, identity baselines, and delivery pipelines rather than living as a one-off project."
-    >
+    <SectionShell tone="white" eyebrow={s.eyebrow} title={s.title} lead={s.lead}>
       {showSkeleton ? (
         <CardGridSkeleton count={8} />
       ) : isError && staticPages.length === 0 ? (
-        <p className="text-sm text-danger">Unable to load services.</p>
+        <p className="text-sm text-danger">{s.loadError}</p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => {
@@ -114,7 +112,9 @@ export function ServicesBentoSection() {
                         className="h-4 w-4 transition-transform duration-500 group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5"
                         aria-hidden
                       />
-                      <span className="sr-only">View {service.title}</span>
+                      <span className="sr-only">
+                        {s.viewService} {service.title}
+                      </span>
                     </span>
                   </article>
                 </Link>
@@ -128,7 +128,7 @@ export function ServicesBentoSection() {
           to="/services"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-orange-500 hover:underline"
         >
-          View all services <ArrowUpRight className="h-3.5 w-3.5" />
+          {s.viewAll} <ArrowUpRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </SectionShell>

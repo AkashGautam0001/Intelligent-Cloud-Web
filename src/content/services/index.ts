@@ -1,4 +1,7 @@
+import type { Locale } from "@/i18n/messages";
+import { mergeLocale } from "@/content/localize";
 import type { ServicePageContent } from "./types";
+import { arServiceOverlays } from "./ar";
 import { ai } from "./ai";
 import { analytics } from "./analytics";
 import { cloudComputing } from "./cloud-computing";
@@ -19,13 +22,18 @@ const registry: Record<string, ServicePageContent> = {
   [disasterRecovery.slug]: disasterRecovery,
 };
 
-export function getServicePage(slug: string | undefined): ServicePageContent | undefined {
+export function getServicePage(
+  slug: string | undefined,
+  locale: Locale = "en",
+): ServicePageContent | undefined {
   if (!slug) return undefined;
-  return registry[slug];
+  const base = registry[slug];
+  if (!base) return undefined;
+  return mergeLocale(base, arServiceOverlays[slug], locale);
 }
 
-export function listServicePages(): ServicePageContent[] {
-  return Object.values(registry);
+export function listServicePages(locale: Locale = "en"): ServicePageContent[] {
+  return Object.keys(registry).map((slug) => getServicePage(slug, locale)!);
 }
 
 export { registry as servicePageRegistry };

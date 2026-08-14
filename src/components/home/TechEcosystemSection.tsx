@@ -3,56 +3,51 @@ import { IcCard } from "@/components/ui/ic-card";
 import { TechBrandIcon } from "@/components/TechBrandIcon";
 import type { TechBrand } from "@/lib/tech-brands";
 import { getTechBrand } from "@/lib/tech-brands";
-
-const groups: {
-  title: string;
-  body: string;
-  brandIds: string[];
-}[] = [
-  {
-    title: "Cloud foundations",
-    body: "Azure Landing Zones and AWS multi-account patterns with shared identity baselines.",
-    brandIds: ["azure", "aws"],
-  },
-  {
-    title: "Containers",
-    body: "AKS and EKS with workload identity — clusters that stay operable after handoff.",
-    brandIds: ["kubernetes", "docker", "helm"],
-  },
-  {
-    title: "Infrastructure as code",
-    body: "Terraform modules with policy checks — no one-off portal clicks in production.",
-    brandIds: ["terraform", "opentofu", "ansible"],
-  },
-  {
-    title: "Delivery",
-    body: "GitHub Actions / Azure DevOps plus Argo CD for desired-state reconciliation.",
-    brandIds: ["github-actions", "azure-devops", "argo", "gitlab"],
-  },
-  {
-    title: "Observability",
-    body: "Prometheus, Grafana, and structured logs wired to ownership and SLOs.",
-    brandIds: ["prometheus", "grafana", "elastic"],
-  },
-  {
-    title: "Security tooling",
-    body: "Secrets, IAM, and policy-as-code integrated into the same delivery path.",
-    brandIds: ["vault", "cloudflare"],
-  },
-];
+import { useI18n } from "@/i18n";
 
 function brandsFor(ids: string[]): TechBrand[] {
   return ids.map((id) => getTechBrand(id)).filter((b): b is TechBrand => Boolean(b));
 }
 
 export function TechEcosystemSection() {
+  const { t } = useI18n();
+  const te = t.home.techEcosystem;
+
+  const groups = [
+    {
+      title: te.cloudFoundations.title,
+      body: te.cloudFoundations.body,
+      brandIds: ["azure", "aws"],
+    },
+    {
+      title: te.containers.title,
+      body: te.containers.body,
+      brandIds: ["kubernetes", "docker", "helm"],
+    },
+    {
+      title: te.iac.title,
+      body: te.iac.body,
+      brandIds: ["terraform", "opentofu", "ansible"],
+    },
+    {
+      title: te.delivery.title,
+      body: te.delivery.body,
+      brandIds: ["github-actions", "azure-devops", "argo", "gitlab"],
+    },
+    {
+      title: te.observability.title,
+      body: te.observability.body,
+      brandIds: ["prometheus", "grafana", "elastic"],
+    },
+    {
+      title: te.securityTooling.title,
+      body: te.securityTooling.body,
+      brandIds: ["vault", "cloudflare"],
+    },
+  ];
+
   return (
-    <SectionShell
-      tone="white"
-      eyebrow="Ecosystem"
-      title="The tools we actually run in production estates"
-      lead="Not a partner endorsement wall — a working stack. Each card maps how we compose cloud, delivery, and operations tooling."
-    >
+    <SectionShell tone="white" eyebrow={te.eyebrow} title={te.title} lead={te.lead}>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {groups.map((g) => {
           const brands = brandsFor(g.brandIds);

@@ -1,4 +1,7 @@
+import type { Locale } from "@/i18n/messages";
+import { mergeLocale } from "@/content/localize";
 import { documentation, faq, privacy, support, terms } from "./pages";
+import { arResourceOverlays } from "./ar";
 import type { ResourcePageContent } from "./types";
 
 const registry: Record<string, ResourcePageContent> = {
@@ -9,9 +12,16 @@ const registry: Record<string, ResourcePageContent> = {
   terms,
 };
 
-export function getResourcePage(slug: string | undefined): ResourcePageContent | undefined {
+/** Documentation stays English; faq/support/privacy/terms merge Arabic overlays. */
+export function getResourcePage(
+  slug: string | undefined,
+  locale: Locale = "en",
+): ResourcePageContent | undefined {
   if (!slug) return undefined;
-  return registry[slug];
+  const base = registry[slug];
+  if (!base) return undefined;
+  if (slug === "documentation") return base;
+  return mergeLocale(base, arResourceOverlays[slug], locale);
 }
 
 export { documentation, faq, support, privacy, terms };

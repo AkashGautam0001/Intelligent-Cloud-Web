@@ -1,11 +1,22 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
+  useState,
   type ReactNode,
 } from "react";
-import { en, messagesByLocale, type Locale, type Messages } from "./messages/en";
+import { useLocation } from "react-router-dom";
+import {
+  en,
+  isLocale,
+  messagesByLocale,
+  type Locale,
+  type Messages,
+} from "./messages";
+
+const STORAGE_KEY = "ic-locale";
 
 type I18nValue = {
   locale: Locale;
@@ -17,8 +28,32 @@ type I18nValue = {
 const I18nContext = createContext<I18nValue | null>(null);
 
 function dirForLocale(locale: Locale): "ltr" | "rtl" {
-  // When Arabic ships: return locale === "ar" ? "rtl" : "ltr"
-  return locale === "en" ? "ltr" : "ltr";
+  return locale === "ar" ? "rtl" : "ltr";
+}
+
+function detectBrowserLocale(): Locale {
+  if (typeof navigator === "undefined") return "en";
+  const candidates = [
+    navigator.language,
+    ...(navigator.languages ?? []),
+  ]
+    .filter(Boolean)
+    .map((l) => l.toLowerCase());
+  return candidates.some((l) => l === "ar" || l.startsWith("ar-")) ? "ar" : "en";
+}
+
+function readStoredLocale(): Locale | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw && isLocale(raw)) return raw;
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
+function resolveInitialLocale(fallback: Locale): Locale {
+  return readStoredLocale() ?? detectBrowserLocale() ?? fallback;
 }
 
 export function LocaleProvider({
@@ -28,26 +63,37 @@ export function LocaleProvider({
   children: ReactNode;
   initialLocale?: Locale;
 }) {
-  const locale = initialLocale;
-  const dir = dirForLocale(locale);
+  const [locale, setLocaleState] = useState<Locale>(() =>
+    resolveInitialLocale(initialLocale),
+  );
+  const location = useLocation();
+  /** Documentation stays English LTR regardless of marketing locale. */
+  const onDocs = location.pathname.startsWith("/documentation");
+  const dir = onDocs ? "ltr" : dirForLocale(locale);
   const t = messagesByLocale[locale] ?? en;
 
+  const setLocale = useCallback((next: Locale) => {
+    setLocaleState(next);
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
   useEffect(() => {
-    document.documentElement.lang = locale;
+    document.documentElement.lang = onDocs ? "en" : locale;
     document.documentElement.dir = dir;
-  }, [locale, dir]);
+  }, [locale, dir, onDocs]);
 
   const value = useMemo<I18nValue>(
     () => ({
       locale,
       dir,
       t,
-      setLocale: (_next: Locale) => {
-        // Phase 1: English only. Wire locale switch + /ar routes in a later phase.
-        console.info("[i18n] Locale switching is stubbed until Arabic ships.");
-      },
+      setLocale,
     }),
-    [locale, dir, t],
+    [locale, dir, t, setLocale],
   );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

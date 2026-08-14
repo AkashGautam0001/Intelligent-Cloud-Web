@@ -4,6 +4,7 @@ export type SettingsPublic = {
   phone: string;
   whatsapp: string;
   address: string;
+  addressAr?: string;
   social: {
     linkedin?: string;
     twitter?: string;
@@ -13,6 +14,8 @@ export type SettingsPublic = {
   seo: {
     defaultTitle?: string;
     defaultDescription?: string;
+    defaultTitleAr?: string;
+    defaultDescriptionAr?: string;
     ogImageUrl?: string;
   };
 };
@@ -44,7 +47,9 @@ export type SolutionItem = {
 export type FaqItem = {
   _id: string;
   question: string;
+  questionAr?: string;
   answerHtml: string;
+  answerHtmlAr?: string;
   category: string;
   order: number;
   published: boolean;

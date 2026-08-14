@@ -11,38 +11,39 @@ import { SectionShell } from "@/components/ui/section-shell";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { Button } from "@/components/ui/button";
-
-const layers = [
-  {
-    label: "Application",
-    detail: "Workload identity, secrets, SBOM, and short-lived credentials.",
-    Icon: AppWindow,
-  },
-  {
-    label: "Edge / WAF",
-    detail: "Bot controls, rate limits, and exposure that matches risk.",
-    Icon: Shield,
-  },
-  {
-    label: "Identity",
-    detail: "Least privilege, break-glass, and reviewable access paths.",
-    Icon: Fingerprint,
-  },
-  {
-    label: "Network",
-    detail: "Segmentation, private links, and clear blast-radius boundaries.",
-    Icon: Network,
-  },
-] as const;
+import { useI18n } from "@/i18n";
 
 export function SecurityBand() {
+  const { t } = useI18n();
+  const s = t.home.security;
+
+  const layers = [
+    {
+      label: s.application.label,
+      detail: s.application.detail,
+      Icon: AppWindow,
+    },
+    {
+      label: s.edgeWaf.label,
+      detail: s.edgeWaf.detail,
+      Icon: Shield,
+    },
+    {
+      label: s.identity.label,
+      detail: s.identity.detail,
+      Icon: Fingerprint,
+    },
+    {
+      label: s.network.label,
+      detail: s.network.detail,
+      Icon: Network,
+    },
+  ] as const;
+
+  const extras = [s.policyAsCode, s.evidencePacks];
+
   return (
-    <SectionShell
-      tone="white"
-      eyebrow="Security"
-      title="Controls layered where attacks actually land"
-      lead="Security that ships with the platform — identity, network, edge, and workload baselines — not a binder after go-live."
-    >
+    <SectionShell tone="white" eyebrow={s.eyebrow} title={s.title} lead={s.lead}>
       <div className="grid gap-4 sm:grid-cols-2">
         {layers.map((l, i) => (
           <IcCard key={l.label} className="p-6">
@@ -62,10 +63,7 @@ export function SecurityBand() {
         ))}
       </div>
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        {[
-          "Policy-as-code for accounts and clusters",
-          "Evidence packs for audits without theater",
-        ].map((p) => (
+        {extras.map((p) => (
           <div
             key={p}
             className="flex items-start gap-3 rounded-[12px] border border-border-200 bg-[#eef3f8]/60 px-4 py-3.5"
@@ -79,7 +77,7 @@ export function SecurityBand() {
       </div>
       <Button asChild className="mt-8">
         <Link to="/solutions/security-compliance">
-          Discuss security <ArrowRight className="h-4 w-4" />
+          {s.cta} <ArrowRight className="h-4 w-4" />
         </Link>
       </Button>
     </SectionShell>

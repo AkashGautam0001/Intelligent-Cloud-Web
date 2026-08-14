@@ -11,33 +11,35 @@ import {
 } from "@/components/ui/accordion";
 import { RichHtml } from "@/components/RichHtml";
 import { ListSkeleton } from "@/components/skeletons";
+import { useI18n } from "@/i18n";
+import { localizedFaq } from "@/lib/localized-faq";
 
 export function FaqSnippetSection() {
+  const { t, locale } = useI18n();
+  const f = t.home.faqSnippet;
   const { data, isLoading, isError } = useFaqs();
   const faqs = (data ?? []).slice(0, 5);
 
   return (
-    <SectionShell
-      tone="white"
-      eyebrow="FAQ"
-      title="Direct answers before you book time"
-      lead="Engagement models, platforms we operate, and how assessments work — without a sales script."
-    >
+    <SectionShell tone="white" eyebrow={f.eyebrow} title={f.title} lead={f.lead}>
       {isLoading ? (
         <ListSkeleton rows={5} />
       ) : isError ? (
-        <p className="text-sm text-danger">Unable to load FAQs.</p>
+        <p className="text-sm text-danger">{f.loadError}</p>
       ) : (
         <IcCard className="p-2 sm:p-4">
           <Accordion type="single" collapsible>
-            {faqs.map((faq) => (
-              <AccordionItem key={faq._id} value={faq._id}>
-                <AccordionTrigger>{faq.question}</AccordionTrigger>
-                <AccordionContent>
-                  <RichHtml html={faq.answerHtml} />
-                </AccordionContent>
-              </AccordionItem>
-            ))}
+            {faqs.map((faq) => {
+              const loc = localizedFaq(faq, locale);
+              return (
+                <AccordionItem key={faq._id} value={faq._id}>
+                  <AccordionTrigger>{loc.question}</AccordionTrigger>
+                  <AccordionContent>
+                    <RichHtml html={loc.answerHtml} />
+                  </AccordionContent>
+                </AccordionItem>
+              );
+            })}
           </Accordion>
         </IcCard>
       )}
@@ -45,7 +47,7 @@ export function FaqSnippetSection() {
         to="/faq"
         className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-orange-500 hover:underline"
       >
-        View all FAQs <ArrowRight className="h-3.5 w-3.5" />
+        {f.viewAll} <ArrowRight className="h-3.5 w-3.5" />
       </Link>
     </SectionShell>
   );

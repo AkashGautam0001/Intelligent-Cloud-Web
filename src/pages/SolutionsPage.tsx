@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { SolutionSlugMark } from "@/components/solutions/solution-svgs";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/i18n";
+import type { Locale } from "@/i18n/messages";
 
 const filters: Array<{ id: "all" | SolutionKind | "startup" | "enterprise"; label: string }> = [
   { id: "all", label: "All" },
@@ -31,17 +33,18 @@ const catalogOrder = [
   "enterprises",
 ];
 
-function orderedSolutions(): SolutionPageContent[] {
-  return listSolutionPages()
+function orderedSolutions(locale: Locale): SolutionPageContent[] {
+  return listSolutionPages(locale)
     .slice()
     .sort((a, b) => catalogOrder.indexOf(a.slug) - catalogOrder.indexOf(b.slug));
 }
 
 export function SolutionsPage() {
+  const { locale } = useI18n();
   const [filter, setFilter] = useState<(typeof filters)[number]["id"]>("all");
 
   const solutions = useMemo(() => {
-    const all = orderedSolutions();
+    const all = orderedSolutions(locale);
     if (filter === "all") return all;
     if (filter === "outcome" || filter === "audience") {
       return all.filter((s) => s.kind === filter);
@@ -57,7 +60,7 @@ export function SolutionsPage() {
         s.audiences.includes("both") ||
         s.slug === "enterprises",
     );
-  }, [filter]);
+  }, [filter, locale]);
 
   return (
     <>

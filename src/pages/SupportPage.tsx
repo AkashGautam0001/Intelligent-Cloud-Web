@@ -14,7 +14,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
-import { support as supportContent } from "@/content/resources";
+import { getResourcePage, support as supportFallback } from "@/content/resources";
 import { ResourceLongForm } from "@/components/resources/ResourceLongForm";
 import { HoneypotField } from "@/components/HoneypotField";
 import { useFormStartedAt, withSpamFields } from "@/lib/forms";
@@ -31,6 +31,7 @@ import { IcChip } from "@/components/ui/ic-chip";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
+import { useI18n } from "@/i18n";
 import { cn } from "@/lib/utils";
 import {
   controlClass,
@@ -105,6 +106,8 @@ function validateSupport(form: SupportForm): FieldErrors<SupportField> {
 }
 
 export function SupportPage() {
+  const { t, locale } = useI18n();
+  const supportContent = getResourcePage("support", locale) ?? supportFallback;
   const formStartedAt = useFormStartedAt();
   const [website, setWebsite] = useState("");
   const [tier, setTier] = useState<(typeof tiers)[number]["id"]>("standard");
@@ -123,7 +126,7 @@ export function SupportPage() {
     setErrors((prev) => ({ ...prev, [key]: undefined }));
   };
 
-  const selected = tiers.find((t) => t.id === tier) ?? tiers[0];
+  const selected = tiers.find((item) => item.id === tier) ?? tiers[0];
 
   return (
     <ResourceLongForm
@@ -168,7 +171,7 @@ export function SupportPage() {
               key={item.id}
               type="button"
               onClick={() => setTier(item.id)}
-              className="text-left"
+              className="text-start"
             >
               <IcCard
                 interactive
@@ -278,7 +281,7 @@ export function SupportPage() {
                 icon={LifeBuoy}
               >
                 <div className="grid w-full gap-4 sm:grid-cols-2">
-                  <FormField id="name" label="Name" icon={User} required error={errors.name}>
+                  <FormField id="name" label={t.forms.name} icon={User} required error={errors.name}>
                     <input
                       id="name"
                       aria-invalid={Boolean(errors.name)}
@@ -287,7 +290,7 @@ export function SupportPage() {
                       onChange={(e) => setField("name", e.target.value)}
                     />
                   </FormField>
-                  <FormField id="email" label="Email" icon={Mail} required error={errors.email}>
+                  <FormField id="email" label={t.forms.email} icon={Mail} required error={errors.email}>
                     <input
                       id="email"
                       type="email"
@@ -298,7 +301,7 @@ export function SupportPage() {
                     />
                   </FormField>
                 </div>
-                <FormField id="subject" label="Subject" icon={FileText} required error={errors.subject}>
+                <FormField id="subject" label={t.forms.subject} icon={FileText} required error={errors.subject}>
                   <input
                     id="subject"
                     aria-invalid={Boolean(errors.subject)}
@@ -326,7 +329,7 @@ export function SupportPage() {
                 </FormField>
                 <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
                   <LifeBuoy className="h-4 w-4" />
-                  {submitting ? "Submitting…" : "Submit ticket"}
+                  {submitting ? t.forms.sending : t.forms.submit}
                 </Button>
               </ModernFormCard>
             </form>

@@ -62,7 +62,7 @@ function DocsTopNav({
             ))}
           </nav>
 
-          <div className="ml-auto flex items-center gap-2 sm:gap-3">
+          <div className="ms-auto flex items-center gap-2 sm:gap-3">
             <button
               type="button"
               onClick={onOpenSearch}
