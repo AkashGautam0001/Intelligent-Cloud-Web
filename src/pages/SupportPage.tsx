@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   AlertTriangle,
-  ArrowRight,
   CheckCircle2,
   ClipboardList,
   FileText,
@@ -30,6 +28,7 @@ import { IcCard } from "@/components/ui/ic-card";
 import { IcChip } from "@/components/ui/ic-chip";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { Button } from "@/components/ui/button";
+import { SuccessDialog } from "@/components/ui/success-dialog";
 import { toast } from "@/components/ui/toast";
 import { useI18n } from "@/i18n";
 import { cn } from "@/lib/utils";
@@ -112,7 +111,7 @@ export function SupportPage() {
   const [website, setWebsite] = useState("");
   const [tier, setTier] = useState<(typeof tiers)[number]["id"]>("standard");
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
   const [errors, setErrors] = useState<FieldErrors<SupportField>>({});
   const [form, setForm] = useState<SupportForm>({
     name: "",
@@ -124,6 +123,12 @@ export function SupportPage() {
   const setField = <K extends SupportField>(key: K, value: SupportForm[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
     setErrors((prev) => ({ ...prev, [key]: undefined }));
+  };
+
+  const resetTicket = () => {
+    setForm({ name: "", email: "", subject: "", body: "" });
+    setErrors({});
+    setWebsite("");
   };
 
   const selected = tiers.find((item) => item.id === tier) ?? tiers[0];
@@ -229,113 +234,108 @@ export function SupportPage() {
             </IcCard>
           }
         >
-          {done ? (
-            <ModernFormCard title="Ticket received" icon={CheckCircle2}>
-              <p className="text-sm text-text-600">
-                Our team will follow up by email. You can also review FAQs while you wait.
-              </p>
-              <Button asChild className="mt-2" variant="secondary">
-                <Link to="/faq">
-                  Browse FAQs <ArrowRight className="h-4 w-4" />
-                </Link>
+          <form
+            className="w-full"
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault();
+              const next = validateSupport(form);
+              setErrors(next);
+              if (hasErrors(next)) {
+                toast.error(t.forms.fixFields);
+                return;
+              }
+              setSubmitting(true);
+              void apiFetch("/support/tickets", {
+                method: "POST",
+                body: JSON.stringify(
+                  withSpamFields({ ...form, tier }, { website, formStartedAt }),
+                ),
+              })
+                .then(() => {
+                  resetTicket();
+                  setSuccessOpen(true);
+                })
+                .catch((err: unknown) => {
+                  toast.error(err instanceof Error ? err.message : t.forms.submitFailed);
+                })
+                .finally(() => setSubmitting(false));
+            }}
+          >
+            <HoneypotField value={website} onChange={setWebsite} />
+            <ModernFormCard
+              title="Open a ticket"
+              subtitle={
+                <span className="inline-flex items-center gap-2">
+                  <selected.Icon className="h-3.5 w-3.5 text-orange-500" aria-hidden />
+                  Tier: {selected.title}
+                </span>
+              }
+              icon={LifeBuoy}
+            >
+              <div className="grid w-full gap-4 sm:grid-cols-2">
+                <FormField id="name" label={t.forms.name} icon={User} required error={errors.name}>
+                  <input
+                    id="name"
+                    aria-invalid={Boolean(errors.name)}
+                    className={controlClass(modernControlClass, errors.name)}
+                    value={form.name}
+                    onChange={(e) => setField("name", e.target.value)}
+                  />
+                </FormField>
+                <FormField id="email" label={t.forms.email} icon={Mail} required error={errors.email}>
+                  <input
+                    id="email"
+                    type="email"
+                    aria-invalid={Boolean(errors.email)}
+                    className={controlClass(modernControlClass, errors.email)}
+                    value={form.email}
+                    onChange={(e) => setField("email", e.target.value)}
+                  />
+                </FormField>
+              </div>
+              <FormField id="subject" label={t.forms.subject} icon={FileText} required error={errors.subject}>
+                <input
+                  id="subject"
+                  aria-invalid={Boolean(errors.subject)}
+                  className={controlClass(modernControlClass, errors.subject)}
+                  value={form.subject}
+                  onChange={(e) => setField("subject", e.target.value)}
+                />
+              </FormField>
+              <FormField
+                id="body"
+                label="Details"
+                icon={ClipboardList}
+                required
+                error={errors.body}
+                hint={errors.body ? undefined : "Include environment, severity, impact, and recent changes."}
+              >
+                <textarea
+                  id="body"
+                  rows={6}
+                  aria-invalid={Boolean(errors.body)}
+                  className={controlClass(modernTextareaClass, errors.body)}
+                  value={form.body}
+                  onChange={(e) => setField("body", e.target.value)}
+                />
+              </FormField>
+              <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
+                <LifeBuoy className="h-4 w-4" />
+                {submitting ? t.forms.sending : t.forms.submit}
               </Button>
             </ModernFormCard>
-          ) : (
-            <form
-              className="w-full"
-              noValidate
-              onSubmit={(e) => {
-                e.preventDefault();
-                const next = validateSupport(form);
-                setErrors(next);
-                if (hasErrors(next)) {
-                  toast.error("Please fix the highlighted fields");
-                  return;
-                }
-                setSubmitting(true);
-                void apiFetch("/support/tickets", {
-                  method: "POST",
-                  body: JSON.stringify(
-                    withSpamFields({ ...form, tier }, { website, formStartedAt }),
-                  ),
-                })
-                  .then(() => {
-                    setDone(true);
-                    toast.success("Ticket submitted");
-                  })
-                  .catch((err: unknown) => {
-                    toast.error(err instanceof Error ? err.message : "Submit failed");
-                  })
-                  .finally(() => setSubmitting(false));
-              }}
-            >
-              <HoneypotField value={website} onChange={setWebsite} />
-              <ModernFormCard
-                title="Open a ticket"
-                subtitle={
-                  <span className="inline-flex items-center gap-2">
-                    <selected.Icon className="h-3.5 w-3.5 text-orange-500" aria-hidden />
-                    Tier: {selected.title}
-                  </span>
-                }
-                icon={LifeBuoy}
-              >
-                <div className="grid w-full gap-4 sm:grid-cols-2">
-                  <FormField id="name" label={t.forms.name} icon={User} required error={errors.name}>
-                    <input
-                      id="name"
-                      aria-invalid={Boolean(errors.name)}
-                      className={controlClass(modernControlClass, errors.name)}
-                      value={form.name}
-                      onChange={(e) => setField("name", e.target.value)}
-                    />
-                  </FormField>
-                  <FormField id="email" label={t.forms.email} icon={Mail} required error={errors.email}>
-                    <input
-                      id="email"
-                      type="email"
-                      aria-invalid={Boolean(errors.email)}
-                      className={controlClass(modernControlClass, errors.email)}
-                      value={form.email}
-                      onChange={(e) => setField("email", e.target.value)}
-                    />
-                  </FormField>
-                </div>
-                <FormField id="subject" label={t.forms.subject} icon={FileText} required error={errors.subject}>
-                  <input
-                    id="subject"
-                    aria-invalid={Boolean(errors.subject)}
-                    className={controlClass(modernControlClass, errors.subject)}
-                    value={form.subject}
-                    onChange={(e) => setField("subject", e.target.value)}
-                  />
-                </FormField>
-                <FormField
-                  id="body"
-                  label="Details"
-                  icon={ClipboardList}
-                  required
-                  error={errors.body}
-                  hint={errors.body ? undefined : "Include environment, severity, impact, and recent changes."}
-                >
-                  <textarea
-                    id="body"
-                    rows={6}
-                    aria-invalid={Boolean(errors.body)}
-                    className={controlClass(modernTextareaClass, errors.body)}
-                    value={form.body}
-                    onChange={(e) => setField("body", e.target.value)}
-                  />
-                </FormField>
-                <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
-                  <LifeBuoy className="h-4 w-4" />
-                  {submitting ? t.forms.sending : t.forms.submit}
-                </Button>
-              </ModernFormCard>
-            </form>
-          )}
+          </form>
         </ModernFormSplit>
       </SectionShell>
+
+      <SuccessDialog
+        open={successOpen}
+        onOpenChange={setSuccessOpen}
+        title={t.forms.ticketSuccessTitle}
+        description={t.forms.ticketSuccessBody}
+        confirmLabel={t.forms.close}
+      />
     </ResourceLongForm>
   );
 }

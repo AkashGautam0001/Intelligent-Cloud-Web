@@ -8,7 +8,7 @@ import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { cn } from "@/lib/utils";
 
-const LAST_UPDATED = "August 5, 2026";
+const LAST_UPDATED = "August 14, 2026";
 
 type LegalSection = {
   id: string;
@@ -171,9 +171,14 @@ const privacySections: LegalSection[] = [
     body: (
       <ul className="list-disc space-y-2 ps-5">
         <li>
-          Contact information you provide (name, email, phone, company) via forms or demo bookings
+          Contact information you provide (name, email, phone, company) via enquiry forms or demo
+          bookings
         </li>
-        <li>Usage data (pages visited, interactions) via analytics tools</li>
+        <li>
+          Usage and analytics data for measuring website traffic: pages visited, approximate visit
+          counts, unique visitor identifiers stored in your browser, referrer URL, and approximate
+          country/region derived from network information (we do not sell this data)
+        </li>
         <li>
           Information shared during consulting engagements, handled under separate
           confidentiality/NDA terms where applicable
@@ -188,10 +193,33 @@ const privacySections: LegalSection[] = [
     body: (
       <ul className="list-disc space-y-2 ps-5">
         <li>To respond to inquiries and provide requested services</li>
+        <li>
+          To operate first-party website analytics (visits, unique visitors, and country aggregates)
+          so we can understand demand and improve the site
+        </li>
         <li>To improve our website and service offerings</li>
         <li>To send relevant updates (with opt-out available at any time)</li>
         <li>To route and resolve support tickets according to the selected tier</li>
       </ul>
+    ),
+  },
+  {
+    id: "analytics",
+    title: "Analytics",
+    body: (
+      <div className="space-y-3">
+        <p>
+          We collect limited first-party analytics on our website — including page views, a random
+          visitor ID kept in local browser storage, referrer, and approximate country — to measure
+          traffic and improve content. Aggregated stats may be shown in our internal admin console.
+        </p>
+        <p>
+          We may also use optional third-party analytics or tag managers (for example Google Analytics /
+          Tag Manager or Microsoft Clarity) when configured. Those providers process data under their
+          own terms and privacy policies. We use analytics only to understand site usage, not to sell
+          personal data.
+        </p>
+      </div>
     ),
   },
   {
@@ -225,7 +253,7 @@ const privacySections: LegalSection[] = [
         <a className="font-medium text-orange-500 hover:underline" href="mailto:privacy@intelligent-cloud.com">
           privacy@intelligent-cloud.com
         </a>
-        .
+        . You can clear your browser storage to reset the anonymous visitor ID used for analytics.
       </p>
     ),
   },
@@ -261,6 +289,21 @@ const termsSections: LegalSection[] = [
         Specific project scope, pricing, timelines, and deliverables are governed by individually
         signed agreements, which take precedence over general website content. Website copy is
         illustrative and not a binding quote.
+      </p>
+    ),
+  },
+  {
+    id: "analytics",
+    title: "Website analytics",
+    body: (
+      <p>
+        By using this website you acknowledge that we collect limited usage information for analytics
+        — including page views, an anonymous visitor identifier in your browser, referrer, and
+        approximate country — to understand traffic and improve the site. Details are described in our{" "}
+        <a className="font-medium text-orange-500 hover:underline" href="/privacy">
+          Privacy Policy
+        </a>
+        . Optional third-party analytics tools may also run when configured.
       </p>
     ),
   },

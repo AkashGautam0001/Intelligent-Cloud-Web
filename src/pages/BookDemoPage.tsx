@@ -3,7 +3,6 @@ import {
   Building2,
   CalendarCheck,
   CalendarDays,
-  CheckCircle2,
   Clock3,
   Crosshair,
   Mail,
@@ -29,6 +28,7 @@ import { IcCard } from "@/components/ui/ic-card";
 import { IcChip } from "@/components/ui/ic-chip";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { Button } from "@/components/ui/button";
+import { SuccessDialog } from "@/components/ui/success-dialog";
 import { toast } from "@/components/ui/toast";
 import { useI18n } from "@/i18n";
 import { cn } from "@/lib/utils";
@@ -110,7 +110,7 @@ export function BookDemoPage() {
   const [step, setStep] = useState(1);
   const [website, setWebsite] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
   const [errors, setErrors] = useState<FieldErrors<BookingField>>({});
   const [form, setForm] = useState<FormState>(empty);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -122,6 +122,13 @@ export function BookDemoPage() {
   const setField = <K extends BookingField>(key: K, value: FormState[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
     setErrors((prev) => ({ ...prev, [key]: undefined }));
+  };
+
+  const resetBooking = () => {
+    setForm(empty);
+    setStep(1);
+    setErrors({});
+    setWebsite("");
   };
 
   return (
@@ -210,44 +217,37 @@ export function BookDemoPage() {
               })}
             </ol>
 
-            {done ? (
-              <ModernFormCard title="Request received" icon={CheckCircle2}>
-                <p className="text-sm text-text-600">
-                  Thanks — we&apos;ll confirm your preferred slot by email shortly.
-                </p>
-              </ModernFormCard>
-            ) : (
-              <form
-                className="w-full"
-                noValidate
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const next = validateStep(step, form);
-                  setErrors(next);
-                  if (hasErrors(next)) {
-                    toast.error("Please fix the highlighted fields");
-                    return;
-                  }
-                  if (step < 3) {
-                    setStep((s) => s + 1);
-                    setErrors({});
-                    return;
-                  }
-                  setSubmitting(true);
-                  void apiFetch("/bookings", {
-                    method: "POST",
-                    body: JSON.stringify(withSpamFields(form, { website, formStartedAt })),
+            <form
+              className="w-full"
+              noValidate
+              onSubmit={(e) => {
+                e.preventDefault();
+                const next = validateStep(step, form);
+                setErrors(next);
+                if (hasErrors(next)) {
+                  toast.error(t.forms.fixFields);
+                  return;
+                }
+                if (step < 3) {
+                  setStep((s) => s + 1);
+                  setErrors({});
+                  return;
+                }
+                setSubmitting(true);
+                void apiFetch("/bookings", {
+                  method: "POST",
+                  body: JSON.stringify(withSpamFields(form, { website, formStartedAt })),
+                })
+                  .then(() => {
+                    resetBooking();
+                    setSuccessOpen(true);
                   })
-                    .then(() => {
-                      setDone(true);
-                      toast.success("Demo request sent");
-                    })
-                    .catch((err: unknown) => {
-                      toast.error(err instanceof Error ? err.message : "Submit failed");
-                    })
-                    .finally(() => setSubmitting(false));
-                }}
-              >
+                  .catch((err: unknown) => {
+                    toast.error(err instanceof Error ? err.message : t.forms.submitFailed);
+                  })
+                  .finally(() => setSubmitting(false));
+              }}
+            >
                 <HoneypotField value={website} onChange={setWebsite} />
                 <ModernFormCard
                   title={`Step ${step}: ${stepLabels[step - 1]!.label}`}
@@ -422,10 +422,17 @@ export function BookDemoPage() {
                   </div>
                 </ModernFormCard>
               </form>
-            )}
           </div>
         </ModernFormSplit>
       </SectionShell>
+
+      <SuccessDialog
+        open={successOpen}
+        onOpenChange={setSuccessOpen}
+        title={t.forms.demoSuccessTitle}
+        description={t.forms.demoSuccessBody}
+        confirmLabel={t.forms.close}
+      />
     </CompanyLongForm>
   );
 }

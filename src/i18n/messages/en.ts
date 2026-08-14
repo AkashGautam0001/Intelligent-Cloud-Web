@@ -92,6 +92,18 @@ export const en = {
     subject: "Subject",
     submit: "Submit",
     sending: "Sending…",
+    fixFields: "Please fix the highlighted fields",
+    submitFailed: "Submit failed",
+    close: "Close",
+    enquirySuccessTitle: "Enquiry sent",
+    enquirySuccessBody:
+      "Thanks — our team will follow up shortly. Check your inbox for a confirmation.",
+    demoSuccessTitle: "Demo request received",
+    demoSuccessBody:
+      "Thanks — we'll confirm your preferred slot by email shortly.",
+    ticketSuccessTitle: "Ticket submitted",
+    ticketSuccessBody:
+      "Our team will follow up by email. You can also review FAQs while you wait.",
   },
   mega: {
     services: {

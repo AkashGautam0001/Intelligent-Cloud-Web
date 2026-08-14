@@ -247,7 +247,7 @@ export const privacy: ResourcePageContent = {
   summary:
     "This policy covers the Intelligent Cloud website and related inquiries. Engagement data under a signed SOW or NDA is also governed by those agreements.",
   metrics: [
-    { label: "Last updated", value: "August 5, 2026" },
+    { label: "Last updated", value: "August 14, 2026" },
     { label: "Scope", value: "Site + inquiries" },
     { label: "Sales of data", value: "Never" },
     { label: "Requests", value: "privacy@" },
@@ -255,11 +255,15 @@ export const privacy: ResourcePageContent = {
   highlights: [
     {
       title: "What we collect",
-      body: "Contact details from forms, usage analytics, support ticket context, and engagement data under separate terms.",
+      body: "Contact details from forms, first-party usage analytics (page views, unique visitor ID, approximate country), support ticket context, and engagement data under separate terms.",
     },
     {
       title: "How we use it",
-      body: "To respond, improve the site, send optional updates, and route support tickets.",
+      body: "To respond, operate website analytics, improve the site, send optional updates, and route support tickets.",
+    },
+    {
+      title: "Analytics",
+      body: "We measure visits and unique visitors for internal reporting. Optional third-party tools (e.g. GA/Clarity) may also run when configured — we do not sell personal data.",
     },
     {
       title: "Sharing",
@@ -267,7 +271,7 @@ export const privacy: ResourcePageContent = {
     },
     {
       title: "Your rights",
-      body: "Request access, correction, or deletion via privacy@intelligent-cloud.com.",
+      body: "Request access, correction, or deletion via privacy@intelligent-cloud.com. Clearing browser storage resets the anonymous visitor ID.",
     },
   ],
   principles: [
@@ -294,9 +298,14 @@ export const privacy: ResourcePageContent = {
       answer: "No. We do not sell personal data.",
     },
     {
+      question: "Do you collect website analytics?",
+      answer:
+        "Yes. We collect limited first-party analytics (page views, an anonymous visitor ID in your browser, referrer, and approximate country) to measure traffic. Optional third-party tools may also run when configured. We do not sell this data.",
+    },
+    {
       question: "How do I request deletion?",
       answer:
-        "Email privacy@intelligent-cloud.com with enough detail for us to locate your records. We may need to retain limited data for legal or contractual reasons.",
+        "Email privacy@intelligent-cloud.com with enough detail for us to locate your records. We may need to retain limited data for legal or contractual reasons. Clearing browser storage resets the anonymous visitor ID.",
     },
     {
       question: "Does this cover customer cloud estates?",
@@ -318,7 +327,7 @@ export const terms: ResourcePageContent = {
   summary:
     "These terms apply when you use the Intelligent Cloud website or engage our consulting and managed services. Signed statements of work and MSAs take precedence for paid engagements.",
   metrics: [
-    { label: "Last updated", value: "August 5, 2026" },
+    { label: "Last updated", value: "August 14, 2026" },
     { label: "Website copy", value: "Illustrative" },
     { label: "Paid work", value: "SOW / MSA first" },
     { label: "Contact", value: "legal@" },
@@ -331,6 +340,10 @@ export const terms: ResourcePageContent = {
     {
       title: "Engagement terms",
       body: "Scope, pricing, timelines, and deliverables live in signed agreements — website copy is not a binding quote.",
+    },
+    {
+      title: "Website analytics",
+      body: "We collect limited usage data (page views, anonymous visitor ID, approximate country) for analytics as described in the Privacy Policy.",
     },
     {
       title: "Intellectual property",

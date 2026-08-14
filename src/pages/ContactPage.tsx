@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Building2,
-  CheckCircle2,
   Clock3,
   Mail,
   MapPin,
@@ -28,6 +27,7 @@ import { SectionShell } from "@/components/ui/section-shell";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { Button } from "@/components/ui/button";
+import { SuccessDialog } from "@/components/ui/success-dialog";
 import { toast } from "@/components/ui/toast";
 import { WHATSAPP_DISPLAY, whatsappExpertUrl } from "@/lib/whatsapp";
 import { useI18n } from "@/i18n";
@@ -80,7 +80,7 @@ export function ContactPage() {
   const formStartedAt = useFormStartedAt();
   const [website, setWebsite] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
   const [errors, setErrors] = useState<FieldErrors<ContactField>>({});
   const [form, setForm] = useState<ContactForm>({
     name: "",
@@ -90,6 +90,19 @@ export function ContactPage() {
     need: needs[0],
     message: "",
   });
+
+  const resetForm = () => {
+    setForm({
+      name: "",
+      email: "",
+      company: "",
+      phone: "",
+      need: needs[0],
+      message: "",
+    });
+    setErrors({});
+    setWebsite("");
+  };
 
   const setField = <K extends ContactField>(key: K, value: ContactForm[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -204,132 +217,132 @@ export function ContactPage() {
             </IcCard>
           }
         >
-          {done ? (
-            <ModernFormCard title="Message sent" icon={CheckCircle2}>
-              <p className="text-sm leading-relaxed text-text-600">
-                Thanks — our team will follow up shortly. Check your inbox for a confirmation.
-              </p>
-            </ModernFormCard>
-          ) : (
-            <form
-              className="w-full"
-              noValidate
-              onSubmit={(e) => {
-                e.preventDefault();
-                const next = validateContact(form);
-                setErrors(next);
-                if (hasErrors(next)) {
-                  toast.error("Please fix the highlighted fields");
-                  return;
-                }
-                setSubmitting(true);
-                void apiFetch("/contact", {
-                  method: "POST",
-                  body: JSON.stringify(withSpamFields(form, { website, formStartedAt })),
+          <form
+            className="w-full"
+            noValidate
+            onSubmit={(e) => {
+              e.preventDefault();
+              const next = validateContact(form);
+              setErrors(next);
+              if (hasErrors(next)) {
+                toast.error(t.forms.fixFields);
+                return;
+              }
+              setSubmitting(true);
+              void apiFetch("/contact", {
+                method: "POST",
+                body: JSON.stringify(withSpamFields(form, { website, formStartedAt })),
+              })
+                .then(() => {
+                  resetForm();
+                  setSuccessOpen(true);
                 })
-                  .then(() => {
-                    setDone(true);
-                    toast.success("Message sent");
-                  })
-                  .catch((err: unknown) => {
-                    toast.error(err instanceof Error ? err.message : "Submit failed");
-                  })
-                  .finally(() => setSubmitting(false));
-              }}
+                .catch((err: unknown) => {
+                  toast.error(err instanceof Error ? err.message : t.forms.submitFailed);
+                })
+                .finally(() => setSubmitting(false));
+            }}
+          >
+            <HoneypotField value={website} onChange={setWebsite} />
+            <ModernFormCard
+              title="Contact form"
+              subtitle="Name, email, company, and phone are required."
+              icon={MessageSquareText}
             >
-              <HoneypotField value={website} onChange={setWebsite} />
-              <ModernFormCard
-                title="Contact form"
-                subtitle="Name, email, company, and phone are required."
-                icon={MessageSquareText}
-              >
-                <div className="grid w-full gap-4 sm:grid-cols-2">
-                  <FormField id="name" label={t.forms.name} icon={User} required error={errors.name}>
-                    <input
-                      id="name"
-                      aria-invalid={Boolean(errors.name)}
-                      aria-describedby={errors.name ? "name-error" : undefined}
-                      className={controlClass(modernControlClass, errors.name)}
-                      value={form.name}
-                      onChange={(e) => setField("name", e.target.value)}
-                    />
-                  </FormField>
-                  <FormField id="email" label={t.forms.email} icon={Mail} required error={errors.email}>
-                    <input
-                      id="email"
-                      type="email"
-                      aria-invalid={Boolean(errors.email)}
-                      aria-describedby={errors.email ? "email-error" : undefined}
-                      className={controlClass(modernControlClass, errors.email)}
-                      value={form.email}
-                      onChange={(e) => setField("email", e.target.value)}
-                    />
-                  </FormField>
-                  <FormField id="company" label={t.forms.company} icon={Building2} required error={errors.company}>
-                    <input
-                      id="company"
-                      aria-invalid={Boolean(errors.company)}
-                      aria-describedby={errors.company ? "company-error" : undefined}
-                      className={controlClass(modernControlClass, errors.company)}
-                      value={form.company}
-                      onChange={(e) => setField("company", e.target.value)}
-                    />
-                  </FormField>
-                  <FormField id="phone" label={t.forms.phone} icon={Phone} required error={errors.phone}>
-                      <input
-                      id="phone"
-                      type="tel"
-                      inputMode="tel"
-                      autoComplete="tel"
-                      aria-invalid={Boolean(errors.phone)}
-                      aria-describedby={errors.phone ? "phone-error" : undefined}
-                      className={controlClass(modernControlClass, errors.phone)}
-                      value={form.phone}
-                      onChange={(e) => setField("phone", sanitizePhoneInput(e.target.value))}
-                    />
-                  </FormField>
-                </div>
-                <FormField id="need" label="What are you looking for?" icon={Send} required>
-                  <select
-                    id="need"
-                    className={cn(modernControlClass, "appearance-none")}
-                    value={form.need}
-                    onChange={(e) =>
-                      setField("need", e.target.value as (typeof needs)[number])
-                    }
-                  >
-                    {needs.map((need) => (
-                      <option key={need} value={need}>
-                        {need}
-                      </option>
-                    ))}
-                  </select>
-                </FormField>
-                <FormField
-                  id="message"
-                  label={t.forms.message}
-                  icon={MessageSquareText}
-                  error={errors.message}
-                >
-                  <textarea
-                    id="message"
-                    rows={5}
-                    aria-invalid={Boolean(errors.message)}
-                    aria-describedby={errors.message ? "message-error" : undefined}
-                    className={controlClass(modernTextareaClass, errors.message)}
-                    value={form.message}
-                    onChange={(e) => setField("message", e.target.value)}
+              <div className="grid w-full gap-4 sm:grid-cols-2">
+                <FormField id="name" label={t.forms.name} icon={User} required error={errors.name}>
+                  <input
+                    id="name"
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={errors.name ? "name-error" : undefined}
+                    className={controlClass(modernControlClass, errors.name)}
+                    value={form.name}
+                    onChange={(e) => setField("name", e.target.value)}
                   />
                 </FormField>
-                <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
-                  <Send className="h-4 w-4" />
-                  {submitting ? t.forms.sending : t.forms.submit}
-                </Button>
-              </ModernFormCard>
-            </form>
-          )}
+                <FormField id="email" label={t.forms.email} icon={Mail} required error={errors.email}>
+                  <input
+                    id="email"
+                    type="email"
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                    className={controlClass(modernControlClass, errors.email)}
+                    value={form.email}
+                    onChange={(e) => setField("email", e.target.value)}
+                  />
+                </FormField>
+                <FormField id="company" label={t.forms.company} icon={Building2} required error={errors.company}>
+                  <input
+                    id="company"
+                    aria-invalid={Boolean(errors.company)}
+                    aria-describedby={errors.company ? "company-error" : undefined}
+                    className={controlClass(modernControlClass, errors.company)}
+                    value={form.company}
+                    onChange={(e) => setField("company", e.target.value)}
+                  />
+                </FormField>
+                <FormField id="phone" label={t.forms.phone} icon={Phone} required error={errors.phone}>
+                    <input
+                    id="phone"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    aria-invalid={Boolean(errors.phone)}
+                    aria-describedby={errors.phone ? "phone-error" : undefined}
+                    className={controlClass(modernControlClass, errors.phone)}
+                    value={form.phone}
+                    onChange={(e) => setField("phone", sanitizePhoneInput(e.target.value))}
+                  />
+                </FormField>
+              </div>
+              <FormField id="need" label="What are you looking for?" icon={Send} required>
+                <select
+                  id="need"
+                  className={cn(modernControlClass, "appearance-none")}
+                  value={form.need}
+                  onChange={(e) =>
+                    setField("need", e.target.value as (typeof needs)[number])
+                  }
+                >
+                  {needs.map((need) => (
+                    <option key={need} value={need}>
+                      {need}
+                    </option>
+                  ))}
+                </select>
+              </FormField>
+              <FormField
+                id="message"
+                label={t.forms.message}
+                icon={MessageSquareText}
+                error={errors.message}
+              >
+                <textarea
+                  id="message"
+                  rows={5}
+                  aria-invalid={Boolean(errors.message)}
+                  aria-describedby={errors.message ? "message-error" : undefined}
+                  className={controlClass(modernTextareaClass, errors.message)}
+                  value={form.message}
+                  onChange={(e) => setField("message", e.target.value)}
+                />
+              </FormField>
+              <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
+                <Send className="h-4 w-4" />
+                {submitting ? t.forms.sending : t.forms.submit}
+              </Button>
+            </ModernFormCard>
+          </form>
         </ModernFormSplit>
       </SectionShell>
+
+      <SuccessDialog
+        open={successOpen}
+        onOpenChange={setSuccessOpen}
+        title={t.forms.enquirySuccessTitle}
+        description={t.forms.enquirySuccessBody}
+        confirmLabel={t.forms.close}
+      />
     </CompanyLongForm>
   );
 }

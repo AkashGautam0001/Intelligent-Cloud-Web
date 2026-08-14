@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  ArrowRight,
+  ArrowUpRight,
   Boxes,
   Command,
   CornerDownLeft,
   FileText,
   HelpCircle,
+  Home,
   Layers,
   Search,
-  Sparkles,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { listServicePages } from "@/content/services";
@@ -50,7 +50,7 @@ function groupIcon(group: SearchGroup) {
     case "faq":
       return HelpCircle;
     default:
-      return Sparkles;
+      return Home;
   }
 }
 
@@ -84,7 +84,7 @@ function HighlightText({ text, query }: { text: string; query: string }) {
           return (
             <mark
               key={`${part}-${i}`}
-              className="rounded-[4px] bg-orange-500/20 px-0.5 font-semibold text-orange-600"
+              className="rounded-[4px] bg-orange-500/15 px-0.5 font-semibold text-orange-600"
             >
               {part}
             </mark>
@@ -370,10 +370,10 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                     <button
                       type="button"
                       className={cn(
-                        "group flex w-full items-start gap-3 rounded-2xl px-3 py-3 text-start transition-all",
+                        "group flex w-full items-start gap-3 rounded-2xl border px-3 py-3 text-start transition-all",
                         isActive
-                          ? "bg-navy-900 text-white shadow-[0_12px_28px_-18px_rgba(4,39,95,0.7)]"
-                          : "hover:bg-[#eef3f8]",
+                          ? "border-border-200 bg-[#eef3f8] shadow-[0_8px_24px_-20px_rgba(4,39,95,0.45)]"
+                          : "border-transparent hover:bg-[#f7f9fc]",
                       )}
                       onMouseEnter={() => setActive(indexRow)}
                       onClick={() => go(hit.href)}
@@ -382,53 +382,38 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
                         className={cn(
                           "mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
                           isActive
-                            ? "bg-white/12 text-orange-400"
-                            : "bg-[#eef3f8] text-orange-500",
+                            ? "bg-white text-orange-500 shadow-sm ring-1 ring-border-200"
+                            : "bg-[#eef3f8] text-navy-900/70",
                         )}
                       >
                         <Icon className="h-4 w-4" aria-hidden />
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="flex flex-wrap items-center gap-2">
-                          <span
-                            className={cn(
-                              "font-display text-sm font-semibold leading-snug",
-                              isActive ? "text-white" : "text-navy-900",
-                            )}
-                          >
+                          <span className="font-display text-sm font-semibold leading-snug text-navy-900">
                             <HighlightText text={hit.title} query={query} />
                           </span>
                           {label ? (
-                            <span
-                              className={cn(
-                                "rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.08em]",
-                                isActive
-                                  ? "bg-white/12 text-white/70"
-                                  : "bg-surface-50 text-text-600",
-                              )}
-                            >
+                            <span className="rounded-full bg-white px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.08em] text-text-600 ring-1 ring-border-200">
                               {label}
                             </span>
                           ) : null}
                         </span>
-                        <span
-                          className={cn(
-                            "mt-1.5 block text-sm leading-relaxed",
-                            isActive ? "text-white/65" : "text-text-600",
-                          )}
-                        >
+                        <span className="mt-1.5 block text-sm leading-relaxed text-text-600">
                           <HighlightText text={description} query={query} />
                         </span>
                       </span>
-                      <ArrowRight
+                      <span
                         className={cn(
-                          "mt-2.5 h-4 w-4 shrink-0 transition-opacity rtl:rotate-180",
+                          "mt-1 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-all",
                           isActive
-                            ? "text-white/70 opacity-100"
-                            : "text-text-600 opacity-0 group-hover:opacity-60",
+                            ? "bg-orange-500 text-white shadow-[0_8px_18px_-10px_rgba(242,106,19,0.9)]"
+                            : "border border-transparent bg-transparent text-navy-900/40 opacity-0 group-hover:border-border-200 group-hover:bg-white group-hover:opacity-100",
                         )}
                         aria-hidden
-                      />
+                      >
+                        <ArrowUpRight className="h-4 w-4" />
+                      </span>
                     </button>
                   </li>
                 );

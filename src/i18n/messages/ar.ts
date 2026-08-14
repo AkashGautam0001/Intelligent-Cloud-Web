@@ -95,6 +95,18 @@ export const ar: Messages = {
     subject: "الموضوع",
     submit: "إرسال",
     sending: "جارٍ الإرسال…",
+    fixFields: "يرجى تصحيح الحقول المميزة",
+    submitFailed: "فشل الإرسال",
+    close: "إغلاق",
+    enquirySuccessTitle: "تم إرسال الاستفسار",
+    enquirySuccessBody:
+      "شكرًا — سيتابع فريقنا قريبًا. تحقق من بريدك لرسالة التأكيد.",
+    demoSuccessTitle: "تم استلام طلب العرض",
+    demoSuccessBody:
+      "شكرًا — سنؤكد الموعد المفضل عبر البريد الإلكتروني قريبًا.",
+    ticketSuccessTitle: "تم إرسال التذكرة",
+    ticketSuccessBody:
+      "سيتابع فريقنا عبر البريد. يمكنك أيضًا مراجعة الأسئلة الشائعة أثناء الانتظار.",
   },
   mega: {
     services: {

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { HeroAtmosphere } from "@/components/home/HeroAtmosphere";
 import { useI18n } from "@/i18n";
 import { whatsappExpertUrl } from "@/lib/whatsapp";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
@@ -74,99 +75,6 @@ function TypingKeywords({
   );
 }
 
-function HeroBackground({ reduced }: { reduced: boolean }) {
-  return (
-    <>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(180deg, #ffffff 0%, #f5f8fb 45%, #eef3f8 100%)",
-        }}
-      />
-
-      {/* Soft grid that drifts */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-[-20%] opacity-[0.45]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(4,39,95,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(4,39,95,0.07) 1px, transparent 1px)",
-          backgroundSize: "56px 56px",
-          maskImage:
-            "radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent 75%)",
-        }}
-        animate={
-          reduced
-            ? undefined
-            : { backgroundPosition: ["0px 0px", "56px 56px"] }
-        }
-        transition={
-          reduced
-            ? undefined
-            : { duration: 28, repeat: Infinity, ease: "linear" }
-        }
-      />
-
-      {/* Soft brand orbs */}
-      {!reduced ? (
-        <>
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute -left-[10%] top-[5%] h-[28rem] w-[28rem] rounded-full bg-azure-500/15 blur-3xl"
-            animate={{
-              x: [0, 80, 20, 0],
-              y: [0, 40, -20, 0],
-              opacity: [0.35, 0.55, 0.4, 0.35],
-            }}
-            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute -right-[8%] bottom-[0%] h-[26rem] w-[26rem] rounded-full bg-orange-500/10 blur-3xl"
-            animate={{
-              x: [0, -60, -20, 0],
-              y: [0, -50, 10, 0],
-              opacity: [0.25, 0.45, 0.3, 0.25],
-            }}
-            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute left-1/2 top-1/3 h-[20rem] w-[20rem] -translate-x-1/2 rounded-full bg-blue-600/10 blur-3xl"
-            animate={{
-              scale: [1, 1.15, 1],
-              opacity: [0.2, 0.35, 0.2],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          />
-        </>
-      ) : (
-        <>
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-[10%] top-[10%] h-72 w-72 rounded-full bg-azure-500/12 blur-3xl"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute right-[8%] bottom-[5%] h-64 w-64 rounded-full bg-orange-500/8 blur-3xl"
-          />
-        </>
-      )}
-
-      {!reduced ? (
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute inset-y-0 w-1/3 skew-x-[-18deg] bg-gradient-to-r from-transparent via-navy-900/[0.03] to-transparent"
-          animate={{ left: ["-30%", "120%"] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", repeatDelay: 3 }}
-        />
-      ) : null}
-    </>
-  );
-}
-
 export function HeroSection() {
   const { t } = useI18n();
   const reduced = usePrefersReducedMotion();
@@ -187,14 +95,14 @@ export function HeroSection() {
 
   return (
     <section className="relative overflow-hidden bg-white text-navy-900">
-      <HeroBackground reduced={reduced} />
+      <HeroAtmosphere reduced={reduced} />
 
-      <div className="container-ic relative mx-auto pb-20 pt-32 text-center lg:pb-28 lg:pt-40">
+      <div className="container-ic relative z-10 mx-auto pb-20 pt-32 text-center lg:pb-28 lg:pt-40">
         <motion.div
-          initial={reduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: reduced ? 0 : 0.85, ease: easeOut }}
-          className="mx-auto flex w-full max-w-6xl flex-col items-center"
+          initial={reduced ? false : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduced ? 0 : 0.7, ease: easeOut }}
+          className="pointer-events-auto mx-auto flex w-full max-w-6xl flex-col items-center"
         >
           <p className="text-[12px] font-medium uppercase tracking-[0.16em] text-text-600">
             {h.platforms}
