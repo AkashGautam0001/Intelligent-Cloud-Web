@@ -226,7 +226,6 @@ export function Navbar() {
             className="flex items-center gap-1.5 sm:gap-2"
             onMouseEnter={scheduleClose}
           >
-            <LanguageSwitcher className="hidden sm:inline-flex" />
             <Button
               type="button"
               size="icon"

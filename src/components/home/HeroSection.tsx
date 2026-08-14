@@ -68,7 +68,17 @@ function MaskedHeadline({
               ease: easeOut,
             }}
           >
-            {i === 1 ? <span className="text-navy-900/90">— {line}</span> : line}
+            {i === 0 ? (
+              <span className="inline-flex items-baseline justify-center gap-[0.28em]">
+                {line}{" "}
+                <span
+                  aria-hidden
+                  className="inline-block h-[0.07em] w-[0.62em] shrink-0 translate-y-[-0.18em] bg-navy-900"
+                />
+              </span>
+            ) : (
+              <span className="text-navy-900/90">{line}</span>
+            )}
           </motion.span>
           {!reduced ? (
             <motion.span
@@ -126,15 +136,9 @@ function MorphKeywords({
             <motion.span
               key={current}
               className="absolute inset-x-0 top-0"
-              initial={
-                reduced ? false : { y: "85%", opacity: 0, filter: "blur(5px)" }
-              }
+              initial={reduced ? false : { y: "85%", opacity: 0, filter: "blur(5px)" }}
               animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-              exit={
-                reduced
-                  ? undefined
-                  : { y: "-75%", opacity: 0, filter: "blur(5px)" }
-              }
+              exit={reduced ? undefined : { y: "-75%", opacity: 0, filter: "blur(5px)" }}
               transition={{ duration: reduced ? 0 : 0.7, ease: easeOut }}
             >
               {current}
@@ -147,12 +151,7 @@ function MorphKeywords({
 }
 
 function FlowArrow({ className }: { className?: string }) {
-  return (
-    <ArrowRight
-      className={cn("relative h-4 w-4", className)}
-      aria-hidden
-    />
-  );
+  return <ArrowRight className={cn("relative h-4 w-4", className)} aria-hidden />;
 }
 
 export function HeroSection() {
@@ -178,11 +177,7 @@ export function HeroSection() {
         <div className="pointer-events-auto mx-auto flex w-full max-w-5xl flex-col items-center">
           <PlatformRow reduced={reduced} />
 
-          <MaskedHeadline
-            reduced={reduced}
-            line1={h.titleLine1}
-            line2={h.titleLine2}
-          />
+          <MaskedHeadline reduced={reduced} line1={h.titleLine1} line2={h.titleLine2} />
           <span className="sr-only">{h.title}</span>
 
           <motion.div
@@ -195,11 +190,7 @@ export function HeroSection() {
             }}
             className="w-full"
           >
-            <MorphKeywords
-              reduced={reduced}
-              prefix={h.weEngineer}
-              keywords={keywords}
-            />
+            <MorphKeywords reduced={reduced} prefix={h.weEngineer} keywords={keywords} />
           </motion.div>
 
           <motion.p

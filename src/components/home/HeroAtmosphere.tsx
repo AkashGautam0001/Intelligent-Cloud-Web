@@ -26,13 +26,15 @@ export function HeroAtmosphere({ reduced, className }: HeroAtmosphereProps) {
   return (
     <div
       aria-hidden
-      className={cn("pointer-events-none absolute inset-0 z-0 overflow-hidden", className)}
+      className={cn(
+        "pointer-events-none absolute inset-0 z-0 overflow-hidden",
+        className,
+      )}
     >
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "linear-gradient(180deg, #ffffff 0%, #f7fafc 45%, #eef4f9 100%)",
+          background: "linear-gradient(180deg, #ffffff 0%, #f7fafc 45%, #eef4f9 100%)",
         }}
       />
 
@@ -45,12 +47,20 @@ export function HeroAtmosphere({ reduced, className }: HeroAtmosphereProps) {
         <>
           <motion.div
             className="absolute -left-[10%] top-0 h-[30rem] w-[30rem] rounded-full bg-azure-500/16 blur-[120px]"
-            animate={{ x: [0, 36, 8, 0], y: [0, 16, -6, 0], opacity: [0.4, 0.65, 0.48, 0.4] }}
+            animate={{
+              x: [0, 36, 8, 0],
+              y: [0, 16, -6, 0],
+              opacity: [0.4, 0.65, 0.48, 0.4],
+            }}
             transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute -right-[8%] top-[30%] h-[26rem] w-[26rem] rounded-full bg-orange-500/10 blur-[120px]"
-            animate={{ x: [0, -28, -6, 0], y: [0, -16, 10, 0], opacity: [0.28, 0.5, 0.34, 0.28] }}
+            animate={{
+              x: [0, -28, -6, 0],
+              y: [0, -16, 10, 0],
+              opacity: [0.28, 0.5, 0.34, 0.28],
+            }}
             transition={{ duration: 32, repeat: Infinity, ease: "easeInOut" }}
           />
         </>
@@ -98,11 +108,7 @@ export function HeroAtmosphere({ reduced, className }: HeroAtmosphereProps) {
                   strokeWidth={stroke}
                   strokeLinecap="round"
                   strokeDasharray={`${dash} ${gap}`}
-                  initial={
-                    reduced
-                      ? false
-                      : { opacity: 0, strokeDashoffset: 0 }
-                  }
+                  initial={reduced ? false : { opacity: 0, strokeDashoffset: 0 }}
                   animate={
                     reduced
                       ? { opacity: 0.85 }
