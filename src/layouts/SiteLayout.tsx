@@ -5,12 +5,14 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFab } from "@/components/layout/WhatsAppFab";
 import { SeoProvider } from "@/components/PageSeo";
+import { useI18n } from "@/i18n";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { easeOut } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 export function SiteLayout() {
   const location = useLocation();
+  const { locale } = useI18n();
   const isHome = location.pathname === "/";
   const reduced = usePrefersReducedMotion();
 
@@ -40,22 +42,30 @@ export function SiteLayout() {
         >
           Skip to content
         </a>
-        <Navbar />
-        <main
-          id="main-content"
-          className={cn("flex-1", !isHome && "pt-16")}
-          tabIndex={-1}
+        <motion.div
+          key={locale}
+          initial={reduced ? false : { opacity: 0, x: locale === "ar" ? 20 : -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: reduced ? 0 : 0.4, ease: easeOut }}
+          className="flex min-h-screen flex-col"
         >
-          <motion.div
-            key={location.pathname}
-            initial={reduced ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: reduced ? 0 : 0.45, ease: easeOut }}
+          <Navbar />
+          <main
+            id="main-content"
+            className={cn("flex-1", !isHome && "pt-16")}
+            tabIndex={-1}
           >
-            <Outlet />
-          </motion.div>
-        </main>
-        <Footer />
+            <motion.div
+              key={location.pathname}
+              initial={reduced ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduced ? 0 : 0.45, ease: easeOut }}
+            >
+              <Outlet />
+            </motion.div>
+          </main>
+          <Footer />
+        </motion.div>
         <WhatsAppFab />
       </div>
     </SeoProvider>

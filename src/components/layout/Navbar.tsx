@@ -166,8 +166,12 @@ export function Navbar() {
         )}
         onMouseLeave={scheduleClose}
       >
-        <div className="container-ic flex h-16 items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-3" onMouseEnter={scheduleClose}>
+        <div className="container-ic grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-4">
+          <Link
+            to="/"
+            className="flex items-center gap-3 justify-self-start"
+            onMouseEnter={scheduleClose}
+          >
             <img
               src={brand.logo}
               alt={t.brand}
@@ -181,7 +185,10 @@ export function Navbar() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
+          <nav
+            className="hidden items-center justify-center gap-2 lg:flex"
+            aria-label="Primary"
+          >
             {megaPanels.map((panel) => {
               const isOpen = openMega === panel.id;
               return (
@@ -193,7 +200,7 @@ export function Navbar() {
                   <button
                     type="button"
                     className={cn(
-                      "inline-flex items-center gap-1 rounded-[8px] px-3 py-2 text-sm font-medium outline-none transition-colors",
+                      "inline-flex items-center gap-1.5 rounded-[8px] px-5 py-2.5 text-sm font-medium outline-none transition-colors",
                       isOpen
                         ? "bg-surface-50 text-navy-900"
                         : "text-text-600 hover:bg-surface-50 hover:text-navy-900",
@@ -223,14 +230,14 @@ export function Navbar() {
           </nav>
 
           <div
-            className="flex items-center gap-1.5 sm:gap-2"
+            className="flex items-center justify-end gap-1.5 justify-self-end sm:gap-2"
             onMouseEnter={scheduleClose}
           >
             <Button
               type="button"
               size="icon"
               variant="ghost"
-              className="before:hidden text-navy-900 transition-colors duration-200 hover:before:scale-x-0 hover:bg-orange-500/10 hover:text-orange-500 hover:[&_svg]:translate-x-0"
+              className="before:hidden bg-transparent text-navy-900 shadow-none hover:bg-transparent hover:text-orange-500 hover:shadow-none hover:before:scale-x-0 hover:[&_svg]:translate-x-0"
               aria-label={t.nav.search}
               onClick={openSearch}
             >
@@ -240,10 +247,11 @@ export function Navbar() {
               asChild
               size="sm"
               variant="ghost"
-              className="hidden text-navy-900 hover:bg-surface-50 lg:inline-flex"
+              className="hidden text-navy-900 hover:bg-transparent hover:text-orange-500 lg:inline-flex"
             >
               <Link to="/contact">{t.nav.contactSales}</Link>
             </Button>
+            <LanguageSwitcher />
             <Button
               type="button"
               size="icon"
@@ -395,7 +403,6 @@ export function Navbar() {
           </nav>
 
           <div className="mt-auto flex flex-col gap-2 border-t border-border-200 pt-4">
-            <LanguageSwitcher variant="full" />
             <Button
               type="button"
               variant="outline"

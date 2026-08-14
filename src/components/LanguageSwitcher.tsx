@@ -36,48 +36,19 @@ function LanguageTab({ className }: { className?: string }) {
         role="group"
         aria-label={t.nav.language}
         className={cn(
-          "relative flex",
-
-          // Smaller size
-          "h-11 w-[88px]",
-
-          "items-center",
-
-          "bg-navy-900",
-
-          // Small padding
-          "p-0.5",
-
-          // Rounded only on the outer side
+          "relative flex h-11 w-[120px] items-center overflow-hidden bg-navy-900 p-0.5",
+          "transition-[border-radius] duration-500 ease-out",
           isArabic
             ? "rounded-e-[12px] rounded-s-none"
             : "rounded-s-[12px] rounded-e-none",
-
-          // Soft shadow
           "shadow-[0_6px_18px_-8px_rgba(4,39,95,0.45)]",
         )}
       >
         {/* Active background */}
         <span
           aria-hidden="true"
-          className={cn(
-            "pointer-events-none absolute",
-            "top-1 bottom-1",
-
-            // Smaller active pill
-            "w-[40px]",
-
-            "rounded-[9px]",
-            "bg-white",
-
-            "shadow-[0_2px_6px_rgba(4,39,95,0.12)]",
-
-            "transition-all duration-300",
-            "ease-out",
-
-            // Keep active language toward the inside
-            isArabic ? "right-1" : "left-1",
-          )}
+          className="pointer-events-none absolute top-0.5 bottom-0.5 left-0.5 w-[calc(50%-2px)] rounded-[9px] bg-white shadow-[0_2px_6px_rgba(4,39,95,0.12)] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          style={{ transform: isArabic ? "translateX(100%)" : "translateX(0)" }}
         />
 
         {/* English */}
@@ -109,7 +80,7 @@ function LanguageTab({ className }: { className?: string }) {
             !isArabic ? "text-navy-900" : "text-white/55 hover:text-white",
           )}
         >
-          EN
+          English
         </button>
 
         {/* Arabic */}
@@ -142,7 +113,7 @@ function LanguageTab({ className }: { className?: string }) {
             isArabic ? "text-navy-900" : "text-white/55 hover:text-white",
           )}
         >
-          ع
+          عالعربية{" "}
         </button>
       </div>
     </div>
@@ -154,7 +125,6 @@ function LanguageTab({ className }: { className?: string }) {
 
 function LanguagePill({ className }: { className?: string }) {
   const { locale, setLocale, t } = useI18n();
-
   const isArabic = locale === "ar";
 
   return (
@@ -163,15 +133,17 @@ function LanguagePill({ className }: { className?: string }) {
       role="group"
       aria-label={t.nav.language}
       className={cn(
-        "inline-flex items-center gap-1",
-        "rounded-full",
-        "border border-border-200",
-        "bg-white",
-        "p-1",
-        "shadow-[0_2px_8px_rgba(4,39,95,0.08)]",
+        "relative grid h-9 w-[5.75rem] grid-cols-2 items-center rounded-full border border-navy-900/12 p-1",
         className,
       )}
     >
+      <span
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute inset-y-1 start-1 w-[calc(50%-6px)] rounded-full bg-navy-900/10 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          isArabic && "translate-x-full",
+        )}
+      />
       <button
         type="button"
         onClick={() => setLocale("en")}
@@ -179,25 +151,12 @@ function LanguagePill({ className }: { className?: string }) {
         aria-label={t.nav.english}
         aria-pressed={!isArabic}
         className={cn(
-          "flex h-8 min-w-10 items-center justify-center",
-          "rounded-full",
-          "px-3",
-          "cursor-pointer",
-
-          "text-[11px]",
-          "font-semibold",
-          "tracking-wide",
-
-          "transition-all duration-200",
-
-          !isArabic
-            ? "bg-navy-900 text-white shadow-sm"
-            : "text-text-600 hover:bg-navy-900/5 hover:text-navy-900",
+          "relative z-10 grid h-full place-items-center text-[11px] font-semibold leading-none tracking-wide transition-colors duration-200",
+          !isArabic ? "text-navy-900" : "text-navy-900/45 hover:text-navy-900",
         )}
       >
         EN
       </button>
-
       <button
         type="button"
         onClick={() => setLocale("ar")}
@@ -205,24 +164,13 @@ function LanguagePill({ className }: { className?: string }) {
         aria-label={t.nav.arabic}
         aria-pressed={isArabic}
         className={cn(
-          "flex h-8 min-w-10 items-center justify-center",
-          "rounded-full",
-          "px-3",
-          "cursor-pointer",
-
-          "font-arabic",
-          "text-[16px]",
-          "font-medium",
-          "leading-none",
-
-          "transition-all duration-200",
-
-          isArabic
-            ? "bg-navy-900 text-white shadow-sm"
-            : "text-text-600 hover:bg-navy-900/5 hover:text-navy-900",
+          "relative z-10 grid h-full place-items-center transition-colors duration-200",
+          isArabic ? "text-navy-900" : "text-navy-900/45 hover:text-navy-900",
         )}
       >
-        ع
+        <span className="inline-flex h-[11px] w-full -translate-y-px items-center justify-center font-arabic text-[12px] font-semibold leading-none">
+          ع
+        </span>
       </button>
     </div>
   );

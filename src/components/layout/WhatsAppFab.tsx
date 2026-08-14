@@ -1,6 +1,5 @@
 import { useI18n } from "@/i18n";
 import { whatsappExpertUrl } from "@/lib/whatsapp";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 /** Official-style WhatsApp glyph (Lucide has no brand mark). */
 function WhatsAppGlyph({ className }: { className?: string }) {
@@ -16,27 +15,23 @@ function WhatsAppGlyph({ className }: { className?: string }) {
   );
 }
 
-/** Language switcher stacked above the WhatsApp side bar. */
 export function WhatsAppFab() {
   const { t } = useI18n();
 
   return (
-    <div className="fixed bottom-24 end-0 z-[60] flex flex-col items-end gap-4">
-      <LanguageSwitcher variant="tab" />
-      <a
-        href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
-        target="_blank"
-        rel="noreferrer"
-        aria-label={t.whatsapp.label}
-        className="group/wa flex h-14 w-14 items-center overflow-hidden rounded-s-2xl rounded-e-none bg-orange-500 text-white shadow-[-8px_12px_32px_-12px_rgba(242,106,19,0.65)] transition-[width,background-color] duration-300 ease-out hover:w-[10.5rem] hover:bg-[#e05f0f] focus-visible:w-[10.5rem] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-navy-900 rtl:shadow-[8px_12px_32px_-12px_rgba(242,106,19,0.65)]"
-      >
-        <span className="relative flex h-14 w-14 shrink-0 items-center justify-center">
-          <WhatsAppGlyph className="h-6 w-6 transition-transform duration-300 group-hover/wa:scale-110" />
-        </span>
-        <span className="whitespace-nowrap pe-5 font-display text-sm font-semibold tracking-tight opacity-0 transition-opacity duration-300 group-hover/wa:opacity-100 group-focus-visible/wa:opacity-100">
-          {t.whatsapp.cta}
-        </span>
-      </a>
-    </div>
+    <a
+      href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={t.whatsapp.label}
+      className="group/wa fixed bottom-24 end-0 z-[60] flex h-14 w-14 items-center overflow-hidden rounded-s-2xl rounded-e-none bg-orange-500 text-white shadow-[-8px_12px_32px_-12px_rgba(242,106,19,0.65)] transition-[width,background-color] duration-300 ease-out hover:w-[10.5rem] hover:bg-[#e05f0f] focus-visible:w-[10.5rem] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-navy-900 rtl:shadow-[8px_12px_32px_-12px_rgba(242,106,19,0.65)]"
+    >
+      <span className="relative flex h-14 w-14 shrink-0 items-center justify-center">
+        <WhatsAppGlyph className="h-6 w-6 transition-transform duration-300 group-hover/wa:scale-110" />
+      </span>
+      <span className="whitespace-nowrap pe-5 font-display text-sm font-semibold tracking-tight opacity-0 transition-opacity duration-300 group-hover/wa:opacity-100 group-focus-visible/wa:opacity-100">
+        {t.whatsapp.cta}
+      </span>
+    </a>
   );
 }
