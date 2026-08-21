@@ -1,53 +1,47 @@
-import { TechBrandChip } from "@/components/TechBrandIcon";
+import { TechBrandIcon } from "@/components/TechBrandIcon";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { primaryTechBrands } from "@/lib/tech-brands";
 import { useI18n } from "@/i18n";
+import { cn } from "@/lib/utils";
 
-/** Trust strip — continuous LTR marquee (forced LTR so RTL page dir doesn't break the loop). */
+/** Light modern trust strip — continuous LTR marquee before FAQ. */
 export function TrustBar() {
   const { t } = useI18n();
   const brands = primaryTechBrands();
   const reduced = usePrefersReducedMotion();
-  // Triple the set so the track is always wider than the viewport on large screens.
   const loop = [...brands, ...brands, ...brands];
 
   return (
-    <section className="border-y border-navy-900/20 bg-navy-900 py-10">
+    <section className="relative overflow-hidden border-y border-navy-900/6 bg-[#eef3f8] py-12 sm:py-14">
       <div className="container-ic">
+        <p className="mb-7 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-navy-900/45">
+          {t.common.technologyPlatforms}
+        </p>
+
         <div className="relative" dir="ltr">
           <p className="sr-only">
             {t.common.technologyPlatforms}: {brands.map((b) => b.name).join(", ")}
           </p>
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 start-0 z-10 w-10 bg-gradient-to-r from-navy-900 to-transparent sm:w-16"
+            className="pointer-events-none absolute inset-y-0 start-0 z-10 w-12 bg-gradient-to-r from-[#eef3f8] to-transparent sm:w-20"
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 end-0 z-10 w-10 bg-gradient-to-l from-navy-900 to-transparent sm:w-16"
+            className="pointer-events-none absolute inset-y-0 end-0 z-10 w-12 bg-gradient-to-l from-[#eef3f8] to-transparent sm:w-20"
           />
 
           <div className="overflow-hidden" aria-hidden>
             {reduced ? (
-              <div className="flex flex-wrap justify-center gap-4">
+              <div className="flex flex-wrap justify-center gap-x-8 gap-y-5">
                 {brands.map((brand) => (
-                  <TechBrandChip
-                    key={brand.id}
-                    brand={brand}
-                    size="lg"
-                    className="shrink-0"
-                  />
+                  <TrustItem key={brand.id} brand={brand} />
                 ))}
               </div>
             ) : (
-              <div className="ic-marquee flex w-max gap-4">
+              <div className="ic-marquee flex w-max items-center gap-10 sm:gap-12">
                 {loop.map((brand, i) => (
-                  <TechBrandChip
-                    key={`${brand.id}-${i}`}
-                    brand={brand}
-                    size="lg"
-                    className="shrink-0"
-                  />
+                  <TrustItem key={`${brand.id}-${i}`} brand={brand} />
                 ))}
               </div>
             )}
@@ -55,5 +49,25 @@ export function TrustBar() {
         </div>
       </div>
     </section>
+  );
+}
+
+function TrustItem({
+  brand,
+}: {
+  brand: ReturnType<typeof primaryTechBrands>[number];
+}) {
+  return (
+    <span
+      className={cn(
+        "inline-flex shrink-0 items-center gap-2.5 text-navy-900/70",
+        "transition-colors duration-200 hover:text-navy-900",
+      )}
+    >
+      <TechBrandIcon brand={brand} size="lg" className="opacity-90" />
+      <span className="font-mono text-[12px] uppercase tracking-[0.14em] sm:text-[13px]">
+        {brand.name}
+      </span>
+    </span>
   );
 }

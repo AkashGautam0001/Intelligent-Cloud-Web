@@ -3,18 +3,18 @@ import type { ServicePageContent } from "./types";
 export const ai: ServicePageContent = {
   slug: "ai",
   title: "AI",
-  eyebrow: "Data & AI",
-  tagline: "Secure, governed AI platforms your teams can ship and operate",
+  eyebrow: "Intelligent automation",
+  tagline: "AI that automates work safely — and your teams can actually adopt",
   summary:
-    "Stand up responsible AI foundations — model access, retrieval, evaluation, and guardrails — so copilots and agents ship with security and cost controls, not as shadow IT.",
+    "You need productivity gains from copilots and agents — without shadow tools, uncontrolled spend, or data leaving approved paths. We stand up governed model access, retrieval, and evaluation so AI ships as a platform product your teams can adopt.",
   iconKey: "ai",
   category: "data",
-  architectureTitle: "Governed model access with retrieval & guardrails",
+  architectureTitle: "AI gateway with RAG, model & guardrails",
   architectureLead:
-    "A secure model plane, access-aware retrieval over your corpora, and evaluation gates — so copilots ship as platform products, not shadow IT.",
+    "Users and apps reach a secured AI gateway — RAG over company data and the model path join through guardrails, with monitoring on the way out.",
   approachTitle: "Risk scan → Controls → First use case → Govern scale",
   approachLead:
-    "AI value sticks when security, eval, and cost controls exist before the second team asks for keys.",
+    "AI value sticks when security, evaluation, and cost controls exist before the second team asks for keys.",
   metrics: [
     { label: "Typical engagement", value: "6–14 weeks" },
     { label: "Focus", value: "Platform + first use case" },
@@ -23,40 +23,66 @@ export const ai: ServicePageContent = {
   ],
   highlights: [
     {
-      title: "AI landing patterns",
-      body: "Secure model endpoints, private networking, and secrets handling for Azure OpenAI / Bedrock and peers.",
+      title: "Approved paths instead of shadow AI",
+      body: "Secure model endpoints, private networking, and identity-based access — so teams stop pasting corporate data into public tools.",
     },
     {
-      title: "Retrieval architectures",
-      body: "RAG patterns with chunking, indexing, and access-aware retrieval over your corpora.",
+      title: "Answers grounded in your knowledge",
+      body: "Retrieval patterns with chunking, indexing, and access-aware search over policies, runbooks, and product docs.",
     },
     {
-      title: "Evaluation & quality",
-      body: "Offline and online eval harnesses so regressions are caught before users feel them.",
+      title: "Quality you can measure",
+      body: "Offline and online evaluation so regressions are caught before users feel them.",
     },
     {
-      title: "Guardrails",
-      body: "Content filters, prompt injection defenses, and logging appropriate for your risk profile.",
+      title: "Guardrails matched to risk",
+      body: "Content filters, injection defenses, and logging appropriate for your risk profile.",
     },
     {
-      title: "Cost controls",
-      body: "Token budgets, caching, and per-app showback so AI spend stays intentional.",
+      title: "Spend that stays intentional",
+      body: "Token budgets, caching, and per-app showback so a popular copilot does not surprise finance.",
     },
     {
-      title: "Delivery path",
-      body: "CI for prompts/config, environments, and a clear promote-to-prod checklist.",
+      title: "A delivery path teams adopt",
+      body: "Environments, change control for prompts and indexes, and a promote-to-prod checklist — so the next use case reuses the foundation.",
+    },
+  ],
+  problems: [
+    {
+      title: "Business automation",
+      body: "Repetitive work drains teams — but automation ideas stall without a safe, approved way to use AI.",
+    },
+    {
+      title: "AI adoption",
+      body: "Pilot tools appear in pockets; security and IT cannot offer a path people will actually use.",
+    },
+    {
+      title: "Intelligent applications",
+      body: "Product teams want copilots and agents in real workflows — not another demo that never reaches production.",
+    },
+    {
+      title: "Data and AI solutions",
+      body: "Answers need your policies and knowledge — without controlled retrieval, data leaves approved paths.",
+    },
+    {
+      title: "AI infrastructure",
+      body: "Model access, networking, identity, and logging are unclear — every project reinvents the foundation.",
+    },
+    {
+      title: "Business productivity",
+      body: "Leaders expect measurable gains — but cost, quality, and ownership are undefined when usage grows.",
     },
   ],
   challenges: [
     "Shadow AI tools with corporate data pasted into public models",
-    "PoCs that never graduate because there is no platform path",
+    "Proofs of concept that never graduate because there is no platform path",
     "No evaluation — quality judged by anecdote",
     "Unclear data permissions for retrieval corpora",
     "Cost spikes when a popular internal copilot goes viral",
   ],
   outcomes: [
     "Approved model access paths with identity and network controls",
-    "At least one production use case with eval and monitoring",
+    "At least one production use case with evaluation and monitoring",
     "Documented data boundaries for retrieval",
     "Cost and quality dashboards owned by product and platform",
     "A backlog process for the next AI use cases on the same foundation",
@@ -64,25 +90,25 @@ export const ai: ServicePageContent = {
   deliverables: [
     {
       title: "AI platform blueprint",
-      body: "Model providers, networking, identity, logging, and environment strategy.",
+      body: "Model providers, networking, identity, logging, and environment strategy — so sponsors and security agree how AI will run.",
     },
     {
-      title: "Reference RAG / agent path",
-      body: "Working reference with retrieval, guardrails, and observability hooks.",
+      title: "Working reference use case",
+      body: "A production-shaped path with retrieval, guardrails, and observability — so teams see adoption, not another demo.",
     },
     {
-      title: "Eval starter kit",
-      body: "Datasets, scoring approach, and CI gate recommendations.",
+      title: "Evaluation starter kit",
+      body: "Datasets, scoring approach, and release gates — so quality is a control, not a hallway opinion.",
     },
     {
       title: "Operate pack",
-      body: "Incident playbooks, cost reviews, and change control for prompts and indexes.",
+      body: "Incident playbooks, cost reviews, and change control for prompts and indexes — so day-two ownership is clear.",
     },
   ],
   approach: [
     {
-      title: "Scan risk & use cases",
-      body: "Map use cases, data sensitivity, and existing shadow AI usage with security.",
+      title: "Scan risk and opportunity",
+      body: "Map use cases, data sensitivity, and existing shadow AI usage with security — focused on business value and exposure.",
     },
     {
       title: "Stand up platform controls",
@@ -90,11 +116,11 @@ export const ai: ServicePageContent = {
     },
     {
       title: "Ship the first production use case",
-      body: "Deliver platform baselines and the first use case through eval and production.",
+      body: "Deliver platform baselines and the first use case through evaluation and production.",
     },
     {
-      title: "Govern cost & quality at scale",
-      body: "Enable cost/quality monitoring and a governed intake for subsequent apps.",
+      title: "Govern cost and quality at scale",
+      body: "Enable cost and quality monitoring plus a governed intake for subsequent apps.",
     },
   ],
   stack: [
@@ -102,28 +128,10 @@ export const ai: ServicePageContent = {
     "Amazon Bedrock",
     "Azure AI Search / OpenSearch",
     "LangChain / Semantic Kernel",
-    "Prompt flow / eval harnesses",
     "Private Link",
     "Terraform",
-    "Application Insights / CloudWatch",
   ],
-  useCases: [
-    {
-      title: "Internal knowledge copilot",
-      body: "Employees needed answers from policies and runbooks without leaking data to public tools.",
-      outcome: "Private RAG with access-aware retrieval and usage logging.",
-    },
-    {
-      title: "Support deflection assistant",
-      body: "A support org wanted suggested replies grounded in product docs with human review.",
-      outcome: "Assisted workflows with eval gates before full automation.",
-    },
-    {
-      title: "Secure model gateway",
-      body: "Multiple teams requested model access. We centralized a gateway with quotas and audit.",
-      outcome: "Approved path that replaced unmanaged API keys.",
-    },
-  ],
+  useCases: [],
   faqs: [
     {
       question: "Do you build custom models from scratch?",
@@ -133,12 +141,17 @@ export const ai: ServicePageContent = {
     {
       question: "How do you keep prompts and data secure?",
       answer:
-        "Private networking, identity-based access, corpus ACLs, and logging policies agreed with security before production traffic.",
+        "Private networking, identity-based access, corpus access controls, and logging policies agreed with security before production traffic.",
     },
     {
       question: "Can you help with AI policy and training?",
       answer:
         "Yes — we align technical controls with acceptable-use guidance so platform and policy reinforce each other.",
+    },
+    {
+      question: "How do you drive adoption after the first use case?",
+      answer:
+        "We leave an approved path, operate pack, and intake process so later teams reuse the same foundation instead of starting shadow projects.",
     },
   ],
   related: ["analytics", "integration", "cloud-computing"],

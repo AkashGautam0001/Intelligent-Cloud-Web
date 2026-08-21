@@ -3,132 +3,136 @@ import type { ServicePageContent } from "./types";
 export const cloudComputing: ServicePageContent = {
   slug: "cloud-computing",
   title: "Cloud Computing",
-  eyebrow: "Platforms",
-  tagline: "Landing zones and scalable workloads your teams can operate",
+  eyebrow: "Cloud foundation",
+  tagline: "Reliable cloud foundations your teams can trust and operate",
   summary:
-    "Design and build Azure and AWS foundations — identity, network, guardrails, and workload platforms — so new environments ship with the same baseline every time.",
+    "You need environments that are secure, repeatable, and ready for growth — without months of design debates. We design and build cloud foundations so new workloads land with the same baseline every time.",
   iconKey: "cloud-computing",
   category: "platforms",
-  architectureTitle: "Landing-zone topology at a glance",
+  architectureTitle: "Secure Cloud Foundation (hub / spoke)",
   architectureLead:
-    "Hub services, spokes, and workload placement rules — the foundation pattern we tailor to your Azure or AWS estate before writing IaC.",
-  approachTitle: "Discover → Freeze → Provision → Transfer",
+    "User traffic enters through the internet into a secured hub with identity, security, and monitoring — then lands in spoke workloads that stay isolated.",
+  approachTitle: "Discover → Agree → Build → Hand over",
   approachLead:
-    "We stop endless design debates early, ship a usable foundation, and prove operate ownership with your platform team.",
+    "We lock decisions early, deliver a usable foundation, and prove your team can operate day two.",
   metrics: [
     { label: "Typical engagement", value: "6–14 weeks" },
-    { label: "Landing zone patterns", value: "Hub-spoke & CAF" },
-    { label: "Delivery model", value: "IaC + GitOps" },
+    { label: "Foundation pattern", value: "Hub-spoke" },
+    { label: "Clouds", value: "Azure · AWS · GCP" },
     { label: "Day-two ready", value: "Runbooks included" },
   ],
   highlights: [
     {
-      title: "Landing zones",
-      body: "Subscription/account topology, shared services, and policy baselines aligned to Cloud Adoption Framework patterns.",
+      title: "Environments you can trust",
+      body: "Repeatable cloud foundations so new systems land on the same secure baseline — without months of redesign.",
     },
     {
-      title: "Workload platforms",
-      body: "AKS/EKS, App Service, or VM estates with clear placement rules, scaling, and observability hooks.",
+      title: "Clear ownership",
+      body: "Roles, access paths, and break-glass procedures so the right people get in — and risk stays bounded.",
     },
     {
-      title: "Identity & access",
-      body: "Entra ID / IAM roles, privileged access paths, and break-glass procedures documented before go-live.",
+      title: "Security built in from day one",
+      body: "Network segmentation and policy guardrails before workloads go live — not bolted on after an incident.",
     },
     {
-      title: "Cost guardrails",
-      body: "Budgets, tags, and showback so finance and engineering share one view of spend growth.",
+      title: "Cost you can explain",
+      body: "Budgets, tags, and change reviews so spend stays visible before finance gets surprised.",
     },
     {
-      title: "Change control",
-      body: "Terraform or Bicep pipelines with peer review — no silent portal changes in production.",
+      title: "Faster path to production",
+      body: "Placement rules and starter patterns so teams land containers, apps, and VMs without reinventing the path.",
     },
     {
-      title: "Handoff packs",
-      body: "Architecture diagrams, ownership matrix, and operate guides so your team owns day two.",
+      title: "Operate handover",
+      body: "Diagrams, ownership matrix, and runbooks so your platform team owns day two after go-live.",
+    },
+  ],
+  problems: [
+    {
+      title: "Environments that do not scale cleanly",
+      body: "Accounts and subscriptions grew organically — every new project invents its own layout, and nothing feels repeatable.",
+    },
+    {
+      title: "Unclear ownership and access",
+      body: "Nobody is sure who owns which environment, who can change production, or how break-glass should work.",
+    },
+    {
+      title: "Security added too late",
+      body: "Networking and controls arrive after systems are live — reviews find gaps that are expensive to fix.",
+    },
+    {
+      title: "Cloud cost surprises",
+      body: "Spend climbs without tagging, budgets, or showback — finance cannot explain the bill.",
+    },
+    {
+      title: "Slow to launch new workloads",
+      body: "Standing up a safe place for the next app takes weeks of debate instead of a known path.",
     },
   ],
   challenges: [
-    "Subscriptions and accounts grown organically with unclear ownership",
-    "Portal-driven changes that cannot be reproduced or audited",
-    "Security and networking bolted on after workloads are live",
-    "Cost spikes without tagging or showback",
-    "Landing-zone projects that stall on endless design debates",
+    "Cloud accounts grown organically with unclear ownership",
+    "Manual changes that cannot be reproduced or audited",
+    "Security and networking added only after systems are live",
+    "Cost surprises without tagging or showback",
+    "Foundation projects that stall in endless design debates",
   ],
   outcomes: [
-    "Repeatable environment provision in hours, not weeks",
-    "Policy-as-code baselines enforced at subscription/account scope",
-    "Documented identity and network paths for every workload class",
-    "Observable platforms with alerts mapped to runbook owners",
-    "A backlog of workload migrations sequenced against the new foundation",
+    "New environments provisioned in hours, not weeks",
+    "Shared security and policy baselines across the estate",
+    "Documented identity and network paths for each workload class",
+    "Monitoring and alerts mapped to named owners",
+    "A clear backlog for migrating workloads onto the new foundation",
   ],
   deliverables: [
     {
       title: "Foundation blueprint",
-      body: "Topology, naming, tagging, and policy catalogue agreed with security and platform owners.",
+      body: "An agreed map of topology, naming, tagging, and policies — so security and platform owners share one plan.",
     },
     {
-      title: "IaC landing zone",
-      body: "Modular Terraform/Bicep that provisions hub, spokes, shared logging, and identity wiring.",
+      title: "Ready-to-use cloud environment",
+      body: "A deployable foundation you can recreate and scale consistently — not a one-off portal build.",
     },
     {
       title: "Workload starter kits",
-      body: "Reference modules for containers, PaaS apps, and IaaS with CI/CD stubs.",
+      body: "Reference patterns for common workload types so teams onboard faster with less guesswork.",
     },
     {
       title: "Operate pack",
-      body: "Runbooks for access requests, incident triage, and monthly hygiene reviews.",
+      body: "Practical runbooks for access, incidents, and monthly hygiene — so day-two work is owned by your team.",
     },
   ],
   approach: [
     {
-      title: "Discover the estate",
-      body: "Map subscriptions/accounts, identity gaps, and the workload classes you need to host in the next 12 months.",
+      title: "Discover the problem",
+      body: "Map accounts, identity gaps, and the workloads you need to host — focused on business risk, not tool catalogues.",
     },
     {
-      title: "Freeze the landing zone",
-      body: "Agree topology, policy, and network patterns — lock decisions before code so delivery stays focused.",
+      title: "Agree the foundation",
+      body: "Lock topology, network, and policy decisions early so delivery stays focused and measurable.",
     },
     {
-      title: "Provision foundations",
-      body: "Implement landing zones and one reference workload end-to-end through pipeline and observability.",
+      title: "Build and prove",
+      body: "Implement the foundation and one reference workload end-to-end, including monitoring and access paths.",
     },
     {
-      title: "Transfer day-two ownership",
-      body: "Drill access requests, deploys, rollbacks, and cost reviews until your platform team owns the path.",
+      title: "Transfer ownership",
+      body: "Walk through deploys, access requests, and reviews until your team can run the path without us.",
     },
   ],
   stack: [
     "Azure",
     "AWS",
+    "Google Cloud",
     "Terraform",
-    "Bicep",
-    "AKS / EKS",
     "Entra ID",
     "GitHub Actions",
-    "Azure Monitor",
   ],
-  useCases: [
-    {
-      title: "Greenfield SaaS platform",
-      body: "A product team needed production in weeks without inheriting ad-hoc cloud debt. We delivered a CAF-aligned landing zone, AKS starter, and GitOps path.",
-      outcome: "First customer tenant live with policy and observability from day one.",
-    },
-    {
-      title: "Enterprise consolidation",
-      body: "Multiple business units ran separate Azure subscriptions with conflicting standards. We unified hub services and migrated spokes onto shared baselines.",
-      outcome: "One platform team, one policy set, clearer cost showback.",
-    },
-    {
-      title: "Regulated workload onboarding",
-      body: "A financial services team needed a segmented spoke with private endpoints and privileged access workflows before moving a core system.",
-      outcome: "Approved pattern reused for three subsequent workloads.",
-    },
-  ],
+  useCases: [],
   faqs: [
     {
-      question: "Do you only work on Azure?",
+      question: "Do you only work on one cloud?",
       answer:
-        "No. We deliver Azure and AWS landing zones and can support hybrid patterns. The stack is chosen with your team — not forced by a single-cloud playbook.",
+        "No. We deliver foundations on Azure, AWS, and GCP patterns. The stack is chosen with your team — not forced by a single playbook.",
     },
     {
       question: "How long until we can onboard the first workload?",
@@ -136,14 +140,14 @@ export const cloudComputing: ServicePageContent = {
         "Most engagements land a usable foundation and one reference workload in 6–10 weeks, depending on identity and network prerequisites.",
     },
     {
-      question: "Will our team own the code?",
+      question: "Will our team own what you build?",
       answer:
-        "Yes. IaC lives in your repos with CI checks. We document modules and hand over operate runbooks so you are not dependent on us for routine changes.",
+        "Yes. Code and diagrams live in your repos. We document modules and hand over operate runbooks so you are not dependent on us for routine changes.",
     },
     {
-      question: "Can this plug into an existing CAF or Well-Architected effort?",
+      question: "Can this align with our existing cloud strategy?",
       answer:
-        "Absolutely. We align to your existing CAF/WAF decisions and fill the gaps — we do not restart strategy for its own sake.",
+        "Yes. We align to decisions you already made and fill the gaps — we do not restart strategy for its own sake.",
     },
   ],
   related: ["networking", "database", "disaster-recovery"],

@@ -3,48 +3,70 @@ import type { ServicePageContent } from "./types";
 export const storage: ServicePageContent = {
   slug: "storage",
   title: "Storage",
-  eyebrow: "Platforms",
-  tagline: "Object, block, and lifecycle policies that keep data available and affordable",
+  eyebrow: "Data protection",
+  tagline: "Storage that grows with you — without surprise cost or restore risk",
   summary:
-    "Design storage tiers, retention, and access patterns across Azure and AWS so performance, durability, and cost stay intentional — not accidental.",
+    "You need room for growth, reliable backups, and clear cost control — without leaving critical data exposed. We design tiers, lifecycle, and protected copies so capacity, recovery, and spend stay intentional.",
   iconKey: "storage",
   category: "platforms",
-  architectureTitle: "Hot → cool → archive tiering",
+  architectureTitle: "Secure access to object, file & block storage",
   architectureLead:
-    "A deliberate tier map with lifecycle automation — so capacity, egress, and retrieval SLAs stay intentional instead of accidental.",
-  approachTitle: "Classify → Tier → Automate → Prove restores",
+    "Applications reach storage through secure access — object, file, and block paths — with backup and archive as the protected layer underneath.",
+  approachTitle: "Classify → Tier → Protect → Prove restores",
   approachLead:
-    "We design storage around data classes and risk, then prove restore and access paths before declaring the work done.",
+    "We design around data classes and risk, automate lifecycle, and prove restore paths before calling the work done.",
   metrics: [
     { label: "Typical engagement", value: "4–10 weeks" },
-    { label: "Focus areas", value: "Tiers & lifecycle" },
+    { label: "Focus areas", value: "Growth · cost · protect" },
     { label: "Compliance", value: "Retention & immutability" },
     { label: "Access model", value: "Private by default" },
   ],
   highlights: [
     {
-      title: "Tier strategy",
-      body: "Hot, cool, archive, and infrequent-access mappings tied to real access patterns — not guesswork.",
+      title: "Room to grow without waste",
+      body: "Hot, cool, and archive mappings tied to how teams actually use data — so you expand capacity without paying hot-tier rates forever.",
     },
     {
-      title: "Lifecycle automation",
-      body: "Policies that move and expire data on schedule with audit trails for compliance teams.",
+      title: "Lifecycle that runs itself",
+      body: "Policies that move and expire data on schedule with audit trails — so retention is enforced, not remembered in a spreadsheet.",
     },
     {
-      title: "Secure access",
-      body: "Private endpoints, SAS/presigned hygiene, and identity-based access instead of long-lived keys.",
+      title: "Access you can defend",
+      body: "Private endpoints and identity-based access instead of long-lived keys and public paths.",
     },
     {
-      title: "Backup & immutability",
-      body: "WORM/immutable options and restore drills for ransomware-resilient copies.",
+      title: "Backups that survive ransomware",
+      body: "Immutable or WORM options plus restore drills — so recovery is proven, not assumed.",
     },
     {
-      title: "Performance baselines",
+      title: "Performance you can plan for",
       body: "IOPS, throughput, and latency targets for block and file workloads before cutover.",
     },
     {
-      title: "Cost visibility",
-      body: "Egress, API, and capacity forecasts so finance sees the storage bill before it surprises anyone.",
+      title: "Cost you can explain",
+      body: "Capacity, egress, and API forecasts so finance sees the bill before it surprises anyone.",
+    },
+  ],
+  problems: [
+    {
+      title: "Data growth",
+      body: "Volume keeps rising and everything lands in the expensive tier — capacity expands, but cost expands faster.",
+    },
+    {
+      title: "Backup",
+      body: "Backups exist on paper, yet nobody is sure the last critical restore would succeed under time pressure.",
+    },
+    {
+      title: "Data availability",
+      body: "Teams need data when they need it — outages, slow restores, or unclear failover put operations at risk.",
+    },
+    {
+      title: "Storage cost",
+      body: "Finance cannot explain the bill: hot storage, egress, and API charges stack without a clear owner.",
+    },
+    {
+      title: "Data protection",
+      body: "Public paths, shared keys, or missing immutability leave critical data exposed to ransomware and misuse.",
     },
   ],
   challenges: [
@@ -64,65 +86,48 @@ export const storage: ServicePageContent = {
   deliverables: [
     {
       title: "Data classification matrix",
-      body: "Classes, RPO/retention, encryption, and access owners agreed with security and data stewards.",
+      body: "Agreed classes, retention, encryption, and owners — so security and stewards share one view of what must be protected.",
     },
     {
-      title: "Storage architecture",
-      body: "Account/bucket layout, networking, and replication choices with IaC modules.",
+      title: "Storage layout you can operate",
+      body: "Account and bucket structure, private access, and replication choices your team can recreate — not a one-off portal build.",
     },
     {
-      title: "Lifecycle & policy pack",
-      body: "Rules for transition, delete, and legal hold with monitoring on policy failures.",
+      title: "Lifecycle and retention pack",
+      body: "Transition, delete, and hold rules with alerts when policy fails — so compliance is continuous, not annual panic.",
     },
     {
-      title: "Restore drill report",
-      body: "Timed restore of a critical dataset with gaps and remediation logged.",
+      title: "Restore proof report",
+      body: "A timed restore of a critical dataset with gaps logged — so you know recovery works before you need it.",
     },
   ],
   approach: [
     {
-      title: "Classify the data",
-      body: "Inventory stores, access paths, and the top cost or risk drivers in the last 90 days.",
+      title: "Classify what matters",
+      body: "Inventory stores, access paths, and the top cost or risk drivers — focused on business impact, not every bucket name.",
     },
     {
-      title: "Design the tiers",
-      body: "Define hot/cool/archive, retention, and network boundaries per data class before moving bytes.",
+      title: "Agree the tier map",
+      body: "Lock hot/cool/archive, retention, and network boundaries per data class before moving bytes.",
     },
     {
-      title: "Automate lifecycle",
-      body: "Implement accounts/buckets, policies, and private connectivity with pipeline-managed config.",
+      title: "Build protection in",
+      body: "Implement stores, lifecycle, private connectivity, and immutability where risk warrants it.",
     },
     {
-      title: "Prove restores",
+      title: "Prove you can recover",
       body: "Hand over dashboards, exception process, and timed restore drills for critical datasets.",
     },
   ],
   stack: [
     "Azure Blob / Files",
     "AWS S3 / EBS / EFS",
-    "Private Link / PrivateLink",
+    "Private Link",
     "Terraform",
-    "Immutability / Object Lock",
-    "Azure Backup",
-    "AWS Backup",
+    "Object Lock / WORM",
+    "Azure & AWS Backup",
   ],
-  useCases: [
-    {
-      title: "Media archive cost cut",
-      body: "A content platform kept years of assets in hot storage. We introduced lifecycle to cool/archive with retrieval SLAs for editorial.",
-      outcome: "Material monthly savings without breaking retrieval workflows.",
-    },
-    {
-      title: "Private data lake landing",
-      body: "Analytics needed a secure object landing zone with encryption, logging, and no public endpoints.",
-      outcome: "Pipelines ingest via private paths with auditable access.",
-    },
-    {
-      title: "Ransomware-ready backups",
-      body: "An ops team had backups but no immutability or restore proof. We enabled locked retention and ran restore drills.",
-      outcome: "Documented restore times for the top three critical systems.",
-    },
-  ],
+  useCases: [],
   faqs: [
     {
       question: "Can you migrate data between clouds or on-prem?",
@@ -132,12 +137,17 @@ export const storage: ServicePageContent = {
     {
       question: "Do you replace our backup product?",
       answer:
-        "Not by default. We often integrate existing backup/DR tools with cloud-native stores and strengthen immutability and restore practice.",
+        "Not by default. We often strengthen what you already run with immutability, private access, and proven restore practice.",
     },
     {
       question: "How do you handle compliance retention?",
       answer:
-        "We map legal/regulatory retention to policy, enable holds where needed, and leave evidence trails for auditors.",
+        "We map legal and regulatory retention to policy, enable holds where needed, and leave evidence trails for auditors.",
+    },
+    {
+      question: "Will our team own the lifecycle after go-live?",
+      answer:
+        "Yes. Policies and diagrams live with you. We hand over exception handling and restore cadence so day-two work stays in-house.",
     },
   ],
   related: ["cloud-computing", "disaster-recovery", "database"],

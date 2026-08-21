@@ -1,293 +1,309 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  Activity,
-  Check,
-  ClipboardList,
-  LayoutTemplate,
-  Blocks,
-  type LucideIcon,
-} from "lucide-react";
 import { SectionShell } from "@/components/ui/section-shell";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
-import { easeOut, springSlow, staggerSlow } from "@/lib/motion";
-import { cn } from "@/lib/utils";
+import { easeOut } from "@/lib/motion";
+import { pickIcon } from "@/lib/section-icons";
 import { useI18n } from "@/i18n";
+import assessArt from "@/assets/homepage/how-it-works-access.png";
+import designArt from "@/assets/homepage/how-it-works-design.png";
+import buildArt from "@/assets/homepage/how-it-works-build.png";
+import operateArt from "@/assets/homepage/how-it-works-operate.png";
+
+type PointCard = {
+  title: string;
+  body: string;
+};
+
+type Step = {
+  id: string;
+  title: string;
+  art: string;
+  points: PointCard[];
+};
+
+const PANEL =
+  "h-[min(70vh,36rem)] min-h-[24rem]";
 
 export function HowItWorksSection() {
   const { t } = useI18n();
   const h = t.home.howItWorks;
-  const [active, setActive] = useState(0);
   const reduced = usePrefersReducedMotion();
+  const [active, setActive] = useState(0);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
 
-  const steps: {
-    id: string;
-    title: string;
-    blurb: string;
-    Icon: LucideIcon;
-    accent: string;
-    points: string[];
-  }[] = useMemo(
+  const steps: Step[] = useMemo(
     () => [
       {
         id: "assess",
         title: h.assess.title,
-        blurb: h.assess.blurb,
-        Icon: ClipboardList,
-        accent: "from-orange-500 to-azure-500",
+        art: assessArt,
         points: [
-          h.assess.points.inventory,
-          h.assess.points.heatmaps,
-          h.assess.points.waves,
-          h.assess.points.gap,
+          { title: "Inventory", body: h.assess.points.inventory },
+          { title: "Heatmaps", body: h.assess.points.heatmaps },
+          { title: "Migration waves", body: h.assess.points.waves },
+          { title: "Gap analysis", body: h.assess.points.gap },
         ],
       },
       {
         id: "design",
         title: h.design.title,
-        blurb: h.design.blurb,
-        Icon: LayoutTemplate,
-        accent: "from-orange-500 to-navy-900",
+        art: designArt,
         points: [
-          h.design.points.architecture,
-          h.design.points.identity,
-          h.design.points.blueprints,
-          h.design.points.contracts,
+          { title: "Architecture", body: h.design.points.architecture },
+          { title: "Identity", body: h.design.points.identity },
+          { title: "Blueprints", body: h.design.points.blueprints },
+          { title: "Contracts", body: h.design.points.contracts },
         ],
       },
       {
         id: "build",
         title: h.build.title,
-        blurb: h.build.blurb,
-        Icon: Blocks,
-        accent: "from-orange-500 to-[#e85a0a]",
+        art: buildArt,
         points: [
-          h.build.points.terraform,
-          h.build.points.cicd,
-          h.build.points.gitops,
-          h.build.points.observability,
+          { title: "Terraform", body: h.build.points.terraform },
+          { title: "CI/CD", body: h.build.points.cicd },
+          { title: "GitOps", body: h.build.points.gitops },
+          { title: "Observability", body: h.build.points.observability },
         ],
       },
       {
         id: "operate",
         title: h.operate.title,
-        blurb: h.operate.blurb,
-        Icon: Activity,
-        accent: "from-navy-900 to-azure-500",
+        art: operateArt,
         points: [
-          h.operate.points.managed,
-          h.operate.points.drift,
-          h.operate.points.finops,
-          h.operate.points.retros,
+          { title: "Managed ops", body: h.operate.points.managed },
+          { title: "Drift control", body: h.operate.points.drift },
+          { title: "FinOps", body: h.operate.points.finops },
+          { title: "Retros", body: h.operate.points.retros },
         ],
       },
     ],
     [h],
   );
 
-  const step = steps[active]!;
+  const flatPoints = useMemo(
+    () =>
+      steps.flatMap((step, stepIndex) =>
+        step.points.map((point, pointIndex) => ({
+          ...point,
+          stepIndex,
+          key: `${step.id}-${point.title}`,
+          Icon: pickIcon(stepIndex * 4 + pointIndex),
+        })),
+      ),
+    [steps],
+  );
+
+  // Page scroll drives content through the clipped window (exit top / enter bottom)
+  useEffect(() => {
+    const track = trackRef.current;
+    const panel = panelRef.current;
+    const content = contentRef.current;
+    if (!track || !panel || !content) return;
+
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const trackRect = track.getBoundingClientRect();
+      const trackTop = window.scrollY + trackRect.top;
+      const scrollable = Math.max(track.offsetHeight - window.innerHeight, 1);
+      const progress = Math.min(
+        1,
+        Math.max(0, (window.scrollY - trackTop) / scrollable),
+      );
+
+      const maxShift = Math.max(content.scrollHeight - panel.clientHeight, 0);
+      content.style.transform = `translate3d(0, ${-progress * maxShift}px, 0)`;
+
+      // Active step from which card sits nearest the panel center
+      const panelMid = panel.getBoundingClientRect().top + panel.clientHeight / 2;
+      let best = 0;
+      let bestDist = Number.POSITIVE_INFINITY;
+      cardRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const mid = rect.top + rect.height / 2;
+        const dist = Math.abs(mid - panelMid);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = flatPoints[i]?.stepIndex ?? 0;
+        }
+      });
+      setActive(best);
+    };
+
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [flatPoints]);
+
+  const activeStep = steps[active]!;
 
   return (
-    <SectionShell tone="white" eyebrow={h.eyebrow} title={h.title} lead={h.lead}>
-      <div className="relative">
-        {/* Connector sits behind solid cards — only visible in the gaps */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute left-[6%] right-[6%] top-[42px] z-0 hidden h-px bg-border-200 lg:block"
-        >
-          <motion.div
-            className="h-full origin-left bg-gradient-to-r from-orange-500 via-[#ff8a3d] to-orange-500/70"
-            initial={false}
-            animate={{ scaleX: (active + 1) / steps.length }}
-            transition={reduced ? { duration: 0 } : springSlow}
-            style={{ transformOrigin: "left" }}
-          />
-        </div>
+    <SectionShell
+      tone="soft"
+      eyebrow={h.eyebrow}
+      title={h.title}
+      lead={h.lead}
+      className="[&_.section-shell-body]:mt-8 lg:[&_.section-shell-body]:mt-10"
+    >
+      {/* Desktop: tall track so sticky window can scrub through all cards */}
+      <div ref={trackRef} className="relative hidden lg:block lg:h-[280vh]">
+        <div className="sticky top-24 grid grid-cols-2 items-stretch gap-10 xl:gap-12">
+          {/* Left: rounded image — section-tone fill */}
+          <div
+            className={`relative flex items-center justify-center overflow-hidden rounded-2xl bg-[#eef3f8] p-4 ${PANEL}`}
+          >
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={activeStep.id}
+                src={activeStep.art}
+                alt={activeStep.title}
+                width={1200}
+                height={900}
+                initial={reduced ? false : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduced ? undefined : { opacity: 0, y: -10 }}
+                transition={{ duration: reduced ? 0 : 0.35, ease: easeOut }}
+                className="h-full w-full select-none object-contain mix-blend-multiply"
+                draggable={false}
+              />
+            </AnimatePresence>
+          </div>
 
-        <div className="relative z-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-          {steps.map((s, i) => {
-            const isActive = active === i;
-            const isPast = i < active;
-            const Icon = s.Icon;
+          {/* Right: clipped window — cards exit top / enter bottom */}
+          <div
+            ref={panelRef}
+            className={`relative overflow-hidden rounded-2xl bg-transparent ${PANEL}`}
+            style={{
+              maskImage:
+                "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)",
+            }}
+          >
+            <div
+              ref={contentRef}
+              className="relative space-y-8 py-10 will-change-transform sm:space-y-10 sm:py-12"
+            >
+              {/* Bold timeline through circle centers (h-9 → mid at 18px) */}
+              <div
+                aria-hidden
+                className="absolute bottom-10 left-[18px] top-10 w-[3px] -translate-x-1/2 rounded-full bg-navy-900/35 sm:bottom-12 sm:top-12"
+              />
 
-            return (
-              <motion.button
-                key={s.id}
-                type="button"
-                onClick={() => setActive(i)}
-                initial={reduced ? false : { opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{
-                  delay: reduced ? 0 : staggerSlow * i,
-                  duration: reduced ? 0 : 0.9,
-                  ease: easeOut,
-                }}
-                className={cn(
-                  "group/card relative isolate overflow-hidden rounded-[14px] border border-border-200 bg-white p-5 text-start outline-none shadow-[0_1px_0_rgba(4,39,95,0.04)]",
-                  "transition-[border-color,background-color,transform,box-shadow] duration-700 ease-out",
-                  "focus-visible:ring-2 focus-visible:ring-orange-500/40 focus-visible:ring-offset-2",
-                  isActive
-                    ? "border-orange-500/55 shadow-[0_12px_28px_-20px_rgba(242,106,19,0.28)]"
-                    : "hover:border-orange-500/40",
-                )}
-                aria-pressed={isActive}
-                aria-controls="how-it-works-detail"
-              >
-                {isActive ? (
-                  <motion.span
-                    layoutId={reduced ? undefined : "how-it-works-glow"}
-                    className="pointer-events-none absolute inset-0 rounded-[14px] bg-gradient-to-br from-orange-500/[0.07] via-transparent to-azure-500/[0.08]"
-                    transition={reduced ? { duration: 0 } : springSlow}
-                  />
-                ) : null}
-
-                <span
-                  aria-hidden
-                  className={cn(
-                    "absolute inset-x-0 top-0 z-[1] h-0.5 origin-left bg-gradient-to-r from-orange-500 to-[#ff8a3d] transition-transform duration-700 ease-out",
-                    isActive ? "scale-x-100" : "scale-x-0 group-hover/card:scale-x-100",
-                  )}
-                />
-
-                <div className="relative z-[1] flex items-start justify-between gap-3">
-                  <span
-                    className={cn(
-                      "flex h-11 w-11 items-center justify-center rounded-[12px] transition-[color,background-color,transform] duration-500 ease-out",
-                      isActive
-                        ? `bg-gradient-to-br ${s.accent} text-white`
-                        : isPast
-                          ? "bg-navy-900 text-white"
-                          : "bg-surface-50 text-navy-900 ring-1 ring-border-200 group-hover/card:rotate-12 group-hover/card:scale-110 group-hover/card:bg-orange-500/10 group-hover/card:text-orange-500 group-hover/card:ring-orange-500/30",
-                    )}
+              {flatPoints.map((point, i) => (
+                <div key={point.key}>
+                  <div
+                    ref={(el) => {
+                      cardRefs.current[i] = el;
+                    }}
+                    className="relative flex items-start gap-4"
                   >
-                    <Icon className="h-[18px] w-[18px]" strokeWidth={1.85} aria-hidden />
-                  </span>
-                  <span
-                    className={cn(
-                      "font-mono text-[11px] tracking-[0.16em] transition-colors duration-700",
-                      isActive ? "text-orange-500" : "text-text-600/70",
-                    )}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+                    <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy-900 font-display text-sm font-semibold text-white">
+                      {(i % 4) + 1}
+                    </span>
+                    <div className="min-w-0 py-0.5">
+                      <div className="flex items-center gap-2">
+                        <point.Icon
+                          className="h-4 w-4 text-orange-500"
+                          aria-hidden
+                        />
+                        <h4 className="font-display text-base font-semibold text-navy-900">
+                          {point.title}
+                        </h4>
+                      </div>
+                      <p className="mt-1.5 text-sm leading-relaxed text-text-600">
+                        {point.body}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Phase boundary: after 4 → before next 1 */}
+                  {(i + 1) % 4 === 0 && i < flatPoints.length - 1 ? (
+                    <div
+                      aria-hidden
+                      className="ml-[18px] py-6 sm:py-8"
+                    >
+                      <div className="h-px w-full bg-navy-900/20" />
+                    </div>
+                  ) : null}
                 </div>
-
-                <h3 className="font-display relative z-[1] mt-4 text-lg font-semibold text-navy-900">
-                  {s.title}
-                </h3>
-                <p className="relative z-[1] mt-1.5 text-sm leading-relaxed text-text-600">
-                  {s.blurb}
-                </p>
-              </motion.button>
-            );
-          })}
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="mt-6 lg:mt-8">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step.id}
-            id="how-it-works-detail"
-            role="region"
-            aria-live="polite"
-            aria-label={`${step.title} ${h.phaseDetails}`}
-            initial={reduced ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduced ? undefined : { opacity: 0 }}
-            transition={{ duration: reduced ? 0 : 0.75, ease: easeOut }}
-            className="overflow-hidden rounded-[16px] border border-border-200 bg-surface-50 shadow-[0_1px_0_rgba(4,39,95,0.04)]"
-          >
-            <div className="grid lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-              <div className="relative overflow-hidden border-b border-border-200 bg-navy-950 p-6 sm:p-8 lg:border-b-0 lg:border-r">
-                <div
-                  aria-hidden
-                  className={cn(
-                    "pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-gradient-to-br opacity-40 blur-3xl",
-                    step.accent,
-                  )}
-                />
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-[0.07]"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-                    backgroundSize: "28px 28px",
-                  }}
-                />
-
-                <p className="relative font-mono text-[11px] uppercase tracking-[0.16em] text-azure-100/60">
-                  {t.common.phase} {String(active + 1).padStart(2, "0")} {h.of}{" "}
-                  {String(steps.length).padStart(2, "0")}
-                </p>
-                <div className="relative mt-5 flex items-center gap-4">
-                  <span
-                    className={cn(
-                      "flex h-14 w-14 items-center justify-center rounded-[14px] bg-gradient-to-br text-white",
-                      step.accent,
-                    )}
-                  >
-                    <step.Icon className="h-6 w-6" strokeWidth={1.75} aria-hidden />
-                  </span>
-                  <div>
-                    <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] text-white">
-                      {step.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-white/55">{step.blurb}</p>
-                  </div>
-                </div>
-
-                <div className="relative mt-8 flex items-center gap-2">
-                  {steps.map((s, i) => (
-                    <button
-                      key={s.id}
-                      type="button"
-                      onClick={() => setActive(i)}
-                      aria-label={`${h.goTo} ${s.title}`}
-                      className={cn(
-                        "h-1.5 rounded-full transition-all duration-700 ease-out",
-                        i === active
-                          ? "w-8 bg-orange-500"
-                          : i < active
-                            ? "w-4 bg-azure-500/70 hover:bg-azure-500"
-                            : "w-4 bg-white/20 hover:bg-white/40",
-                      )}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-white p-6 sm:p-8">
-                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-text-600">
-                  {t.common.whatYouGet}
-                </p>
-                <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                  {step.points.map((point, i) => (
-                    <motion.li
-                      key={point}
-                      initial={reduced ? false : { opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{
-                        delay: reduced ? 0 : 0.12 + i * 0.1,
-                        duration: reduced ? 0 : 0.8,
-                        ease: easeOut,
-                      }}
-                      className="group/item flex gap-3 rounded-[12px] border border-transparent bg-surface-50 p-3.5 transition-colors duration-700 ease-out hover:border-azure-500/25 hover:bg-azure-100/40"
-                    >
-                      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-azure-500 text-white">
-                        <Check className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
-                      </span>
-                      <span className="text-sm leading-relaxed text-text-600 group-hover/item:text-navy-900">
-                        {point}
-                      </span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
+      {/* Mobile: simple stacked list */}
+      <div className="mt-8 space-y-8 lg:hidden">
+        {steps.map((step, stepIndex) => (
+          <div key={step.id} className="space-y-8">
+            <div className="overflow-hidden rounded-2xl bg-[#eef3f8] p-3">
+              <img
+                src={step.art}
+                alt={step.title}
+                width={900}
+                height={700}
+                className="mx-auto block h-auto w-full max-w-sm select-none object-contain mix-blend-multiply"
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+              />
             </div>
-          </motion.div>
-        </AnimatePresence>
+            <div className="relative space-y-8">
+              <div
+                aria-hidden
+                className="absolute bottom-3 left-[18px] top-3 w-[3px] -translate-x-1/2 rounded-full bg-navy-900/35"
+              />
+              {step.points.map((point, pointIndex) => {
+                const PointIcon = pickIcon(stepIndex * 4 + pointIndex);
+                const isLastInPhase = pointIndex === step.points.length - 1;
+                const hasNextPhase = stepIndex < steps.length - 1;
+                return (
+                  <div key={point.title}>
+                    <div className="relative flex items-start gap-4">
+                      <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy-900 font-display text-sm font-semibold text-white">
+                        {pointIndex + 1}
+                      </span>
+                      <div className="min-w-0 py-0.5">
+                        <div className="flex items-center gap-2">
+                          <PointIcon className="h-4 w-4 text-orange-500" aria-hidden />
+                          <h4 className="font-display text-base font-semibold text-navy-900">
+                            {point.title}
+                          </h4>
+                        </div>
+                        <p className="mt-1.5 text-sm leading-relaxed text-text-600">
+                          {point.body}
+                        </p>
+                      </div>
+                    </div>
+                    {isLastInPhase && hasNextPhase ? (
+                      <div aria-hidden className="ml-[18px] py-6">
+                        <div className="h-px w-full bg-navy-900/20" />
+                      </div>
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
     </SectionShell>
   );

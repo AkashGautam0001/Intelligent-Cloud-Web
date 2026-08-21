@@ -4,8 +4,8 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { easeOut } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-/** Only two light section surfaces — alternate these on the homepage. */
-export type SectionTone = "white" | "navyLight";
+/** Section surfaces: white, pale blue, or soft azure. */
+export type SectionTone = "white" | "navyLight" | "soft" | "mist";
 
 type SectionShellProps = {
   eyebrow?: string;
@@ -18,9 +18,12 @@ type SectionShellProps = {
   id?: string;
 };
 
+/** white · pale blue (#eef3f8) · soft azure (#d9eaf8). */
 const toneBg: Record<SectionTone, string> = {
-  white: "bg-gradient-to-b from-white via-white to-[#f7fafc]",
-  navyLight: "bg-gradient-to-b from-[#eef3f8] via-[#eef3f8] to-[#e8eef5]",
+  white: "bg-white",
+  soft: "bg-[#eef3f8]",
+  mist: "bg-azure-100",
+  navyLight: "bg-[#eef3f8]",
 };
 
 const viewport = { once: true, amount: 0.25, margin: "0px 0px -10% 0px" } as const;
@@ -94,7 +97,9 @@ export function SectionShell({
             )
           ) : null}
         </div>
-        {children && !aside ? <div className="mt-12">{children}</div> : null}
+        {children && !aside ? (
+          <div className="section-shell-body mt-12">{children}</div>
+        ) : null}
       </div>
     </section>
   );

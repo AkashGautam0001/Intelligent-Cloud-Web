@@ -8,7 +8,6 @@ import { SeoProvider } from "@/components/PageSeo";
 import { useI18n } from "@/i18n";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { easeOut } from "@/lib/motion";
-import { cn } from "@/lib/utils";
 
 function useLocaleContentMotion() {
   const { locale } = useI18n();
@@ -22,10 +21,10 @@ function useLocaleContentMotion() {
       return;
     }
     if (reduced) return;
-    controls.set({ opacity: 0.55, y: 6 });
+    // Opacity-only — avoid translate transforms so sticky photo heroes work.
+    controls.set({ opacity: 0.55 });
     void controls.start({
       opacity: 1,
-      y: 0,
       transition: { duration: 0.28, ease: easeOut },
     });
   }, [locale, reduced, controls]);
@@ -35,7 +34,6 @@ function useLocaleContentMotion() {
 
 export function SiteLayout() {
   const location = useLocation();
-  const isHome = location.pathname === "/";
   const reduced = usePrefersReducedMotion();
   const contentMotion = useLocaleContentMotion();
 
@@ -73,13 +71,13 @@ export function SiteLayout() {
         >
           <main
             id="main-content"
-            className={cn("flex-1", !isHome && "pt-16")}
+            className="flex-1 pt-14"
             tabIndex={-1}
           >
             <motion.div
               key={location.pathname}
-              initial={reduced ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={reduced ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: reduced ? 0 : 0.45, ease: easeOut }}
             >
               <Outlet />

@@ -25,13 +25,13 @@ import {
 } from "@/components/forms/modern-form";
 import { SectionShell } from "@/components/ui/section-shell";
 import { IcCard } from "@/components/ui/ic-card";
-import { IcChip } from "@/components/ui/ic-chip";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { Button } from "@/components/ui/button";
 import { SuccessDialog } from "@/components/ui/success-dialog";
 import { toast } from "@/components/ui/toast";
 import { useI18n } from "@/i18n";
 import { cn } from "@/lib/utils";
+import bookAssessmentHero from "@/assets/book-assessment.jpg";
 import {
   controlClass,
   email as validateEmail,
@@ -49,11 +49,13 @@ import {
 
 /** Stable English values for the API; labels come from i18n. */
 const NEED_OPTIONS = [
+  { value: "Cloud Services", key: "cloudServices" },
+  { value: "Network & Connectivity", key: "networkConnectivity" },
+  { value: "Infrastructure Services", key: "infrastructureServices" },
+  { value: "Managed Infrastructure", key: "managedInfrastructure" },
+  { value: "AI & Data Services", key: "aiDataServices" },
   { value: "Cloud Migration", key: "cloudMigration" },
-  { value: "Managed Cloud", key: "managedCloud" },
-  { value: "Kubernetes", key: "kubernetes" },
-  { value: "DevOps", key: "devops" },
-  { value: "Security", key: "security" },
+  { value: "DevOps & Automation", key: "devopsAutomation" },
   { value: "Other", key: "other" },
 ] as const;
 
@@ -74,7 +76,7 @@ type FormState = {
 type BookingField = keyof FormState;
 
 const empty: FormState = {
-  need: "Cloud Migration",
+  need: "Cloud Services",
   name: "",
   email: "",
   company: "",
@@ -160,28 +162,7 @@ export function BookDemoPage() {
   return (
     <CompanyLongForm
       content={bookDemoContent}
-      heroVisual={
-        <IcCard className="overflow-hidden p-6">
-          <div className="flex items-center gap-4">
-            <IcIconTile size="lg" className="h-14 w-14 rounded-[14px]">
-              <CalendarCheck className="h-7 w-7" aria-hidden />
-            </IcIconTile>
-            <div>
-              <p className="font-display text-sm font-semibold text-navy-900">
-                {b.freeAssessment}
-              </p>
-              <p className="mt-1 text-sm text-text-600">{b.engineerLed}</p>
-            </div>
-          </div>
-          <ul className="mt-6 flex flex-wrap gap-2">
-            {b.heroChips.map((item) => (
-              <li key={item}>
-                <IcChip as="span">{item}</IcChip>
-              </li>
-            ))}
-          </ul>
-        </IcCard>
-      }
+      heroBackground={bookAssessmentHero}
     >
       <SectionShell
         tone="navyLight"

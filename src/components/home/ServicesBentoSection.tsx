@@ -51,13 +51,13 @@ export function ServicesBentoSection() {
   const showSkeleton = isLoading && staticPages.length === 0;
 
   return (
-    <SectionShell tone="white" eyebrow={s.eyebrow} title={s.title} lead={s.lead}>
+    <SectionShell tone="mist" eyebrow={s.eyebrow} title={s.title} lead={s.lead}>
       {showSkeleton ? (
         <CardGridSkeleton count={8} />
       ) : isError && staticPages.length === 0 ? (
         <p className="text-sm text-danger">{s.loadError}</p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((service, index) => {
             const Icon = serviceIcon(service.iconKey);
             const n = String(index + 1).padStart(2, "0");

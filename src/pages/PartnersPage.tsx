@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Handshake } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { API_URL } from "@/lib/api";
 import { usePartners } from "@/hooks/useCms";
 import { getCompanyPage, partners as partnersFallback } from "@/content/company";
@@ -7,48 +7,37 @@ import { CompanyLongForm } from "@/components/company/CompanyLongForm";
 import { useI18n } from "@/i18n";
 import { SectionShell } from "@/components/ui/section-shell";
 import { IcCard } from "@/components/ui/ic-card";
-import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { CardGridSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
+import partnersHero from "@/assets/partners.jpg";
 
 export function PartnersPage() {
   const { t, locale } = useI18n();
   const partnersContent = getCompanyPage("partners", locale) ?? partnersFallback;
   const { data, isLoading, isError } = usePartners();
-  const partnerList = data ?? [];
+  /** Official partners only — never surface tech brands as partnerships. */
+  const blocked = new Set(["hashicorp", "gitlab", "cncf", "datadog"]);
+  const partnerList = (data ?? []).filter(
+    (p) => !blocked.has(p.name.trim().toLowerCase().replace(/\s+/g, "")),
+  );
   const p = t.pages.partners;
+
+  if (!isLoading && !isError && partnerList.length === 0) {
+    return (
+      <CompanyLongForm
+        content={partnersContent}
+        heroBackground={partnersHero}
+      />
+    );
+  }
 
   return (
     <CompanyLongForm
       content={partnersContent}
-      heroVisual={
-        <IcCard className="overflow-hidden p-6">
-          <div className="flex items-center gap-4">
-            <IcIconTile size="lg" className="h-14 w-14 rounded-[14px]">
-              <Handshake className="h-7 w-7" aria-hidden />
-            </IcIconTile>
-            <div>
-              <p className="font-display text-sm font-semibold text-navy-900">
-                {p.programTitle}
-              </p>
-              <p className="mt-1 text-sm text-text-600">{p.programLead}</p>
-            </div>
-          </div>
-          <ul className="mt-6 space-y-2">
-            {p.paths.map((path) => (
-              <li
-                key={path.id}
-                className="rounded-[10px] border border-border-200 bg-[#eef3f8]/80 px-3 py-2.5 text-sm font-medium text-navy-900"
-              >
-                {path.title}
-              </li>
-            ))}
-          </ul>
-        </IcCard>
-      }
+      heroBackground={partnersHero}
       afterHighlights={
         <SectionShell
-          tone="white"
+          tone="soft"
           eyebrow={p.pathsEyebrow}
           title={p.pathsTitle}
           lead={p.pathsLead}

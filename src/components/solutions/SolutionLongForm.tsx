@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, MessageCircle, Package } from "lucide-react";
 import type { SolutionPageContent } from "@/content/solutions/types";
 import { getSolutionPage } from "@/content/solutions";
-import { solutionIcon } from "@/lib/solution-icons";
+import { getSolutionBackground } from "@/content/solutions/backgrounds";
 import {
   ChallengeIcon,
   OutcomeIcon,
@@ -22,9 +22,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { SolutionSlugMark } from "@/components/solutions/solution-svgs";
 import { StackToolsSection } from "@/components/StackToolsSection";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
+import { StickyPhotoHero, StickyPhotoHeroBody } from "@/components/StickyPhotoHero";
+import { cn } from "@/lib/utils";
 
 type SolutionLongFormProps = {
   content: SolutionPageContent;
@@ -36,81 +37,92 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
   const lf = t.pages.longForm;
   const title = content.title;
   const summary = content.summary;
-  const Icon = solutionIcon(content.iconKey);
   const related = content.related
     .map((slug) => getSolutionPage(slug, locale))
     .filter(Boolean) as SolutionPageContent[];
+  const heroBackground = getSolutionBackground(content.slug);
+  const photoHero = Boolean(heroBackground);
 
-  return (
+  const heroCopy = (
     <>
-      <div className="relative overflow-hidden border-b border-border-200 bg-[#eef3f8]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-70"
-          style={{
-            background:
-              "radial-gradient(ellipse 50% 60% at 90% 20%, rgba(242,106,19,0.12), transparent 55%), radial-gradient(ellipse 40% 50% at 10% 80%, rgba(67,139,216,0.12), transparent 50%)",
-          }}
-        />
-        <div className="container-ic relative py-12 lg:py-16">
-          <Breadcrumbs
-            items={[
-              { label: t.common.home, to: "/" },
-              { label: t.nav.solutions, to: "/solutions" },
-              { label: title },
-            ]}
-          />
-          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-            <div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#6b7a8c]">
-                {content.eyebrow} · {t.common.solution}
-              </p>
-              <h1 className="mt-4 font-display text-[clamp(2rem,4.2vw,3.25rem)] font-semibold leading-[1.12] tracking-[-0.03em] text-navy-900">
-                {title}
-              </h1>
-              <p className="mt-3 max-w-2xl text-lg font-medium leading-snug text-navy-900/80">
-                {content.tagline}
-              </p>
-              <p className="mt-4 max-w-2xl text-[clamp(1rem,1.35vw,1.125rem)] leading-[1.7] text-[#5f6b7a]">
-                {summary}
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button asChild size="lg">
-                  <Link to={content.ctaTo}>
-                    {content.ctaLabel} <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline">
-                  <a
-                    href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {t.common.talkExpert}
-                  </a>
-                </Button>
-              </div>
-            </div>
-            <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:justify-self-end">
-              <IcCard className="overflow-hidden p-6">
-                <div className="flex items-center gap-4">
-                  <IcIconTile size="lg" className="h-14 w-14 rounded-[14px]">
-                    <Icon className="h-7 w-7" aria-hidden />
-                  </IcIconTile>
-                  <div>
-                    <p className="font-display text-sm font-semibold text-navy-900">{title}</p>
-                    <p className="mt-1 text-sm text-text-600">{content.eyebrow}</p>
-                  </div>
-                </div>
-                <SolutionSlugMark slug={content.slug} className="mt-6 h-auto w-full" />
-              </IcCard>
-            </div>
-          </div>
+      <Breadcrumbs
+        items={[
+          { label: t.common.home, to: "/" },
+          { label: t.nav.solutions, to: "/solutions" },
+          { label: title },
+        ]}
+        className={
+          photoHero
+            ? "text-white/65 [&_span.text-navy-900]:text-white [&_a]:text-white/75 [&_a:hover]:text-orange-400"
+            : undefined
+        }
+      />
+      <div className="mt-6 w-full max-w-none">
+        <p
+          className={cn(
+            "text-[11px] font-medium uppercase tracking-[0.16em]",
+            photoHero ? "text-orange-400/90" : "text-[#6b7a8c]",
+          )}
+        >
+          {content.eyebrow} · {t.common.solution}
+        </p>
+        <h1
+          className={cn(
+            "mt-4 max-w-[55rem] font-display text-[clamp(2.15rem,4.6vw,3.5rem)] font-semibold leading-[1.1] tracking-[-0.03em]",
+            photoHero ? "text-white" : "text-navy-900",
+          )}
+        >
+          {title}
+        </h1>
+        <p
+          className={cn(
+            "mt-4 max-w-[52rem] text-lg font-medium leading-snug sm:text-xl",
+            photoHero ? "text-white/85" : "text-navy-900/80",
+          )}
+        >
+          {content.tagline}
+        </p>
+        <p
+          className={cn(
+            "mt-4 max-w-[56rem] text-[clamp(1.05rem,1.4vw,1.2rem)] leading-[1.7]",
+            photoHero ? "text-white/70" : "text-[#5f6b7a]",
+          )}
+        >
+          {summary}
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Button asChild size="lg">
+            <Link to={content.ctaTo}>
+              {content.ctaLabel} <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className={
+              photoHero
+                ? "border-white/35 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+                : undefined
+            }
+          >
+            <a
+              href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t.common.talkExpert}
+            </a>
+          </Button>
         </div>
       </div>
+    </>
+  );
 
+  const pageBody = (
+    <>
       <SectionShell
-        tone="navyLight"
+        tone="white"
         eyebrow={t.common.capabilities}
         title={t.common.whatWeDeliver}
         lead={lf.capabilitiesLeadSolution}
@@ -120,7 +132,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
             const Icon = pickIcon(i);
             return (
               <StaggerItem key={h.title}>
-                <IcCard interactive className="h-full">
+                <IcCard interactive className="h-full border-0 shadow-none">
                   <div className="flex items-start gap-3">
                     <IcIconTile size="sm">
                       <Icon className="h-4 w-4" aria-hidden />
@@ -138,13 +150,13 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
       </SectionShell>
 
       <SectionShell
-        tone="white"
+        tone="soft"
         eyebrow={lf.whyItMatters}
         title={lf.challengesTitle}
         lead={lf.challengesLead}
       >
         <div className="grid gap-6 lg:grid-cols-2">
-          <IcCard className="h-full border-orange-500/20 bg-orange-500/[0.03]">
+          <IcCard className="h-full border-0 bg-orange-500/[0.03] shadow-none">
             <div className="flex items-center gap-2">
               <ChallengeIcon className="h-4 w-4 text-orange-500" aria-hidden />
               <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
@@ -160,7 +172,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
               ))}
             </ul>
           </IcCard>
-          <IcCard className="h-full border-navy-900/15 bg-navy-900/[0.03]">
+          <IcCard className="h-full border-0 bg-navy-900/[0.03] shadow-none">
             <div className="flex items-center gap-2">
               <OutcomeIcon className="h-4 w-4 text-navy-900" aria-hidden />
               <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-navy-900">
@@ -180,7 +192,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
       </SectionShell>
 
       <SectionShell
-        tone="navyLight"
+        tone="white"
         eyebrow={t.common.deliverables}
         title={lf.deliverablesTitle}
         lead={lf.deliverablesLead}
@@ -189,7 +201,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
           {content.deliverables.map((d, i) => {
             const Icon = pickIcon(i + 4);
             return (
-              <IcCard key={d.title} interactive className="h-full">
+              <IcCard key={d.title} interactive className="h-full border-0 shadow-none">
                 <div className="flex items-center gap-3">
                   <IcIconTile size="sm">
                     <Icon className="h-4 w-4" aria-hidden />
@@ -207,7 +219,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
       </SectionShell>
 
       <SectionShell
-        tone="white"
+        tone="soft"
         eyebrow={lf.howWeDeliver}
         title={content.approachTitle}
         lead={content.approachLead}
@@ -216,7 +228,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
           {content.approach.map((step, i) => {
             const Icon = pickIcon(i + 10);
             return (
-              <IcCard key={step.title} interactive className="h-full">
+              <IcCard key={step.title} interactive className="h-full border-0 shadow-none">
                 <div className="flex items-center gap-3">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-navy-900 font-display text-sm font-semibold text-white">
                     {i + 1}
@@ -234,30 +246,13 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
           })}
         </div>
         {cmsBodyHtml ? (
-          <IcCard className="mt-8">
+          <IcCard className="mt-8 border-0 shadow-none">
             <h3 className="font-display text-lg font-semibold text-navy-900">Approach detail</h3>
             <div className="mt-3">
               <RichHtml html={cmsBodyHtml} />
             </div>
           </IcCard>
         ) : null}
-      </SectionShell>
-
-      <SectionShell
-        tone="navyLight"
-        eyebrow={t.common.architectureLens}
-        title={content.architectureTitle}
-        lead={content.architectureLead}
-        aside={
-          <IcCard className="overflow-hidden p-4 sm:p-6">
-            <SolutionSlugMark slug={content.slug} className="h-auto w-full" />
-          </IcCard>
-        }
-      >
-        <p className="max-w-xl text-sm leading-relaxed text-text-600">
-          The visual orients the conversation. Blueprints, IaC, and runbooks are the durable
-          artifacts your team keeps after the engagement.
-        </p>
       </SectionShell>
 
       <SectionShell
@@ -270,13 +265,13 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
           {content.useCases.map((u, i) => {
             const Icon = pickIcon(i + 16);
             return (
-              <IcCard key={u.title} interactive className="flex h-full flex-col">
+              <IcCard key={u.title} interactive className="flex h-full flex-col border-0 shadow-none">
                 <IcIconTile size="sm">
                   <Icon className="h-4 w-4" aria-hidden />
                 </IcIconTile>
                 <h3 className="mt-3 font-display text-lg font-semibold text-navy-900">{u.title}</h3>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-text-600">{u.body}</p>
-                <p className="mt-5 border-t border-border-200 pt-4 text-sm font-medium text-navy-900">
+                <p className="mt-5 pt-4 text-sm font-medium text-navy-900">
                   <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
                     <Package className="h-3.5 w-3.5" aria-hidden />
                     {t.common.outcome}
@@ -289,7 +284,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
         </div>
       </SectionShell>
 
-      <StackToolsSection items={content.stack} />
+      <StackToolsSection items={content.stack} className="border-y-0 bg-[#eef3f8]" />
 
       <SectionShell
         tone="white"
@@ -297,7 +292,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
         title={lf.faqTitle.replace("{title}", title)}
         lead={lf.faqLead}
       >
-        <IcCard className="p-2 sm:p-4">
+        <IcCard className="border-0 p-2 shadow-none sm:p-4">
           <Accordion type="single" collapsible>
             {content.faqs.map((faq, i) => (
               <AccordionItem key={faq.question} value={`faq-${i}`}>
@@ -338,11 +333,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
                   {content.ctaLabel} <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="light"
-              >
+              <Button asChild size="lg" variant="light">
                 <a
                   href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
                   target="_blank"
@@ -379,6 +370,19 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
           ) : null}
         </div>
       </section>
+    </>
+  );
+
+  return (
+    <>
+      {photoHero && heroBackground ? (
+        <StickyPhotoHero src={heroBackground}>{heroCopy}</StickyPhotoHero>
+      ) : (
+        <div className="relative overflow-hidden bg-white">
+          <div className="container-ic relative py-12 lg:py-16">{heroCopy}</div>
+        </div>
+      )}
+      {photoHero ? <StickyPhotoHeroBody>{pageBody}</StickyPhotoHeroBody> : pageBody}
     </>
   );
 }

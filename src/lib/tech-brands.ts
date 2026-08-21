@@ -15,6 +15,13 @@ export const techBrands: TechBrand[] = [
   { id: "aws", name: "AWS", src: "/assets/tech/aws.svg", color: "#FF9900", category: "cloud" },
   { id: "azure", name: "Azure", src: "/assets/tech/azure.svg", color: "#0078D4", category: "cloud" },
   {
+    id: "gcp",
+    name: "GCP",
+    src: "/assets/tech/gcp.svg",
+    color: "#4285F4",
+    category: "cloud",
+  },
+  {
     id: "kubernetes",
     name: "Kubernetes",
     src: "/assets/tech/kubernetes.svg",
@@ -335,7 +342,7 @@ export const techBrands: TechBrand[] = [
 export const primaryTechBrandIds = [
   "aws",
   "azure",
-  "kubernetes",
+  "gcp",
   "terraform",
   "helm",
   "argo",

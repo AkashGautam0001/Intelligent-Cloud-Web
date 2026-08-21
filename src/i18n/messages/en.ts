@@ -141,27 +141,27 @@ export const en = {
       resilience: "Resilience",
       cloudComputing: {
         title: "Cloud Computing",
-        description: "Landing zones & scalable workloads",
+        description: "Reliable environments you can grow on",
       },
       storage: {
         title: "Storage",
-        description: "Object, block & lifecycle policies",
+        description: "Data growth, backup, cost & protection",
       },
       networking: {
         title: "Networking",
-        description: "Secure connectivity & segmentation",
+        description: "Connectivity, performance & hybrid links",
       },
       database: {
         title: "Database",
-        description: "Managed data tiers & migrations",
+        description: "Performance, availability & migration",
       },
       analytics: {
         title: "Analytics",
-        description: "Pipelines for decision-ready insight",
+        description: "Visibility, reporting & business insights",
       },
       ai: {
         title: "AI",
-        description: "Secure, governed AI platforms",
+        description: "Automation, adoption & intelligent apps",
       },
       integration: {
         title: "Integration",
@@ -284,7 +284,7 @@ export const en = {
     },
     problem: {
       eyebrow: "The problem",
-      title: "Fragile cloud estates fail quietly — until they don't",
+      title: "Build reliable cloud systems that don't fail when it matters.",
       lead: "Most teams don't lose on the cloud because of bad ideas. They lose on unclear ownership, untested recovery, and platforms that can't survive the next release.",
       fragileLabel: "Fragile",
       fragileTitle: "What breaks under load",
@@ -306,7 +306,7 @@ export const en = {
     whatWeDo: {
       eyebrow: "What we do",
       title: "One engineered path from assessment to managed operations",
-      lead: "Intelligent Cloud unifies architecture, delivery, and run — so Azure, AWS, and Kubernetes estates stay auditable, cost-aware, and operable by your team.",
+      lead: "Intelligent Cloud unifies architecture, delivery, and run — so Azure, AWS, and GCP estates stay auditable, cost-aware, and operable by your team.",
       migrate: {
         title: "Cloud migration",
         points: {
@@ -843,11 +843,13 @@ export const en = {
       lookingFor: "What are you looking for?",
       whatsapp: "WhatsApp",
       needs: {
+        cloudServices: "Cloud Services",
+        networkConnectivity: "Network & Connectivity",
+        infrastructureServices: "Infrastructure Services",
+        managedInfrastructure: "Managed Infrastructure",
+        aiDataServices: "AI & Data Services",
         cloudMigration: "Cloud Migration",
-        managedServices: "Managed Services",
-        kubernetes: "Kubernetes",
-        devops: "DevOps Consulting",
-        partnership: "Partnership",
+        devopsAutomation: "DevOps & Automation",
         other: "Other",
       },
     },
@@ -878,11 +880,13 @@ export const en = {
       notes: "Notes (optional)",
       subtitleWizard: "Full-width booking wizard — no live calendar sync.",
       needOptions: {
+        cloudServices: "Cloud Services",
+        networkConnectivity: "Network & Connectivity",
+        infrastructureServices: "Infrastructure Services",
+        managedInfrastructure: "Managed Infrastructure",
+        aiDataServices: "AI & Data Services",
         cloudMigration: "Cloud Migration",
-        managedCloud: "Managed Cloud",
-        kubernetes: "Kubernetes",
-        devops: "DevOps",
-        security: "Security",
+        devopsAutomation: "DevOps & Automation",
         other: "Other",
       },
     },
@@ -1059,26 +1063,37 @@ export const en = {
       faqTitle: "Questions about {title}",
       faqLead: "Straight answers on scope, ownership, and how engagements usually run.",
       capabilitiesLead:
-        "Modern building blocks — not a slide deck of buzzwords — so your team can operate what we leave behind.",
+        "After the problem is clear — here is how Intelligent Cloud solves it, in ways your team can operate.",
       capabilitiesLeadSolution:
         "Outcome-focused building blocks — not a recycled service brochure.",
       whyItMatters: "Why it matters",
+      problemsEyebrow: "Your situation",
+      problemsTitle: "Recognize your problem",
+      problemsLead:
+        "Find the business or IT challenge that matches what you face — then see how we solve it. Technology comes after.",
       challengesTitle: "Challenges we see — outcomes we aim for",
       challengesLead:
         "Most estates already have tools. The gap is usually clarity, ownership, and evidence.",
+      outcomesTitle: "What good looks like",
+      outcomesLead:
+        "Once the problem is clear, these are the outcomes we aim for with your team.",
       outcomes: "Outcomes",
-      deliverablesTitle: "Artifacts you keep",
+      deliverablesTitle: "What You Get",
       deliverablesLead:
-        "Concrete outputs — blueprints, IaC, runbooks — so the engagement does not vanish into slideware.",
+        "Clear outcomes you receive after delivery — so you know what is ready to use, own, and scale.",
       howWeDeliver: "How we deliver",
-      architectureOverview: "Architecture overview",
+      architectureOverview:
+        "A simple view of how the solution fits together — so stakeholders can align before deep technical design.",
       scopedDuringAssessment: "Scoped with your team during assessment.",
       useCasesTitle: "How teams apply this service",
       useCasesTitleSolution: "How teams apply this solution",
       useCasesLead:
         "Illustrative scenarios based on common engagement shapes — your path is scoped in assessment.",
-      stackTitle: "Tools we commonly wire in",
+      stackTitle: "Technologies & Platforms",
       nextStep: "Next step",
+      ctaTitle: "Ready to solve your {title} challenge?",
+      ctaLead:
+        "Book a free assessment with an engineer, or message us on WhatsApp. Timing is confirmed manually — no calendar sync.",
     },
   },
 } as const;

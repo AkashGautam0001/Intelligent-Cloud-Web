@@ -3,7 +3,6 @@ import {
   Building2,
   Clock3,
   Mail,
-  MapPin,
   MessageCircle,
   MessageSquareText,
   Phone,
@@ -38,6 +37,7 @@ import { SuccessDialog } from "@/components/ui/success-dialog";
 import { toast } from "@/components/ui/toast";
 import { WHATSAPP_DISPLAY, whatsappExpertUrl } from "@/lib/whatsapp";
 import { useI18n } from "@/i18n";
+import contactHero from "@/assets/contact-sales.jpg";
 import {
   controlClass,
   email as validateEmail,
@@ -52,11 +52,13 @@ import {
 
 /** Stable English values for the API; labels come from i18n. */
 const NEED_OPTIONS = [
+  { value: "Cloud Services", key: "cloudServices" },
+  { value: "Network & Connectivity", key: "networkConnectivity" },
+  { value: "Infrastructure Services", key: "infrastructureServices" },
+  { value: "Managed Infrastructure", key: "managedInfrastructure" },
+  { value: "AI & Data Services", key: "aiDataServices" },
   { value: "Cloud Migration", key: "cloudMigration" },
-  { value: "Managed Services", key: "managedServices" },
-  { value: "Kubernetes", key: "kubernetes" },
-  { value: "DevOps Consulting", key: "devops" },
-  { value: "Partnership", key: "partnership" },
+  { value: "DevOps & Automation", key: "devopsAutomation" },
   { value: "Other", key: "other" },
 ] as const;
 
@@ -130,54 +132,11 @@ export function ContactPage() {
   const email = settings.data?.email || "sales@intelligent-cloud.com";
   const phone = settings.data?.phone || WHATSAPP_DISPLAY;
   const whatsapp = settings.data?.whatsapp || WHATSAPP_DISPLAY;
-  const address =
-    (locale === "ar"
-      ? settings.data?.addressAr?.trim() || settings.data?.address
-      : settings.data?.address) || "";
 
   return (
     <CompanyLongForm
       content={contactContent}
-      heroVisual={
-        <IcCard className="space-y-4 p-6">
-          <div className="flex items-center gap-4">
-            <IcIconTile size="lg" className="h-14 w-14 rounded-[14px]">
-              <Mail className="h-7 w-7" aria-hidden />
-            </IcIconTile>
-            <div>
-              <p className="font-display text-sm font-semibold text-navy-900">
-                {c.talkToSales}
-              </p>
-              <p className="mt-1 text-sm text-text-600">{c.orWhatsApp}</p>
-            </div>
-          </div>
-          <div className="space-y-3 border-t border-border-200 pt-4">
-            <a className="flex items-center gap-3 text-sm text-navy-900 hover:underline" href={`mailto:${email}`}>
-              <Mail className="h-4 w-4 text-orange-500" aria-hidden />
-              {email}
-            </a>
-            <a className="flex items-center gap-3 text-sm text-navy-900 hover:underline" href={`tel:${phone}`}>
-              <Phone className="h-4 w-4 text-orange-500" aria-hidden />
-              {phone || "—"}
-            </a>
-            <a
-              className="flex items-center gap-3 text-sm text-navy-900 hover:underline"
-              href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <MessageCircle className="h-4 w-4 text-orange-500" aria-hidden />
-              {whatsapp}
-            </a>
-            {address ? (
-              <p className="flex items-start gap-3 text-sm text-text-600">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" aria-hidden />
-                {address}
-              </p>
-            ) : null}
-          </div>
-        </IcCard>
-      }
+      heroBackground={contactHero}
     >
       <SectionShell
         tone="navyLight"

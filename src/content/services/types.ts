@@ -4,6 +4,12 @@ export type ServiceHighlight = {
   iconHint?: string;
 };
 
+/** Business/IT problem themes customers recognize before seeing technology. */
+export type ServiceProblem = {
+  title: string;
+  body: string;
+};
+
 export type ServiceDeliverable = {
   title: string;
   body: string;
@@ -48,6 +54,8 @@ export type ServicePageContent = {
   approachLead: string;
   metrics: ServiceMetric[];
   highlights: ServiceHighlight[];
+  /** Problem themes first — customers find the service via their pain, not tech names. */
+  problems?: ServiceProblem[];
   challenges: string[];
   outcomes: string[];
   deliverables: ServiceDeliverable[];

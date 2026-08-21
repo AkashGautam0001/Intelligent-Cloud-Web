@@ -47,7 +47,7 @@ export function TechEcosystemSection() {
   ];
 
   return (
-    <SectionShell tone="white" eyebrow={te.eyebrow} title={te.title} lead={te.lead}>
+    <SectionShell tone="soft" eyebrow={te.eyebrow} title={te.title} lead={te.lead}>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {groups.map((g) => {
           const brands = brandsFor(g.brandIds);

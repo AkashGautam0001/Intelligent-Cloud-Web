@@ -108,7 +108,7 @@ export function SolutionsToggleSection() {
       };
 
   return (
-    <SectionShell tone="navyLight" eyebrow={s.eyebrow} title={s.title} lead={s.lead}>
+    <SectionShell tone="white" eyebrow={s.eyebrow} title={s.title} lead={s.lead}>
       <div
         className="inline-flex rounded-[12px] border border-border-200 bg-surface-50 p-1"
         role="tablist"

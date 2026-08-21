@@ -44,7 +44,7 @@ export function MigrationBand() {
   ] as const;
 
   return (
-    <SectionShell tone="white" eyebrow={m.eyebrow} title={m.title} lead={m.lead}>
+    <SectionShell tone="mist" eyebrow={m.eyebrow} title={m.title} lead={m.lead}>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {lanes.map((lane) => (
           <IcCard key={lane.step} className="p-6">

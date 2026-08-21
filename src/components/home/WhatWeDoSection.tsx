@@ -1,8 +1,10 @@
-import { CloudCog, ShieldCheck, Boxes } from "lucide-react";
 import { SectionShell } from "@/components/ui/section-shell";
-import { IcCard } from "@/components/ui/ic-card";
-import { IcIconTile } from "@/components/ui/ic-icon-tile";
+import { Reveal } from "@/components/motion/reveal";
 import { useI18n } from "@/i18n";
+import { cn } from "@/lib/utils";
+import cloudMigrationArt from "@/assets/homepage/cloud-migration.png";
+import platformEngineeringArt from "@/assets/homepage/platform-engineering.png";
+import securityOperationsArt from "@/assets/homepage/security-operations.png";
 
 export function WhatWeDoSection() {
   const { t } = useI18n();
@@ -12,7 +14,7 @@ export function WhatWeDoSection() {
     {
       id: "migrate",
       title: w.migrate.title,
-      icon: CloudCog,
+      art: cloudMigrationArt,
       points: [
         w.migrate.points.wavePlanning,
         w.migrate.points.cutover,
@@ -23,7 +25,7 @@ export function WhatWeDoSection() {
     {
       id: "platform",
       title: w.platform.title,
-      icon: Boxes,
+      art: platformEngineeringArt,
       points: [
         w.platform.points.terraform,
         w.platform.points.aksEks,
@@ -34,7 +36,7 @@ export function WhatWeDoSection() {
     {
       id: "secure",
       title: w.secure.title,
-      icon: ShieldCheck,
+      art: securityOperationsArt,
       points: [
         w.secure.points.iam,
         w.secure.points.waf,
@@ -45,28 +47,55 @@ export function WhatWeDoSection() {
   ] as const;
 
   return (
-    <SectionShell tone="navyLight" eyebrow={w.eyebrow} title={w.title} lead={w.lead}>
-      <div className="grid gap-5 md:grid-cols-3">
-        {capabilities.map((c) => {
-          const Icon = c.icon;
-          return (
-            <IcCard key={c.id} className="flex h-full flex-col p-6 sm:p-7">
-              <IcIconTile>
-                <Icon className="h-5 w-5" />
-              </IcIconTile>
-              <h3 className="font-display mt-5 text-xl font-semibold text-navy-900">
+    <SectionShell
+      tone="soft"
+      eyebrow={w.eyebrow}
+      title={w.title}
+      lead={w.lead}
+      className="[&_.section-shell-body]:mt-8 lg:[&_.section-shell-body]:mt-10"
+    >
+      <div className="grid gap-10 md:grid-cols-3 md:gap-0">
+        {capabilities.map((c, i) => (
+          <Reveal key={c.id} delay={i * 0.08}>
+            <article
+              className={cn(
+                "group flex h-full flex-col md:px-6 lg:px-8",
+                i > 0 && "md:border-s md:border-navy-900/8",
+              )}
+            >
+              <p className="font-mono text-[11px] tracking-[0.16em] text-navy-900/35">
+                {String(i + 1).padStart(2, "0")}
+              </p>
+              <img
+                src={c.art}
+                alt={c.title}
+                width={640}
+                height={480}
+                className="mx-auto mt-3 block h-auto w-full max-w-60 select-none object-contain mix-blend-multiply md:max-w-68 lg:max-w-none"
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+              />
+              <h3 className="mt-1 font-display text-xl font-semibold tracking-[-0.02em] text-navy-900 transition-colors duration-300 group-hover:text-orange-500">
                 {c.title}
               </h3>
               <ul className="mt-4 flex-1 space-y-2.5">
                 {c.points.map((point) => (
-                  <li key={point} className="text-sm leading-relaxed text-text-600">
+                  <li
+                    key={point}
+                    className="flex gap-2.5 text-sm leading-relaxed text-text-600"
+                  >
+                    <span
+                      aria-hidden
+                      className="mt-[0.55em] h-1 w-1 shrink-0 rounded-full bg-orange-500/70"
+                    />
                     {point}
                   </li>
                 ))}
               </ul>
-            </IcCard>
-          );
-        })}
+            </article>
+          </Reveal>
+        ))}
       </div>
     </SectionShell>
   );

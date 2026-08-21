@@ -17,12 +17,16 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
+import { StickyPhotoHero, StickyPhotoHeroBody } from "@/components/StickyPhotoHero";
+import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
 type CompanyLongFormProps = {
   content: CompanyPageContent;
   /** Optional mark / visual in the hero card */
   heroVisual?: ReactNode;
+  /** Optional full-bleed hero photo (cover). Enables a photo hero treatment. */
+  heroBackground?: string;
   /** Content between principles and FAQ (forms, partner logos, etc.) */
   children?: ReactNode;
   /** Optional section inserted after highlights */
@@ -38,6 +42,7 @@ type CompanyLongFormProps = {
 export function CompanyLongForm({
   content,
   heroVisual,
+  heroBackground,
   children,
   afterHighlights,
   showHighlights = false,
@@ -49,94 +54,132 @@ export function CompanyLongForm({
   const { t } = useI18n();
   const resolvedHighlightsTitle = highlightsTitle ?? t.common.highlights;
   const resolvedPrinciplesTitle = principlesTitle ?? t.common.howWeWork;
+  const photoHero = Boolean(heroBackground);
 
-  return (
+  const heroCopy = (
     <>
-      <PageSeo
-        title={`${content.title} | Intelligent Cloud`}
-        description={content.summary}
+      <Breadcrumbs
+        items={[
+          { label: t.common.home, to: "/" },
+          { label: t.common.company, to: "/about" },
+          { label: content.title },
+        ]}
+        className={
+          photoHero
+            ? "text-white/65 [&_span.text-navy-900]:text-white [&_a]:text-white/75 [&_a:hover]:text-orange-400"
+            : undefined
+        }
       />
-
-      <div className="relative overflow-hidden border-b border-border-200 bg-[#eef3f8]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-70"
-          style={{
-            background:
-              "radial-gradient(ellipse 50% 60% at 90% 20%, rgba(242,106,19,0.12), transparent 55%), radial-gradient(ellipse 40% 50% at 10% 80%, rgba(67,139,216,0.12), transparent 50%)",
-          }}
-        />
-        <div className="container-ic relative py-12 lg:py-16">
-          <Breadcrumbs
-            items={[
-              { label: t.common.home, to: "/" },
-              { label: t.common.company, to: "/about" },
-              { label: content.title },
-            ]}
-          />
-          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
-            <div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#6b7a8c]">
-                {content.eyebrow}
-              </p>
-              <h1 className="mt-4 font-display text-[clamp(2rem,4.2vw,3.25rem)] font-semibold leading-[1.12] tracking-[-0.03em] text-navy-900">
-                {content.title}
-              </h1>
-              <p className="mt-3 max-w-2xl text-lg font-medium leading-snug text-navy-900/80">
-                {content.tagline}
-              </p>
-              <p className="mt-4 max-w-2xl text-[clamp(1rem,1.35vw,1.125rem)] leading-[1.7] text-[#5f6b7a]">
-                {content.summary}
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button asChild size="lg">
-                  <Link to={content.ctaPrimary.to}>
-                    {content.ctaPrimary.label} <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-                {content.ctaSecondary ? (
-                  <Button asChild size="lg" variant="outline">
-                    <Link to={content.ctaSecondary.to}>{content.ctaSecondary.label}</Link>
-                  </Button>
-                ) : (
-                  <Button asChild size="lg" variant="outline">
-                    <a
-                      href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      WhatsApp an expert
-                    </a>
-                  </Button>
-                )}
-              </div>
-            </div>
-            {heroVisual ? (
-              <div className="mx-auto w-full max-w-md lg:mx-0 lg:justify-self-end">{heroVisual}</div>
+      <div
+        className={cn(
+          "grid items-center gap-10",
+          (heroVisual || !photoHero) &&
+            "lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]",
+          photoHero && !heroVisual && "max-w-3xl",
+        )}
+      >
+        <div>
+          <p
+            className={cn(
+              "text-[11px] font-medium uppercase tracking-[0.16em]",
+              photoHero ? "text-orange-400/90" : "text-[#6b7a8c]",
+            )}
+          >
+            {content.eyebrow}
+          </p>
+          <h1
+            className={cn(
+              "mt-4 font-display text-[clamp(2rem,4.2vw,3.25rem)] font-semibold leading-[1.12] tracking-[-0.03em]",
+              photoHero ? "text-white" : "text-navy-900",
+            )}
+          >
+            {content.title}
+          </h1>
+          <p
+            className={cn(
+              "mt-3 max-w-2xl text-lg font-medium leading-snug",
+              photoHero ? "text-white/85" : "text-navy-900/80",
+            )}
+          >
+            {content.tagline}
+          </p>
+          <p
+            className={cn(
+              "mt-4 max-w-2xl text-[clamp(1rem,1.35vw,1.125rem)] leading-[1.7]",
+              photoHero ? "text-white/70" : "text-[#5f6b7a]",
+            )}
+          >
+            {content.summary}
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button asChild size="lg">
+              <Link to={content.ctaPrimary.to}>
+                {content.ctaPrimary.label} <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+            {content.ctaSecondary ? (
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className={
+                  photoHero
+                    ? "border-white/35 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+                    : undefined
+                }
+              >
+                <Link to={content.ctaSecondary.to}>{content.ctaSecondary.label}</Link>
+              </Button>
             ) : (
-              <IcCard className="mx-auto w-full max-w-md p-6 lg:mx-0 lg:justify-self-end">
-                <Stagger className="grid gap-3 sm:grid-cols-2" stagger={0.06}>
-                  {content.metrics.map((m) => (
-                    <StaggerItem key={m.label}>
-                      <div className="rounded-[10px] border border-border-200 bg-[#eef3f8]/80 p-4">
-                        <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#6b7a8c]">
-                          {m.label}
-                        </p>
-                        <p className="mt-2 font-display text-base font-semibold text-navy-900">
-                          {m.value}
-                        </p>
-                      </div>
-                    </StaggerItem>
-                  ))}
-                </Stagger>
-              </IcCard>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className={
+                  photoHero
+                    ? "border-white/35 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+                    : undefined
+                }
+              >
+                <a
+                  href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  WhatsApp an expert
+                </a>
+              </Button>
             )}
           </div>
         </div>
+        {heroVisual ? (
+          <div className="mx-auto w-full max-w-md lg:mx-0 lg:justify-self-end">{heroVisual}</div>
+        ) : !photoHero ? (
+          <IcCard className="mx-auto w-full max-w-md p-6 lg:mx-0 lg:justify-self-end">
+            <Stagger className="grid gap-3 sm:grid-cols-2" stagger={0.06}>
+              {content.metrics.map((m) => (
+                <StaggerItem key={m.label}>
+                  <div className="rounded-[10px] border border-border-200 bg-[#eef3f8]/80 p-4">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#6b7a8c]">
+                      {m.label}
+                    </p>
+                    <p className="mt-2 font-display text-base font-semibold text-navy-900">
+                      {m.value}
+                    </p>
+                  </div>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </IcCard>
+        ) : null}
       </div>
+    </>
+  );
 
+  const pageBody = (
+    <>
       {showHighlights ? (
-      <SectionShell tone="navyLight" eyebrow={t.common.context} title={resolvedHighlightsTitle}>
+      <SectionShell tone="white" eyebrow={t.common.context} title={resolvedHighlightsTitle}>
         <Stagger className="grid gap-4 md:grid-cols-2 xl:grid-cols-3" stagger={0.07}>
           {content.highlights.map((h, i) => {
             const Icon = pickIcon(i);
@@ -163,7 +206,7 @@ export function CompanyLongForm({
       {afterHighlights}
 
       {showPrinciples ? (
-      <SectionShell tone="white" eyebrow={t.common.principles} title={resolvedPrinciplesTitle}>
+      <SectionShell tone="soft" eyebrow={t.common.principles} title={resolvedPrinciplesTitle}>
         <div className="grid gap-4 md:grid-cols-2">
           {content.principles.map((p, i) => {
             const Icon = pickIcon(i + 8);
@@ -190,7 +233,7 @@ export function CompanyLongForm({
 
       {showFaq && content.faqs.length > 0 ? (
       <SectionShell
-        tone="navyLight"
+        tone="white"
         eyebrow={t.nav.faq}
         title={t.common.commonQuestions}
       >
@@ -259,6 +302,35 @@ export function CompanyLongForm({
           </div>
         </div>
       </section>
+    </>
+  );
+
+  return (
+    <>
+      <PageSeo
+        title={`${content.title} | Intelligent Cloud`}
+        description={content.summary}
+      />
+
+      {photoHero && heroBackground ? (
+        <StickyPhotoHero src={heroBackground} objectPosition="object-[center_35%]">
+          {heroCopy}
+        </StickyPhotoHero>
+      ) : (
+        <div className="relative overflow-hidden border-b border-border-200 bg-[#eef3f8]">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-70"
+            style={{
+              background:
+                "radial-gradient(ellipse 50% 60% at 90% 20%, rgba(242,106,19,0.12), transparent 55%), radial-gradient(ellipse 40% 50% at 10% 80%, rgba(67,139,216,0.12), transparent 50%)",
+            }}
+          />
+          <div className="container-ic relative py-12 lg:py-16">{heroCopy}</div>
+        </div>
+      )}
+
+      {photoHero ? <StickyPhotoHeroBody>{pageBody}</StickyPhotoHeroBody> : pageBody}
     </>
   );
 }

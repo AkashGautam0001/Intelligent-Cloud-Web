@@ -14,23 +14,38 @@ import { about as aboutFallback, getCompanyPage } from "@/content/company";
 import { useI18n } from "@/i18n";
 import { Breadcrumbs } from "@/components/PageHero";
 import { PageSeo } from "@/components/PageSeo";
-import { TechBrandIcon } from "@/components/TechBrandIcon";
 import { Button } from "@/components/ui/button";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { SectionShell } from "@/components/ui/section-shell";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
+import { StickyPhotoHero, StickyPhotoHeroBody } from "@/components/StickyPhotoHero";
+import { cn } from "@/lib/utils";
+import aboutHero from "@/assets/about-page.jpg";
+import visionImg from "@/assets/vision.jpg";
+import missionImg from "@/assets/mission.jpg";
 
-const experienceBrands = ["azure", "kubernetes", "terraform", "argo"] as const;
 const approachIcons = [Layers, Lock, RefreshCw] as const;
 const differentiatorIcons = [Handshake, ShieldCheck, Sparkles, Wallet] as const;
 
-function PointList({ items }: { items: string[] }) {
+function PointList({ items, tone = "light" }: { items: string[]; tone?: "light" | "dark" }) {
+  const dark = tone === "dark";
   return (
     <ul className="space-y-3">
       {items.map((item) => (
-        <li key={item} className="flex gap-3 text-sm leading-relaxed text-text-600 sm:text-base">
-          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-orange-500/12 text-orange-500">
+        <li
+          key={item}
+          className={cn(
+            "flex gap-3 text-sm leading-relaxed sm:text-base",
+            dark ? "text-white/75" : "text-text-600",
+          )}
+        >
+          <span
+            className={cn(
+              "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-orange-500",
+              dark ? "bg-orange-500/20" : "bg-orange-500/12",
+            )}
+          >
             <Check className="h-3 w-3" strokeWidth={2.5} aria-hidden />
           </span>
           <span>{item}</span>
@@ -49,108 +64,95 @@ export function AboutPage() {
     <>
       <PageSeo title={a.seoTitle} description={about.summary} />
 
-      {/* Hero */}
-      <div className="relative overflow-hidden border-b border-border-200 bg-[#eef3f8]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-70"
-          style={{
-            background:
-              "radial-gradient(ellipse 50% 60% at 90% 20%, rgba(242,106,19,0.12), transparent 55%), radial-gradient(ellipse 40% 50% at 10% 80%, rgba(67,139,216,0.12), transparent 50%)",
-          }}
+      <StickyPhotoHero src={aboutHero}>
+        <Breadcrumbs
+          items={[
+            { label: t.common.home, to: "/" },
+            { label: t.common.company, to: "/about" },
+            { label: t.common.aboutUs },
+          ]}
+          className="text-white/65 [&_span.text-navy-900]:text-white [&_a]:text-white/75 [&_a:hover]:text-orange-400"
         />
-        <div className="container-ic relative py-12 lg:py-16">
-          <Breadcrumbs
-            items={[
-              { label: t.common.home, to: "/" },
-              { label: t.common.company, to: "/about" },
-              { label: t.common.aboutUs },
-            ]}
-          />
-          <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start lg:gap-14">
-            <div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#6b7a8c]">
-                {a.eyebrow}
-              </p>
-              <h1 className="mt-4 max-w-3xl font-display text-[clamp(2rem,4.2vw,3.25rem)] font-semibold leading-[1.12] tracking-[-0.03em] text-navy-900">
-                {a.heroTitle}
-              </h1>
-              <p className="mt-5 max-w-2xl text-[clamp(1rem,1.35vw,1.125rem)] leading-[1.7] text-text-600">
-                {a.heroLead}
-              </p>
-              <div className="mt-5">
-                <PointList items={[...a.failurePoints]} />
-              </div>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button asChild size="lg">
-                  <Link to="/book-demo">
-                    {t.common.bookAssessment} <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline">
-                  <Link to="/contact">{t.common.contactSales}</Link>
-                </Button>
-              </div>
-            </div>
-
-            <IcCard className="p-6 sm:p-7">
-              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#6b7a8c]">
-                {a.experienceEyebrow}
-              </p>
-              <p className="mt-2 font-display text-lg font-semibold text-navy-900">
-                {a.experienceTitle}
-              </p>
-              <ul className="mt-5 space-y-3">
-                {a.experiencePoints.map((label, i) => (
-                  <li
-                    key={label}
-                    className="flex items-center gap-3 rounded-[10px] border border-border-200 bg-[#eef3f8]/70 px-3 py-3"
-                  >
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-white shadow-[inset_0_0_0_1px_rgba(4,39,95,0.08)]">
-                      <TechBrandIcon brand={experienceBrands[i] ?? "azure"} size="sm" />
-                    </span>
-                    <span className="text-sm font-medium leading-snug text-navy-900">
-                      {label}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-5 text-sm leading-relaxed text-text-600">
-                {a.experienceFooter}
-              </p>
-            </IcCard>
+        <div className="mt-8 max-w-3xl">
+          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-orange-400/90">
+            {a.eyebrow}
+          </p>
+          <h1 className="mt-4 font-display text-[clamp(2rem,4.2vw,3.25rem)] font-semibold leading-[1.12] tracking-[-0.03em] text-white">
+            {a.heroTitle}
+          </h1>
+          <p className="mt-5 text-[clamp(1rem,1.35vw,1.125rem)] leading-[1.7] text-white/70">
+            {a.heroLead}
+          </p>
+          <div className="mt-5">
+            <PointList items={[...a.failurePoints]} tone="dark" />
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button asChild size="lg">
+              <Link to="/book-demo">
+                {t.common.bookAssessment} <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-white/35 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+            >
+              <Link to="/contact">{t.common.contactSales}</Link>
+            </Button>
           </div>
         </div>
-      </div>
+      </StickyPhotoHero>
 
+      <StickyPhotoHeroBody>
       {/* Vision + Mission */}
       <SectionShell
-        tone="white"
+        tone="soft"
         eyebrow={a.foundationEyebrow}
         title={a.foundationTitle}
         lead={a.foundationLead}
       >
         <div className="grid gap-5 lg:grid-cols-2">
-          <IcCard className="h-full p-6 sm:p-7">
-            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
-              {a.visionEyebrow}
-            </p>
-            <h3 className="mt-3 font-display text-xl font-semibold text-navy-900">
-              {a.visionTitle}
-            </h3>
-            <div className="mt-5">
-              <PointList items={[...a.visionPoints]} />
+          <IcCard className="flex h-full flex-col overflow-hidden p-0">
+            <div className="relative aspect-[16/9] w-full overflow-hidden sm:aspect-[2/1]">
+              <img
+                src={visionImg}
+                alt=""
+                className="h-full w-full object-cover object-center"
+                decoding="async"
+              />
+            </div>
+            <div className="flex flex-1 flex-col p-6 sm:p-7">
+              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
+                {a.visionEyebrow}
+              </p>
+              <h3 className="mt-3 font-display text-xl font-semibold text-navy-900">
+                {a.visionTitle}
+              </h3>
+              <div className="mt-5">
+                <PointList items={[...a.visionPoints]} />
+              </div>
             </div>
           </IcCard>
-          <IcCard className="h-full p-6 sm:p-7">
-            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
-              {a.missionEyebrow}
-            </p>
-            <h3 className="mt-3 font-display text-xl font-semibold text-navy-900">
-              {a.missionTitle}
-            </h3>
-            <div className="mt-5">
-              <PointList items={[...a.missionPoints]} />
+          <IcCard className="flex h-full flex-col overflow-hidden p-0">
+            <div className="relative aspect-[16/9] w-full overflow-hidden sm:aspect-[2/1]">
+              <img
+                src={missionImg}
+                alt=""
+                className="h-full w-full object-cover object-center"
+                decoding="async"
+              />
+            </div>
+            <div className="flex flex-1 flex-col p-6 sm:p-7">
+              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
+                {a.missionEyebrow}
+              </p>
+              <h3 className="mt-3 font-display text-xl font-semibold text-navy-900">
+                {a.missionTitle}
+              </h3>
+              <div className="mt-5">
+                <PointList items={[...a.missionPoints]} />
+              </div>
             </div>
           </IcCard>
         </div>
@@ -203,7 +205,7 @@ export function AboutPage() {
 
       {/* Differentiators */}
       <SectionShell
-        tone="white"
+        tone="soft"
         eyebrow={a.differentiatorsEyebrow}
         title={a.differentiatorsTitle}
         lead={a.differentiatorsLead}
@@ -281,6 +283,7 @@ export function AboutPage() {
           </div>
         </div>
       </section>
+      </StickyPhotoHeroBody>
     </>
   );
 }

@@ -1,12 +1,7 @@
 import { Link } from "react-router-dom";
-import {
-  ArrowRight,
-  MessageCircle,
-  Package,
-} from "lucide-react";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import type { ServicePageContent } from "@/content/services/types";
 import { getServicePage } from "@/content/services";
-import { serviceIcon } from "@/lib/service-icons";
 import {
   ChallengeIcon,
   OutcomeIcon,
@@ -15,7 +10,6 @@ import {
 import { whatsappExpertUrl } from "@/lib/whatsapp";
 import { useI18n } from "@/i18n";
 import { Breadcrumbs } from "@/components/PageHero";
-import { RichHtml } from "@/components/RichHtml";
 import { Button } from "@/components/ui/button";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
@@ -26,117 +20,252 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ServiceSlugMark } from "@/components/services/service-svgs";
 import { StackToolsSection } from "@/components/StackToolsSection";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
+import { ServiceDiagram, hasServiceDiagram } from "@/components/services/service-visuals";
+import { getServiceBackground } from "@/content/services/backgrounds";
+import { StickyPhotoHero, StickyPhotoHeroBody } from "@/components/StickyPhotoHero";
+import { cn } from "@/lib/utils";
 
 type ServiceLongFormProps = {
   content: ServicePageContent;
-  /** Optional CMS body appended under approach */
+  /** Optional CMS body — kept for API compatibility; not shown as Approach Detail. */
   cmsBodyHtml?: string;
 };
 
-export function ServiceLongForm({
-  content,
-  cmsBodyHtml,
-}: ServiceLongFormProps) {
+export function ServiceLongForm({ content }: ServiceLongFormProps) {
   const { t, locale } = useI18n();
   const lf = t.pages.longForm;
   const title = content.title;
   const summary = content.summary;
-  const Icon = serviceIcon(content.iconKey);
   const related = content.related
     .map((slug) => getServicePage(slug, locale))
     .filter(Boolean) as ServicePageContent[];
+  const showDiagram = hasServiceDiagram(content.slug);
+  const heroBackground = getServiceBackground(content.slug);
+  const photoHero = Boolean(heroBackground);
+  /** White ↔ pale blue (#eef3f8) after the hero. */
+  const band = (i: number): "white" | "soft" => (i % 2 === 0 ? "white" : "soft");
+  let s = 0;
+  const nextBand = () => band(s++);
 
-  return (
+  const diagramTone = showDiagram ? nextBand() : null;
+  const problemsTone = content.problems && content.problems.length > 0 ? nextBand() : null;
+  const outcomesTone = problemsTone ? nextBand() : null;
+  const challengesTone = !problemsTone ? nextBand() : null;
+  const deliverTone = nextBand();
+  const whatYouGetTone = nextBand();
+  const approachTone = nextBand();
+  const stackTone = nextBand();
+  const faqTone = nextBand();
+  const stackBg = stackTone === "white" ? "bg-white" : "bg-[#eef3f8]";
+
+  const heroCopy = (
     <>
-      {/* Hero */}
-      <div className="relative overflow-hidden border-b border-border-200 bg-[#eef3f8]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-70"
-          style={{
-            background:
-              "radial-gradient(ellipse 50% 60% at 90% 20%, rgba(242,106,19,0.12), transparent 55%), radial-gradient(ellipse 40% 50% at 10% 80%, rgba(67,139,216,0.12), transparent 50%)",
-          }}
-        />
-        <div className="container-ic relative py-12 lg:py-16">
-          <Breadcrumbs
-            items={[
-              { label: t.common.home, to: "/" },
-              { label: t.nav.services, to: "/services" },
-              { label: title },
-            ]}
-          />
-          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-            <div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#6b7a8c]">
-                {content.eyebrow} · {t.common.service}
-              </p>
-              <h1 className="mt-4 font-display text-[clamp(2rem,4.2vw,3.25rem)] font-semibold leading-[1.12] tracking-[-0.03em] text-navy-900">
-                {title}
-              </h1>
-              <p className="mt-3 max-w-2xl text-lg font-medium leading-snug text-navy-900/80">
-                {content.tagline}
-              </p>
-              <p className="mt-4 max-w-2xl text-[clamp(1rem,1.35vw,1.125rem)] leading-[1.7] text-[#5f6b7a]">
-                {summary}
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Button asChild size="lg">
-                  <Link to="/book-demo">
-                    {t.common.bookAssessment} <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline">
-                  <a
-                    href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {t.common.talkExpert}
-                  </a>
-                </Button>
-              </div>
-            </div>
-            <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:justify-self-end">
-              <IcCard className="overflow-hidden p-6">
-                <div className="flex items-center gap-4">
-                  <IcIconTile size="lg" className="h-14 w-14 rounded-[14px]">
-                    <Icon className="h-7 w-7" aria-hidden />
-                  </IcIconTile>
-                  <div>
-                    <p className="font-display text-sm font-semibold text-navy-900">{title}</p>
-                    <p className="mt-1 text-sm text-text-600">{content.eyebrow}</p>
-                  </div>
-                </div>
-                <ServiceSlugMark
-                  slug={content.slug}
-                  className="mt-6 h-auto w-full"
-                />
-              </IcCard>
-            </div>
-          </div>
+      <Breadcrumbs
+        items={[
+          { label: t.common.home, to: "/" },
+          { label: t.nav.services, to: "/services" },
+          { label: title },
+        ]}
+        className={
+          photoHero
+            ? "text-white/65 [&_span.text-navy-900]:text-white [&_a]:text-white/75 [&_a:hover]:text-orange-400"
+            : undefined
+        }
+      />
+      <div className="mt-6 w-full">
+        <p
+          className={cn(
+            "text-[11px] font-medium uppercase tracking-[0.16em]",
+            photoHero ? "text-orange-400/90" : "text-[#6b7a8c]",
+          )}
+        >
+          {t.nav.services}
+        </p>
+        <h1
+          className={cn(
+            "mt-4 max-w-[55rem] font-display text-[clamp(2.15rem,4.6vw,3.5rem)] font-semibold leading-[1.1] tracking-[-0.03em]",
+            photoHero ? "text-white" : "text-navy-900",
+          )}
+        >
+          {title}
+        </h1>
+        <p
+          className={cn(
+            "mt-4 max-w-[52rem] text-lg font-medium leading-snug sm:text-xl",
+            photoHero ? "text-white/85" : "text-navy-900/80",
+          )}
+        >
+          {content.tagline}
+        </p>
+        <p
+          className={cn(
+            "mt-4 max-w-[56rem] text-[clamp(1.05rem,1.4vw,1.2rem)] leading-[1.7]",
+            photoHero ? "text-white/70" : "text-[#5f6b7a]",
+          )}
+        >
+          {summary}
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Button asChild size="lg">
+            <Link to="/book-demo">
+              {t.common.bookAssessment} <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className={
+              photoHero
+                ? "border-white/35 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+                : undefined
+            }
+          >
+            <a
+              href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t.common.talkExpert}
+            </a>
+          </Button>
         </div>
       </div>
+    </>
+  );
 
-      {/* Capabilities */}
+  const pageBody = (
+    <>
+      {showDiagram && diagramTone ? (
+        <SectionShell
+          tone={diagramTone}
+          eyebrow={t.common.architectureLens}
+          title={content.architectureTitle}
+          lead={content.architectureLead}
+        >
+          <ServiceDiagram slug={content.slug} />
+        </SectionShell>
+      ) : null}
+
+      {/* Problem recognition first — then solution, then technical implementation */}
+      {content.problems && content.problems.length > 0 ? (
+        <>
+          <SectionShell
+            tone={problemsTone!}
+            eyebrow={lf.problemsEyebrow}
+            title={lf.problemsTitle}
+            lead={lf.problemsLead}
+          >
+            <Stagger className="grid gap-4 md:grid-cols-2 xl:grid-cols-3" stagger={0.06}>
+              {content.problems.map((p, i) => {
+                const ItemIcon = pickIcon(i);
+                return (
+                  <StaggerItem key={p.title}>
+                    <IcCard interactive className="h-full border-orange-500/15 bg-orange-500/[0.03]">
+                      <div className="flex items-start gap-3">
+                        <IcIconTile size="sm" className="border-orange-500/20 bg-orange-500/10">
+                          <ItemIcon className="h-4 w-4 text-orange-600" aria-hidden />
+                        </IcIconTile>
+                        <div>
+                          <h3 className="font-display text-base font-semibold text-navy-900">
+                            {p.title}
+                          </h3>
+                          <p className="mt-2 text-sm leading-relaxed text-text-600">{p.body}</p>
+                        </div>
+                      </div>
+                    </IcCard>
+                  </StaggerItem>
+                );
+              })}
+            </Stagger>
+          </SectionShell>
+
+          <SectionShell
+            tone={outcomesTone!}
+            eyebrow={lf.whyItMatters}
+            title={lf.outcomesTitle}
+            lead={lf.outcomesLead}
+          >
+            <IcCard className="border-navy-900/15 bg-navy-900/[0.03]">
+              <div className="flex items-center gap-2">
+                <OutcomeIcon className="h-4 w-4 text-navy-900" aria-hidden />
+                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-navy-900">
+                  {lf.outcomes}
+                </p>
+              </div>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                {content.outcomes.map((o) => (
+                  <li key={o} className="flex gap-3 text-sm leading-relaxed text-text-600">
+                    <OutcomeIcon className="mt-0.5 h-4 w-4 shrink-0 text-navy-900" aria-hidden />
+                    {o}
+                  </li>
+                ))}
+              </ul>
+            </IcCard>
+          </SectionShell>
+        </>
+      ) : (
+        <SectionShell
+          tone={challengesTone!}
+          eyebrow={lf.whyItMatters}
+          title={lf.challengesTitle}
+          lead={lf.challengesLead}
+        >
+          <div className="grid gap-6 lg:grid-cols-2">
+            <IcCard className="h-full border-orange-500/20 bg-orange-500/[0.03]">
+              <div className="flex items-center gap-2">
+                <ChallengeIcon className="h-4 w-4 text-orange-500" aria-hidden />
+                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
+                  {t.common.challenges}
+                </p>
+              </div>
+              <ul className="mt-4 space-y-3">
+                {content.challenges.map((c) => (
+                  <li key={c} className="flex gap-3 text-sm leading-relaxed text-text-600">
+                    <ChallengeIcon className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" aria-hidden />
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            </IcCard>
+            <IcCard className="h-full border-navy-900/15 bg-navy-900/[0.03]">
+              <div className="flex items-center gap-2">
+                <OutcomeIcon className="h-4 w-4 text-navy-900" aria-hidden />
+                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-navy-900">
+                  {lf.outcomes}
+                </p>
+              </div>
+              <ul className="mt-4 space-y-3">
+                {content.outcomes.map((o) => (
+                  <li key={o} className="flex gap-3 text-sm leading-relaxed text-text-600">
+                    <OutcomeIcon className="mt-0.5 h-4 w-4 shrink-0 text-navy-900" aria-hidden />
+                    {o}
+                  </li>
+                ))}
+              </ul>
+            </IcCard>
+          </div>
+        </SectionShell>
+      )}
+
+      {/* How we solve it — after problem recognition */}
       <SectionShell
-        tone="navyLight"
-        eyebrow={t.common.capabilities}
+        tone={deliverTone}
+        eyebrow={t.common.whatWeDeliver}
         title={t.common.whatWeDeliver}
         lead={lf.capabilitiesLead}
       >
         <Stagger className="grid gap-4 md:grid-cols-2 xl:grid-cols-3" stagger={0.07}>
           {content.highlights.map((h, i) => {
-            const Icon = pickIcon(i);
+            const ItemIcon = pickIcon(i);
             return (
               <StaggerItem key={h.title}>
                 <IcCard interactive className="h-full">
                   <div className="flex items-start gap-3">
                     <IcIconTile size="sm">
-                      <Icon className="h-4 w-4" aria-hidden />
+                      <ItemIcon className="h-4 w-4" aria-hidden />
                     </IcIconTile>
                     <div>
                       <h3 className="font-display text-base font-semibold text-navy-900">
@@ -152,64 +281,21 @@ export function ServiceLongForm({
         </Stagger>
       </SectionShell>
 
-      {/* Challenges / Outcomes */}
+      {/* What You Get */}
       <SectionShell
-        tone="white"
-        eyebrow={lf.whyItMatters}
-        title={lf.challengesTitle}
-        lead={lf.challengesLead}
-      >
-        <div className="grid gap-6 lg:grid-cols-2">
-          <IcCard className="h-full border-orange-500/20 bg-orange-500/[0.03]">
-            <div className="flex items-center gap-2">
-              <ChallengeIcon className="h-4 w-4 text-orange-500" aria-hidden />
-              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
-                {t.common.challenges}
-              </p>
-            </div>
-            <ul className="mt-4 space-y-3">
-              {content.challenges.map((c) => (
-                <li key={c} className="flex gap-3 text-sm leading-relaxed text-text-600">
-                  <ChallengeIcon className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" aria-hidden />
-                  {c}
-                </li>
-              ))}
-            </ul>
-          </IcCard>
-          <IcCard className="h-full border-navy-900/15 bg-navy-900/[0.03]">
-            <div className="flex items-center gap-2">
-              <OutcomeIcon className="h-4 w-4 text-navy-900" aria-hidden />
-              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-navy-900">
-                {lf.outcomes}
-              </p>
-            </div>
-            <ul className="mt-4 space-y-3">
-              {content.outcomes.map((o) => (
-                <li key={o} className="flex gap-3 text-sm leading-relaxed text-text-600">
-                  <OutcomeIcon className="mt-0.5 h-4 w-4 shrink-0 text-navy-900" aria-hidden />
-                  {o}
-                </li>
-              ))}
-            </ul>
-          </IcCard>
-        </div>
-      </SectionShell>
-
-      {/* Deliverables */}
-      <SectionShell
-        tone="navyLight"
+        tone={whatYouGetTone}
         eyebrow={t.common.deliverables}
         title={lf.deliverablesTitle}
         lead={lf.deliverablesLead}
       >
         <div className="grid gap-4 md:grid-cols-2">
           {content.deliverables.map((d, i) => {
-            const Icon = pickIcon(i + 4);
+            const ItemIcon = pickIcon(i + 4);
             return (
               <IcCard key={d.title} interactive className="h-full">
                 <div className="flex items-center gap-3">
                   <IcIconTile size="sm">
-                    <Icon className="h-4 w-4" aria-hidden />
+                    <ItemIcon className="h-4 w-4" aria-hidden />
                   </IcIconTile>
                   <p className="font-mono text-xs text-orange-500">
                     {String(i + 1).padStart(2, "0")}
@@ -225,16 +311,16 @@ export function ServiceLongForm({
         </div>
       </SectionShell>
 
-      {/* Approach steps */}
+      {/* How We Deliver */}
       <SectionShell
-        tone="white"
+        tone={approachTone}
         eyebrow={lf.howWeDeliver}
         title={content.approachTitle}
         lead={content.approachLead}
       >
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {content.approach.map((step, i) => {
-            const Icon = pickIcon(i + 10);
+            const ItemIcon = pickIcon(i + 10);
             return (
               <IcCard key={step.title} interactive className="h-full">
                 <div className="flex items-center gap-3">
@@ -242,7 +328,7 @@ export function ServiceLongForm({
                     {i + 1}
                   </div>
                   <IcIconTile size="sm">
-                    <Icon className="h-4 w-4" aria-hidden />
+                    <ItemIcon className="h-4 w-4" aria-hidden />
                   </IcIconTile>
                 </div>
                 <h3 className="mt-4 font-display text-base font-semibold text-navy-900">
@@ -253,71 +339,13 @@ export function ServiceLongForm({
             );
           })}
         </div>
-        {cmsBodyHtml ? (
-          <IcCard className="mt-8">
-            <h3 className="font-display text-lg font-semibold text-navy-900">
-              Approach detail
-            </h3>
-            <div className="mt-3">
-              <RichHtml html={cmsBodyHtml} />
-            </div>
-          </IcCard>
-        ) : null}
       </SectionShell>
 
-      {/* Architecture visual */}
-      <SectionShell
-        tone="navyLight"
-        eyebrow={t.common.architectureLens}
-        title={content.architectureTitle}
-        lead={content.architectureLead}
-        aside={
-          <IcCard className="overflow-hidden p-4 sm:p-6">
-            <ServiceSlugMark slug={content.slug} className="h-auto w-full" />
-          </IcCard>
-        }
-      >
-        <p className="max-w-xl text-sm leading-relaxed text-text-600">
-          The visual orients the conversation. Blueprints, IaC modules, and runbooks are the
-          durable artifacts your team keeps after the engagement.
-        </p>
-      </SectionShell>
-
-      {/* Use cases */}
-      <SectionShell
-        tone="white"
-        eyebrow={t.common.useCases}
-        title={lf.useCasesTitle}
-        lead={lf.useCasesLead}
-      >
-        <div className="grid gap-5 lg:grid-cols-3">
-          {content.useCases.map((u, i) => {
-            const Icon = pickIcon(i + 16);
-            return (
-              <IcCard key={u.title} interactive className="flex h-full flex-col">
-                <IcIconTile size="sm">
-                  <Icon className="h-4 w-4" aria-hidden />
-                </IcIconTile>
-                <h3 className="mt-3 font-display text-lg font-semibold text-navy-900">{u.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-text-600">{u.body}</p>
-                <p className="mt-5 border-t border-border-200 pt-4 text-sm font-medium text-navy-900">
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
-                    <Package className="h-3.5 w-3.5" aria-hidden />
-                    {t.common.outcome}
-                  </span>
-                  <span className="mt-1.5 block">{u.outcome}</span>
-                </p>
-              </IcCard>
-            );
-          })}
-        </div>
-      </SectionShell>
-
-      <StackToolsSection items={content.stack} />
+      <StackToolsSection items={content.stack} className={stackBg} />
 
       {/* FAQ */}
       <SectionShell
-        tone="white"
+        tone={faqTone}
         eyebrow={t.nav.faq}
         title={lf.faqTitle.replace("{title}", title)}
         lead={lf.faqLead}
@@ -352,11 +380,10 @@ export function ServiceLongForm({
               {lf.nextStep}
             </p>
             <h2 className="mt-4 max-w-2xl font-display text-[clamp(1.75rem,3.2vw,2.35rem)] font-semibold leading-[1.15] tracking-[-0.03em] text-white">
-              Ready to scope {title.toLowerCase()} for your estate?
+              {lf.ctaTitle.replace("{title}", title)}
             </h2>
             <p className="mt-4 max-w-lg text-base leading-relaxed text-white/65">
-              Book a free assessment with an engineer, or message us on WhatsApp. Timing is
-              confirmed manually — no calendar sync.
+              {lf.ctaLead}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg">
@@ -364,11 +391,7 @@ export function ServiceLongForm({
                   {t.common.bookAssessment} <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="light"
-              >
+              <Button asChild size="lg" variant="light">
                 <a
                   href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
                   target="_blank"
@@ -394,7 +417,7 @@ export function ServiceLongForm({
                         <span className="block font-display text-sm font-semibold text-white">
                           {r.title}
                         </span>
-                        <span className="mt-0.5 block text-xs text-white/50">{r.eyebrow}</span>
+                        <span className="mt-0.5 block text-xs text-white/50">{r.tagline}</span>
                       </span>
                       <ArrowRight className="h-4 w-4 shrink-0 text-white/40 transition-transform duration-500 group-hover/card:translate-x-1 group-hover/card:text-orange-500" />
                     </Link>
@@ -405,6 +428,19 @@ export function ServiceLongForm({
           ) : null}
         </div>
       </section>
+    </>
+  );
+
+  return (
+    <>
+      {photoHero && heroBackground ? (
+        <StickyPhotoHero src={heroBackground}>{heroCopy}</StickyPhotoHero>
+      ) : (
+        <div className="relative overflow-hidden border-b border-border-200 bg-white">
+          <div className="container-ic relative py-12 lg:py-16">{heroCopy}</div>
+        </div>
+      )}
+      {photoHero ? <StickyPhotoHeroBody>{pageBody}</StickyPhotoHeroBody> : pageBody}
     </>
   );
 }

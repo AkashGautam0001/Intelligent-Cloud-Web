@@ -43,7 +43,7 @@ export function SecurityBand() {
   const extras = [s.policyAsCode, s.evidencePacks];
 
   return (
-    <SectionShell tone="white" eyebrow={s.eyebrow} title={s.title} lead={s.lead}>
+    <SectionShell tone="soft" eyebrow={s.eyebrow} title={s.title} lead={s.lead}>
       <div className="grid gap-4 sm:grid-cols-2">
         {layers.map((l, i) => (
           <IcCard key={l.label} className="p-6">

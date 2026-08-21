@@ -143,27 +143,27 @@ export const ar: Messages = {
       resilience: "المرونة",
       cloudComputing: {
         title: "الحوسبة السحابية",
-        description: "مناطق هبوط وأحمال قابلة للتوسع",
+        description: "بيئات موثوقة يمكنكم النمو عليها",
       },
       storage: {
         title: "التخزين",
-        description: "كائنات وكتل وسياسات دورة الحياة",
+        description: "نمو البيانات والنسخ والتكلفة والحماية",
       },
       networking: {
         title: "الشبكات",
-        description: "اتصال آمن وتقسيم الشبكة",
+        description: "الاتصال والأداء والروابط الهجينة",
       },
       database: {
         title: "قواعد البيانات",
-        description: "طبقات بيانات مُدارة وترحيل",
+        description: "الأداء والتوافر والترحيل",
       },
       analytics: {
         title: "التحليلات",
-        description: "خطوط أنابيب لرؤى جاهزة للقرار",
+        description: "الرؤية والتقارير ورؤى الأعمال",
       },
       ai: {
         title: "الذكاء الاصطناعي",
-        description: "منصات ذكاء اصطناعي آمنة ومحوكمة",
+        description: "الأتمتة والتبنّي والتطبيقات الذكية",
       },
       integration: {
         title: "التكامل",
@@ -285,7 +285,7 @@ export const ar: Messages = {
     },
     problem: {
       eyebrow: "المشكلة",
-      title: "البيئات السحابية الهشة تفشل بهدوء — حتى لا تفعل",
+      title: "ابنِ أنظمة سحابية موثوقة لا تتعطل عندما يهم الأمر.",
       lead: "معظم الفرق لا تخسر في السحابة بسبب أفكار سيئة. تخسر بسبب ملكية غير واضحة، وتعافٍ غير مُختبر، ومنصات لا تصمد أمام الإصدار التالي.",
       fragileLabel: "هش",
       fragileTitle: "ما ينكسر تحت الضغط",
@@ -307,7 +307,7 @@ export const ar: Messages = {
     whatWeDo: {
       eyebrow: "ماذا نفعل",
       title: "مسار مُهندَس واحد من التقييم إلى العمليات المُدارة",
-      lead: "Intelligent Cloud يوحّد الهندسة والتسليم والتشغيل — لتبقى بيئات Azure وAWS وKubernetes قابلة للتدقيق ومراعية للتكلفة وقابلة للتشغيل من فريقك.",
+      lead: "Intelligent Cloud يوحّد الهندسة والتسليم والتشغيل — لتبقى بيئات Azure وAWS وGCP قابلة للتدقيق ومراعية للتكلفة وقابلة للتشغيل من فريقك.",
       migrate: {
         title: "الترحيل السحابي",
         points: {
@@ -842,11 +842,13 @@ export const ar: Messages = {
       lookingFor: "ماذا تبحث عنه؟",
       whatsapp: "واتساب",
       needs: {
+        cloudServices: "الخدمات السحابية",
+        networkConnectivity: "الشبكة والاتصال",
+        infrastructureServices: "خدمات البنية التحتية",
+        managedInfrastructure: "البنية التحتية المُدارة",
+        aiDataServices: "خدمات الذكاء الاصطناعي والبيانات",
         cloudMigration: "الترحيل السحابي",
-        managedServices: "الخدمات المُدارة",
-        kubernetes: "Kubernetes",
-        devops: "استشارات DevOps",
-        partnership: "شراكة",
+        devopsAutomation: "DevOps والأتمتة",
         other: "أخرى",
       },
     },
@@ -877,11 +879,13 @@ export const ar: Messages = {
       notes: "ملاحظات (اختياري)",
       subtitleWizard: "معالج حجز بعرض كامل — بلا مزامنة تقويم مباشرة.",
       needOptions: {
+        cloudServices: "الخدمات السحابية",
+        networkConnectivity: "الشبكة والاتصال",
+        infrastructureServices: "خدمات البنية التحتية",
+        managedInfrastructure: "البنية التحتية المُدارة",
+        aiDataServices: "خدمات الذكاء الاصطناعي والبيانات",
         cloudMigration: "الترحيل السحابي",
-        managedCloud: "سحابة مُدارة",
-        kubernetes: "Kubernetes",
-        devops: "DevOps",
-        security: "الأمن",
+        devopsAutomation: "DevOps والأتمتة",
         other: "أخرى",
       },
     },
@@ -1058,24 +1062,35 @@ export const ar: Messages = {
       faqTitle: "أسئلة حول {title}",
       faqLead: "إجابات مباشرة حول النطاق والملكية وكيف تسير التعاونات عادة.",
       capabilitiesLead:
-        "لبنات بناء حديثة — وليست عرض شرائح من المصطلحات — ليشغّل فريقك ما نتركه خلفنا.",
+        "بعد وضوح المشكلة — هكذا تحلّ Intelligent Cloud الأمر بطرق يمكن لفريقكم تشغيلها.",
       capabilitiesLeadSolution: "لبنات تركز على النتائج — وليست كتيب خدمات معاد تدويره.",
       whyItMatters: "لماذا يهم",
+      problemsEyebrow: "وضعكم",
+      problemsTitle: "تعرّف على مشكلتكم",
+      problemsLead:
+        "ابحثوا عن تحدي الأعمال أو تقنية المعلومات الذي يطابق ما تواجهونه — ثم انظروا كيف نحلّه. التقنية تأتي بعد ذلك.",
       challengesTitle: "تحديات نراها — ونتائج نسعى إليها",
       challengesLead: "معظم البيئات لديها أدوات بالفعل. الفجوة عادة في الوضوح والملكية والأدلة.",
+      outcomesTitle: "كيف يبدو النجاح",
+      outcomesLead:
+        "بعد وضوح المشكلة، هذه النتائج التي نسعى إليها مع فريقكم.",
       outcomes: "النتائج",
-      deliverablesTitle: "أصول تحتفظ بها",
+      deliverablesTitle: "ما الذي تحصل عليه",
       deliverablesLead:
-        "مخرجات ملموسة — مخططات وIaC وأدلة تشغيل — حتى لا يختفي التعاون في العروض.",
+        "نتائج واضحة تستلمها بعد التسليم — لتعرف ما هو جاهز للاستخدام والتملك والتوسع.",
       howWeDeliver: "كيف نسلّم",
-      architectureOverview: "نظرة عامة على البنية",
+      architectureOverview:
+        "نظرة بسيطة على كيفية ترابط الحل — ليتمكن أصحاب المصلحة من الاتفاق قبل التصميم التقني العميق.",
       scopedDuringAssessment: "يُحدَّد النطاق مع فريقكم أثناء التقييم.",
       useCasesTitle: "كيف تطبّق الفرق هذه الخدمة",
       useCasesTitleSolution: "كيف تطبّق الفرق هذا الحل",
       useCasesLead:
         "سيناريوهات توضيحية مبنية على أشكال تعاون شائعة — يُحدَّد مسارك في التقييم.",
-      stackTitle: "أدوات نربطها عادة",
+      stackTitle: "التقنيات والمنصات",
       nextStep: "الخطوة التالية",
+      ctaTitle: "هل أنت مستعد لحل تحدي {title}؟",
+      ctaLead:
+        "احجز تقييمًا مجانيًا مع مهندس، أو راسلنا على واتساب. يُؤكَّد الموعد يدويًا — بلا مزامنة تقويم.",
     },
   },
 };

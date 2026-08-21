@@ -12,7 +12,6 @@ import { IcCard } from "@/components/ui/ic-card";
 import { IcChip } from "@/components/ui/ic-chip";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { Button } from "@/components/ui/button";
-import { ServiceSlugMark } from "@/components/services/service-svgs";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/i18n";
@@ -78,7 +77,7 @@ export function ServicesPage() {
       <PageHero eyebrow={c.eyebrow} title={c.title} description={c.description} />
 
       <SectionShell
-        tone="white"
+        tone="soft"
         eyebrow={c.catalogEyebrow}
         title={c.catalogTitle}
         lead={c.catalogLead}
@@ -109,7 +108,7 @@ export function ServicesPage() {
                       "transition-[border-color,box-shadow] duration-500",
                     )}
                   >
-                    <div className="border-b border-border-200 bg-[#eef3f8]/50 px-5 pb-3 pt-5">
+                    <div className="border-b border-border-200 bg-[#eef3f8]/50 px-5 pb-4 pt-5">
                       <div className="flex items-start justify-between gap-3">
                         <IcIconTile size="md">
                           <Icon className="h-5 w-5" aria-hidden />
@@ -118,11 +117,6 @@ export function ServicesPage() {
                           {service.eyebrow}
                         </span>
                       </div>
-                      <ServiceSlugMark
-                        slug={service.slug}
-                        variant="tile"
-                        className="mt-3 opacity-95"
-                      />
                     </div>
                     <div className="flex flex-1 flex-col p-5">
                       <h2 className="font-display text-lg font-semibold tracking-[-0.02em] text-navy-900">

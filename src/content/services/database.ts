@@ -3,15 +3,15 @@ import type { ServicePageContent } from "./types";
 export const database: ServicePageContent = {
   slug: "database",
   title: "Database",
-  eyebrow: "Platforms",
-  tagline: "Managed data tiers and migrations with clear RPO, performance, and ownership",
+  eyebrow: "Data platforms",
+  tagline: "Databases that stay fast, available, and operable after go-live",
   summary:
-    "Plan and deliver managed databases, migrations, and day-two operations so data platforms stay available, secure, and cost-aware as workloads grow.",
+    "You need performance and availability you can trust — without risky migrations or day-two guesswork. We plan managed tiers, cutovers, and operate models so data platforms grow with clear RPO and ownership.",
   iconKey: "database",
   category: "platforms",
   architectureTitle: "Managed data tiers with HA and private access",
   architectureLead:
-    "Engine choice, zone resilience, and private connectivity drawn against your RPO/RTO — before any cutover window is booked.",
+    "Engine choice, zone resilience, and private connectivity drawn against your RPO and RTO — so app owners and platform teams share one cutover picture before any window is booked.",
   approachTitle: "Profile → Select → Migrate → Harden day two",
   approachLead:
     "Database moves fail on unknowns. We profile first, rehearse cutover, and leave restore evidence behind.",
@@ -23,28 +23,54 @@ export const database: ServicePageContent = {
   ],
   highlights: [
     {
-      title: "Platform selection",
-      body: "Right-size managed SQL, Postgres, Cosmos/Dynamo, and in-memory options to workload shape.",
+      title: "Right engine for the workload",
+      body: "Managed SQL, Postgres, Cosmos/Dynamo, and in-memory options sized to how the app actually behaves — not a default SKU guess.",
     },
     {
-      title: "Secure by default",
+      title: "Secure access as the default",
       body: "Private endpoints, encryption, least-privilege roles, and secrets outside connection strings.",
     },
     {
-      title: "Migration playbooks",
-      body: "Assessment, schema/data move, cutover, and rollback with measured downtime windows.",
+      title: "Migrations with a real rollback",
+      body: "Assessment, data move, cutover, and rollback with measured downtime windows — so go-live is rehearsed, not hoped for.",
     },
     {
-      title: "Performance baselining",
-      body: "Query and resource baselines before and after move so regressions are visible.",
+      title: "Performance you can compare",
+      body: "Query and resource baselines before and after move so regressions are visible to owners.",
     },
     {
-      title: "HA & backups",
-      body: "Multi-AZ/zone patterns, PITR, and restore drills tied to business RPO/RTO.",
+      title: "Availability tied to the business",
+      body: "Multi-AZ or zone patterns, point-in-time recovery, and restore drills mapped to agreed RPO and RTO.",
     },
     {
-      title: "Operate model",
-      body: "Patch windows, capacity reviews, and ownership between app and platform teams.",
+      title: "Clear day-two ownership",
+      body: "Patch windows, capacity reviews, and handoffs between app and platform teams.",
+    },
+  ],
+  problems: [
+    {
+      title: "Database performance",
+      body: "Queries slow down, resources spike, and nobody has a clear before/after baseline when something changes.",
+    },
+    {
+      title: "Availability",
+      body: "Outages or zone failures hurt the business — RPO and RTO exist as slides, not proven recovery.",
+    },
+    {
+      title: "Scalability",
+      body: "Growth forces oversized instances or emergency SKU jumps instead of a managed path that scales cleanly.",
+    },
+    {
+      title: "Backup and recovery",
+      body: "Backups are configured, but restores are rarely drilled — confidence collapses in a real incident.",
+    },
+    {
+      title: "Database migration",
+      body: "Moving engines or platforms feels risky — cutover windows are guessed, and rollback is undefined.",
+    },
+    {
+      title: "Operational complexity",
+      body: "Patching, access, and day-two ownership sit between app and platform teams with no clear handoff.",
     },
   ],
   challenges: [
@@ -58,35 +84,35 @@ export const database: ServicePageContent = {
     "Managed tiers matched to workload criticality and growth",
     "Private, identity-aware access as the production default",
     "Cutover plans with timed rehearsals",
-    "Documented RPO/RTO with restore evidence",
+    "Documented RPO and RTO with restore evidence",
     "Dashboards and alert routing owned by named teams",
   ],
   deliverables: [
     {
       title: "Data platform assessment",
-      body: "Inventory, risk, sizing, and target engine recommendations.",
+      body: "Inventory, risk, sizing, and target recommendations — so you know what to move, what to retire, and what it will cost to run.",
     },
     {
-      title: "Target architecture",
-      body: "HA, networking, encryption, and IaC for the chosen managed services.",
+      title: "Target architecture you can defend",
+      body: "HA, networking, encryption, and access model agreed with security — ready to provision consistently.",
     },
     {
       title: "Migration runbook",
-      body: "Wave plan, tooling, cutover checklist, and rollback criteria.",
+      body: "Wave plan, tooling, cutover checklist, and rollback criteria — so production windows are predictable.",
     },
     {
       title: "Operate pack",
-      body: "Backup policy, restore drill, patching, and capacity review cadence.",
+      body: "Backup policy, restore drill, patching, and capacity review cadence — so day-two work stays owned after we leave.",
     },
   ],
   approach: [
     {
-      title: "Profile workloads",
-      body: "Profile engines, dependencies, and change windows with application owners.",
+      title: "Profile the problem",
+      body: "Profile engines, dependencies, and change windows with application owners — focused on risk and performance, not tool catalogues.",
     },
     {
-      title: "Select managed targets",
-      body: "Choose engines, HA, and access model; freeze cutover constraints and rollback criteria.",
+      title: "Agree managed targets",
+      body: "Choose engines, HA, and access model; freeze cutover constraints and rollback criteria early.",
     },
     {
       title: "Migrate with rehearsal",
@@ -94,7 +120,7 @@ export const database: ServicePageContent = {
     },
     {
       title: "Harden day two",
-      body: "Enable monitoring, restore proof, patching windows, and capacity ownership.",
+      body: "Enable monitoring, restore proof, patching windows, and capacity ownership with your teams.",
     },
   ],
   stack: [
@@ -104,25 +130,8 @@ export const database: ServicePageContent = {
     "Private Link",
     "DMS / ADF",
     "Terraform",
-    "Query Insights / Performance Insights",
   ],
-  useCases: [
-    {
-      title: "SQL Server to managed Azure SQL",
-      body: "An enterprise line-of-business app needed lower ops load without a risky big-bang rewrite.",
-      outcome: "Online migration with measured downtime under the agreed window.",
-    },
-    {
-      title: "Postgres rightsizing",
-      body: "A SaaS team over-provisioned for peak. We redesigned HA and storage growth with clearer cost controls.",
-      outcome: "Stable latency and lower steady-state spend.",
-    },
-    {
-      title: "Multi-region read path",
-      body: "A customer-facing API needed regional reads. We introduced replicas and connection routing with failure tests.",
-      outcome: "Improved regional latency with documented failover.",
-    },
-  ],
+  useCases: [],
   faqs: [
     {
       question: "Do you support both relational and NoSQL?",
@@ -138,6 +147,11 @@ export const database: ServicePageContent = {
       question: "Will you tune queries?",
       answer:
         "We baseline and address top offenders with your developers. Deep application rewrite is scoped separately when needed.",
+    },
+    {
+      question: "Who owns the database after go-live?",
+      answer:
+        "Your team. We leave runbooks, restore evidence, and alert ownership so platform and app teams are not dependent on us for routine operations.",
     },
   ],
   related: ["storage", "cloud-computing", "disaster-recovery"],

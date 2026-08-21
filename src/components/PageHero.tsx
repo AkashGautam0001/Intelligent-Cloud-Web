@@ -36,12 +36,17 @@ export function PageHero({
 
 export function Breadcrumbs({
   items,
+  className,
 }: {
   items: Array<{ label: string; to?: string }>;
+  className?: string;
 }) {
   const { t } = useI18n();
   return (
-    <nav aria-label={t.common.breadcrumb} className="mb-6 text-sm text-text-600">
+    <nav
+      aria-label={t.common.breadcrumb}
+      className={cn("mb-6 text-sm text-text-600", className)}
+    >
       <ol className="flex flex-wrap items-center gap-2">
         {items.map((item, i) => (
           <li key={`${item.label}-${i}`} className="inline-flex items-center gap-2">

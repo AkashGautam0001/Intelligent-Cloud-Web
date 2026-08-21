@@ -101,7 +101,7 @@ function LegalDocument({
   }, [sections]);
 
   return (
-    <section className="border-b border-border-200 bg-white">
+    <section className="border-b border-border-200 bg-[#f8fafc]">
       <div className="container-ic py-12 lg:py-16">
         <div className="mb-10 flex overflow-hidden rounded-[14px] border border-border-200 bg-[#eef3f8]">
           <div className="flex min-w-0 flex-1 flex-wrap items-center gap-3 px-5 py-4 text-sm text-text-600">

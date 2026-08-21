@@ -100,14 +100,12 @@ export function Navbar() {
   const location = useLocation();
   const reduced = usePrefersReducedMotion();
   const megaPanels = useMemo(() => getMegaPanels(t), [t]);
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [openMega, setOpenMega] = useState<MegaId | null>(null);
   const [mobileSection, setMobileSection] = useState<MegaId | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navId = useId();
-  const isHome = location.pathname === "/";
   const navFade = useAnimationControls();
   const skipNavFade = useRef(true);
 
@@ -126,13 +124,6 @@ export function Navbar() {
       transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
     });
   }, [locale, reduced, navFade]);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 48);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -165,23 +156,16 @@ export function Navbar() {
     closeTimer.current = setTimeout(() => setOpenMega(null), 140);
   };
 
-  // Solid white bar when scrolled, off-home, or mega open; transparent over white home hero with navy text
-  const solid = scrolled || !isHome || openMega !== null;
-
+  // Always solid white so the bar stays readable over the dark hero video.
   const activePanel = megaPanels.find((p) => p.id === openMega) ?? null;
 
   return (
     <>
       <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-50 text-navy-900 transition-[background-color,box-shadow,border-color] duration-700 ease-out",
-          solid
-            ? "border-b border-border-200 bg-white shadow-[0_8px_24px_-18px_rgba(4,39,95,0.18)]"
-            : "border-b border-transparent bg-transparent",
-        )}
+        className="fixed inset-x-0 top-0 z-50 border-b border-border-200 bg-white text-navy-900 shadow-[0_8px_24px_-18px_rgba(4,39,95,0.18)]"
         onMouseLeave={scheduleClose}
       >
-        <div className="container-ic grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-4">
+        <div className="container-ic grid h-14 grid-cols-[1fr_auto_1fr] items-center gap-4">
           <Link
             to="/"
             className="flex items-center gap-3 justify-self-start"
@@ -190,12 +174,12 @@ export function Navbar() {
             <img
               src={brand.logo}
               alt={t.brand}
-              className="h-10 w-auto"
-              width={40}
-              height={40}
+              className="h-7 w-auto"
+              width={28}
+              height={28}
               decoding="async"
             />
-            <span className="hidden text-sm font-semibold tracking-tight text-navy-900 sm:inline">
+            <span className="hidden text-base font-semibold tracking-tight text-navy-900 sm:inline">
               {t.brand}
             </span>
           </Link>

@@ -10,7 +10,7 @@ export function CredibilitySection() {
   const c = t.home.credibility;
 
   return (
-    <SectionShell tone="navyLight" eyebrow={c.eyebrow} title={c.title} lead={c.lead}>
+    <SectionShell tone="white" eyebrow={c.eyebrow} title={c.title} lead={c.lead}>
       <div className="grid gap-4 md:grid-cols-3">
         <IcCard interactive className="p-6">
           <IcIconTile>

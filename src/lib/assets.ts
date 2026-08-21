@@ -35,6 +35,7 @@ export const illustrations = {
 export const tech = {
   aws: "/assets/tech/aws.svg",
   azure: "/assets/tech/azure.svg",
+  gcp: "/assets/tech/gcp.svg",
   kubernetes: "/assets/tech/kubernetes.svg",
   terraform: "/assets/tech/terraform.svg",
   helm: "/assets/tech/helm.svg",
@@ -48,8 +49,8 @@ export const tech = {
 } as const;
 
 /**
- * Service / solution hero diagrams live under:
- * - `src/assets/services/*.svg`
- * - `src/assets/solutions/*.svg`
- * Import via `ServiceSlugMark` / `SolutionSlugMark` (Vite `?url`).
+ * Homepage hero background footage (`src/assets/Cloud_Technology_1280x720.mp4`).
  */
+export const media = {
+  heroVideo: "/assets/hero/Cloud_Technology_1280x720.mp4",
+} as const;

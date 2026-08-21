@@ -9,7 +9,6 @@ import {
   Mail,
   Shield,
   User,
-  Wrench,
   type LucideIcon,
 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
@@ -33,6 +32,7 @@ import { SuccessDialog } from "@/components/ui/success-dialog";
 import { toast } from "@/components/ui/toast";
 import { useI18n } from "@/i18n";
 import { cn } from "@/lib/utils";
+import supportHero from "@/assets/support-page.jpg";
 import {
   controlClass,
   email as validateEmail,
@@ -48,8 +48,6 @@ const tierIcons: Record<string, LucideIcon> = {
   "managed-operations": Shield,
   priority: AlertTriangle,
 };
-
-const flowIcons = [ClipboardList, Wrench, Shield, CheckCircle2] as const;
 
 type SupportForm = {
   name: string;
@@ -93,7 +91,6 @@ export function SupportPage() {
 
   const s = t.pages.support;
   const tiers = s.tiers;
-  const flow = s.flow;
 
   const setField = <K extends SupportField>(key: K, value: SupportForm[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -110,41 +107,7 @@ export function SupportPage() {
   const SelectedIcon = tierIcons[selected.id] ?? Headphones;
 
   return (
-    <ResourceLongForm
-      content={supportContent}
-      heroVisual={
-        <IcCard className="overflow-hidden p-6">
-          <div className="flex items-center gap-4">
-            <IcIconTile size="lg" className="h-14 w-14 rounded-[14px]">
-              <LifeBuoy className="h-7 w-7" aria-hidden />
-            </IcIconTile>
-            <div>
-              <p className="font-display text-sm font-semibold text-navy-900">
-                {s.supportDesk}
-              </p>
-              <p className="mt-1 text-sm text-text-600">{s.deskLead}</p>
-            </div>
-          </div>
-          <ul className="mt-6 grid grid-cols-2 gap-2">
-            {flow.map((f, i) => {
-              const Icon = flowIcons[i] ?? ClipboardList;
-              return (
-                <li
-                  key={f.step}
-                  className="flex items-center gap-2 rounded-[10px] border border-border-200 bg-[#eef3f8]/80 px-3 py-2"
-                >
-                  <Icon className="h-3.5 w-3.5 text-orange-500" aria-hidden />
-                  <div>
-                    <p className="font-mono text-[10px] text-orange-500">{f.step}</p>
-                    <p className="text-sm font-medium text-navy-900">{f.title}</p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </IcCard>
-      }
-    >
+    <ResourceLongForm content={supportContent} heroBackground={supportHero}>
       <SectionShell
         tone="navyLight"
         eyebrow={s.openTicketEyebrow}
