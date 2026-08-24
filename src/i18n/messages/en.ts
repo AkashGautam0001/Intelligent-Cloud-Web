@@ -344,52 +344,6 @@ export const en = {
       serviceEyebrow: "Service",
       viewService: "View",
     },
-    solutionsToggle: {
-      eyebrow: "Solutions",
-      title: "Outcomes mapped to how you buy and operate",
-      lead: "Startups need velocity with guardrails. Enterprises need landing zones, compliance evidence, and managed run. Switch audience to remap the path and matching solutions.",
-      audienceLabel: "Audience",
-      startups: "Startups",
-      enterprises: "Enterprises",
-      matchingSolutions: "Matching solutions",
-      empty: "No solutions for this audience yet.",
-      startupPath: {
-        pilot: {
-          title: "Pilot",
-          body: "Scoped proof on a real workload with clear success criteria.",
-        },
-        landingZone: {
-          title: "Landing zone",
-          body: "Identity, network, and policy baselines before scale.",
-        },
-        gitops: {
-          title: "GitOps",
-          body: "Repeatable delivery so the cluster matches what’s reviewed.",
-        },
-        scale: {
-          title: "Scale",
-          body: "Expand only when the pilot is operable by your team.",
-        },
-      },
-      enterprisePath: {
-        assess: {
-          title: "Assess",
-          body: "Estate inventory, risk, and wave priorities in writing.",
-        },
-        migrate: {
-          title: "Migrate",
-          body: "Rehearsed cutovers with RPO/RTO and rollback gates.",
-        },
-        platform: {
-          title: "Platform",
-          body: "AKS/EKS, Terraform, and promotion paths auditors can follow.",
-        },
-        manage: {
-          title: "Manage",
-          body: "SLO-backed operations with named ownership and escalation.",
-        },
-      },
-    },
     howItWorks: {
       eyebrow: "How it works",
       title: "Assess → Design → Build → Operate",
@@ -437,81 +391,6 @@ export const en = {
           retros: "Incident retros that change the platform",
         },
       },
-    },
-    signatureNetwork: {
-      eyebrow: "Platform network",
-      title: "From disconnected workloads to a healthy control plane",
-      lead: "We connect identity, networking, clusters, and data services so the estate behaves like one system — not a pile of accounts.",
-      controlPlane: {
-        title: "Control plane first",
-        body: "Identity, networking, and policy before workloads — so every environment inherits the same baselines.",
-      },
-      privateByDefault: {
-        title: "Private by default",
-        body: "Hub-and-spoke or mesh patterns that stay reviewable, without brittle VPN sprawl.",
-      },
-      ownedSignals: {
-        title: "Owned signals",
-        body: "Health wired to ownership — not vanity dashboards nobody pages on.",
-      },
-      blastRadius: {
-        title: "Blast-radius boundaries",
-        body: "Explicit cells between production estates so one failure doesn't become every failure.",
-      },
-      serviceDiscovery: {
-        title: "Service discovery that matches topology",
-        body: "DNS and discovery designed for how environments actually connect.",
-      },
-      progressiveExposure: {
-        title: "Progressive exposure",
-        body: "Edge → identity → workload → data — each layer intentional, not accidental.",
-      },
-    },
-    migration: {
-      eyebrow: "Migration",
-      title: "Move with rehearsal, not hope",
-      lead: "Migrations fail on unknowns. We sequence waves, rehearse cutovers, and keep hybrid connectivity intact until the estate is proven in the target cloud.",
-      cta: "Plan your migration",
-      discovery: {
-        title: "On-prem discovery",
-        body: "Hard dependencies, data gravity, and freeze windows — not just a VM list.",
-      },
-      landingZone: {
-        title: "Landing zone",
-        body: "Identity, network, and policy baselines ready before the first wave lands.",
-      },
-      cutover: {
-        title: "Rehearsed cutover",
-        body: "Go/no-go gates, named owners, and rollback criteria written before traffic moves.",
-      },
-      optimize: {
-        title: "Optimize",
-        body: "Rightsizing and FinOps in the first 30 days so cost doesn't surprise anyone.",
-      },
-    },
-    security: {
-      eyebrow: "Security",
-      title: "Controls layered where attacks actually land",
-      lead: "Security that ships with the platform — identity, network, edge, and workload baselines — not a binder after go-live.",
-      cta: "Discuss security",
-      application: {
-        label: "Application",
-        detail: "Workload identity, secrets, SBOM, and short-lived credentials.",
-      },
-      edgeWaf: {
-        label: "Edge / WAF",
-        detail: "Bot controls, rate limits, and exposure that matches risk.",
-      },
-      identity: {
-        label: "Identity",
-        detail: "Least privilege, break-glass, and reviewable access paths.",
-      },
-      network: {
-        label: "Network",
-        detail: "Segmentation, private links, and clear blast-radius boundaries.",
-      },
-      policyAsCode: "Policy-as-code for accounts and clusters",
-      evidencePacks: "Evidence packs for audits without theater",
     },
     devops: {
       eyebrow: "DevOps",
