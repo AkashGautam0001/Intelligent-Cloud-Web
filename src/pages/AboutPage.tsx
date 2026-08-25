@@ -105,6 +105,49 @@ export function AboutPage() {
       </StickyPhotoHero>
 
       <StickyPhotoHeroBody>
+      <SectionShell
+        tone="soft"
+        eyebrow={a.experienceEyebrow}
+        title={a.experienceTitle}
+        lead={a.experienceFooter}
+      >
+        <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+          <IcCard className="h-full p-6 sm:p-7">
+            <div className="space-y-4 text-base leading-relaxed text-text-600">
+              <p>
+                <span className="font-semibold text-navy-900">Intelligent Cloud</span> is the
+                dedicated Cloud Consulting and Managed Services Division of{' '}
+                <span className="font-semibold text-navy-900">INTELLIGENT TECHNOLOGY CO.</span>, a
+                trusted technology company with more than a decade of experience delivering
+                innovative and reliable IT solutions.
+              </p>
+              <p>
+                As organizations accelerate their digital transformation, the need for secure,
+                scalable, and efficient cloud solutions continues to grow. To meet these evolving
+                business needs, <span className="font-semibold text-navy-900">INTELLIGENT
+                TECHNOLOGY CO.</span> established <span className="font-semibold text-navy-900">Intelligent Cloud</span>
+                to provide specialized expertise in cloud consulting, migration, DevOps, managed
+                services, cybersecurity, and cloud optimization.
+              </p>
+              <p>
+                Backed by the experience and commitment of our parent company, we help
+                organizations modernize their IT infrastructure, strengthen security, optimize cloud
+                investments, and confidently embrace digital transformation.
+              </p>
+            </div>
+          </IcCard>
+
+          <IcCard className="h-full bg-navy-900 p-6 text-white sm:p-7">
+            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-400">
+              {a.failureTitle}
+            </p>
+            <div className="mt-5">
+              <PointList items={[...a.failurePoints]} tone="dark" />
+            </div>
+          </IcCard>
+        </div>
+      </SectionShell>
+
       {/* Vision + Mission */}
       <SectionShell
         tone="soft"
