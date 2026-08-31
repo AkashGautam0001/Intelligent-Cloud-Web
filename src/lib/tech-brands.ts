@@ -15,6 +15,13 @@ export const techBrands: TechBrand[] = [
   { id: "aws", name: "AWS", src: "/assets/tech/aws.svg", color: "#FF9900", category: "cloud" },
   { id: "azure", name: "Azure", src: "/assets/tech/azure.svg", color: "#0078D4", category: "cloud" },
   {
+    id: "alibaba-cloud",
+    name: "Alibaba Cloud",
+    src: "/assets/tech/alibaba-cloud.svg",
+    color: "#FF6A00",
+    category: "cloud",
+  },
+  {
     id: "gcp",
     name: "GCP",
     src: "/assets/tech/gcp.svg",

@@ -3,11 +3,8 @@ import { ArrowRight, MessageCircle, Package } from "lucide-react";
 import type { SolutionPageContent } from "@/content/solutions/types";
 import { getSolutionPage } from "@/content/solutions";
 import { getSolutionBackground } from "@/content/solutions/backgrounds";
-import {
-  ChallengeIcon,
-  OutcomeIcon,
-  pickIcon,
-} from "@/lib/section-icons";
+import { ChallengeIcon, OutcomeIcon, pickIcon } from "@/lib/section-icons";
+import { ChallengeList, OutcomeList } from "@/components/ChallengeOutcomeList";
 import { whatsappExpertUrl } from "@/lib/whatsapp";
 import { useI18n } from "@/i18n";
 import { Breadcrumbs } from "@/components/PageHero";
@@ -22,7 +19,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { StackToolsSection } from "@/components/StackToolsSection";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { StickyPhotoHero, StickyPhotoHeroBody } from "@/components/StickyPhotoHero";
 import { cn } from "@/lib/utils";
@@ -163,14 +159,9 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
                 {t.common.challenges}
               </p>
             </div>
-            <ul className="mt-4 space-y-3">
-              {content.challenges.map((c) => (
-                <li key={c} className="flex gap-3 text-sm leading-relaxed text-text-600">
-                  <ChallengeIcon className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" aria-hidden />
-                  {c}
-                </li>
-              ))}
-            </ul>
+            <div className="mt-4">
+              <ChallengeList items={content.challenges} />
+            </div>
           </IcCard>
           <IcCard className="h-full border-0 bg-navy-900/[0.03] shadow-none">
             <div className="flex items-center gap-2">
@@ -179,14 +170,9 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
                 {lf.outcomes}
               </p>
             </div>
-            <ul className="mt-4 space-y-3">
-              {content.outcomes.map((o) => (
-                <li key={o} className="flex gap-3 text-sm leading-relaxed text-text-600">
-                  <OutcomeIcon className="mt-0.5 h-4 w-4 shrink-0 text-navy-900" aria-hidden />
-                  {o}
-                </li>
-              ))}
-            </ul>
+            <div className="mt-4">
+              <OutcomeList items={content.outcomes} />
+            </div>
           </IcCard>
         </div>
       </SectionShell>
@@ -283,8 +269,6 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
           })}
         </div>
       </SectionShell>
-
-      <StackToolsSection items={content.stack} className="border-y-0 bg-[#eef3f8]" />
 
       <SectionShell
         tone="white"

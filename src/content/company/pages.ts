@@ -40,7 +40,7 @@ export const about: CompanyPageContent = {
   ctaSecondary: { label: "Contact sales", to: "/contact" },
 };
 
-export const partners: CompanyPageContent = {
+/* Removed partners page content.
   slug: "partners",
   title: "Partner with Intelligent Cloud",
   eyebrow: "Company",
@@ -119,6 +119,8 @@ export const partners: CompanyPageContent = {
   ctaPrimary: { label: "Contact sales", to: "/contact" },
   ctaSecondary: { label: "Book assessment", to: "/book-demo" },
 };
+
+*/
 
 export const contact: CompanyPageContent = {
   slug: "contact",

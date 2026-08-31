@@ -40,7 +40,7 @@ export const arCompanyOverlays: Record<string, Partial<CompanyPageContent>> = {
     ctaSecondary: { label: "تواصل مع المبيعات", to: "/contact" },
   },
 
-  partners: {
+  /* Removed partners page translation content.
     title: "شراكة مع Intelligent Cloud",
     eyebrow: "الشركة",
     tagline: "مسارات إحالة وإعادة بيع وحلول تُبقي الملكية واضحة",
@@ -119,6 +119,7 @@ export const arCompanyOverlays: Record<string, Partial<CompanyPageContent>> = {
     ctaSecondary: { label: "احجز تقييمًا", to: "/book-demo" },
   },
 
+  */
   contact: {
     title: "تواصل مع المبيعات",
     eyebrow: "الشركة",

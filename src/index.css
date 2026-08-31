@@ -14,6 +14,7 @@
   --color-orange-500: #f26a13;
   --color-surface-0: #ffffff;
   --color-surface-50: #f8fafc;
+  --color-surface-100: #eef3fb;
   --color-text-900: #0b1730;
   --color-text-600: #5f6b7a;
   --color-border-200: #e4eaf1;
@@ -59,6 +60,7 @@
   --ic-orange-500: #f26a13;
   --ic-surface-0: #ffffff;
   --ic-surface-50: #f8fafc;
+  --ic-surface-100: #eef3fb;
   --ic-text-900: #0b1730;
   --ic-text-600: #5f6b7a;
   --ic-border-200: #e4eaf1;
@@ -213,22 +215,6 @@
 
 .ic-scroll::-webkit-scrollbar-thumb:hover {
   background: rgb(4 39 95 / 0.4);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-}
-
-.docs-shell .ic-scroll {
-  scrollbar-color: rgb(4 39 95 / 0.22) transparent;
-}
-
-.docs-shell .ic-scroll::-webkit-scrollbar-thumb {
-  background: rgb(4 39 95 / 0.18);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-}
-
-.docs-shell .ic-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgb(4 39 95 / 0.32);
   border: 2px solid transparent;
   background-clip: padding-box;
 }

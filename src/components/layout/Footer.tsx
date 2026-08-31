@@ -3,7 +3,7 @@ import { ArrowUpRight, Mail, Phone } from "lucide-react";
 import { useI18n } from "@/i18n";
 import { useSettings } from "@/hooks/useCms";
 import { brand } from "@/lib/assets";
-import { WHATSAPP_DISPLAY, whatsappExpertUrl } from "@/lib/whatsapp";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/contact";
 
 function ColHeading({ children }: { children: string }) {
   return (
@@ -80,7 +80,6 @@ function FooterCircles() {
 
 const companyLinks = [
   { to: "/about", key: "about" as const },
-  { to: "/partners", key: "partners" as const },
   { to: "/book-demo", key: "bookDemo" as const },
   { to: "/contact", key: "contact" as const },
 ];
@@ -91,7 +90,6 @@ const engageLinks = [
 ];
 
 const resourceLinks = [
-  { to: "/documentation", key: "docs" as const },
   { to: "/faq", key: "faq" as const },
   { to: "/support", key: "support" as const },
 ];
@@ -99,14 +97,14 @@ const resourceLinks = [
 export function Footer() {
   const { t } = useI18n();
   const settings = useSettings();
-  const email = settings.data?.email || "sales@intelligent-cloud.com";
-  const phone = settings.data?.phone || WHATSAPP_DISPLAY;
+  const email = settings.data?.email || CONTACT_EMAIL;
+  const phone = settings.data?.phone || CONTACT_PHONE_DISPLAY;
+  const phoneHref = settings.data?.phone || CONTACT_PHONE_E164;
   const linkedin = settings.data?.social?.linkedin;
   const twitter = settings.data?.social?.twitter;
 
   const companyLabels = {
     about: t.nav.about,
-    partners: t.nav.partners,
     bookDemo: t.nav.bookDemo,
     contact: t.footer.contact,
   };
@@ -115,7 +113,6 @@ export function Footer() {
     solutions: t.nav.solutions,
   };
   const resourceLabels = {
-    docs: t.nav.docs,
     faq: t.nav.faq,
     support: t.nav.support,
   };
@@ -157,10 +154,9 @@ export function Footer() {
             <div className="mt-5 space-y-4">
               <ContactRow href={`mailto:${email}`} icon={Mail} label={email} />
               <ContactRow
-                href={whatsappExpertUrl(t.whatsapp.defaultMessage)}
+                href={`tel:${phoneHref.replace(/\s+/g, "")}`}
                 icon={Phone}
                 label={phone}
-                external
               />
             </div>
             {linkedin || twitter ? (

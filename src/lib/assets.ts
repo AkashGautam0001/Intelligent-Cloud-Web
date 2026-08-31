@@ -48,9 +48,3 @@ export const tech = {
   azureDevops: "/assets/tech/azure-devops.svg",
 } as const;
 
-/**
- * Homepage hero background footage (`src/assets/Cloud_Technology_1280x720.mp4`).
- */
-export const media = {
-  heroVideo: "/assets/hero/Cloud_Technology_1280x720.mp4",
-} as const;

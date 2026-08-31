@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 import {
   ArrowRight,
   Check,
+  Eye,
   Handshake,
   Layers,
   Lock,
   RefreshCw,
   ShieldCheck,
   Sparkles,
+  Target,
   Wallet,
 } from "lucide-react";
 import { about as aboutFallback, getCompanyPage } from "@/content/company";
@@ -22,8 +24,6 @@ import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { StickyPhotoHero, StickyPhotoHeroBody } from "@/components/StickyPhotoHero";
 import { cn } from "@/lib/utils";
 import aboutHero from "@/assets/about-page.jpg";
-import visionImg from "@/assets/vision.jpg";
-import missionImg from "@/assets/mission.jpg";
 
 const approachIcons = [Layers, Lock, RefreshCw] as const;
 const differentiatorIcons = [Handshake, ShieldCheck, Sparkles, Wallet] as const;
@@ -113,7 +113,7 @@ export function AboutPage() {
       >
         <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
           <IcCard className="h-full p-6 sm:p-7">
-            <div className="space-y-4 text-base leading-relaxed text-text-600">
+            <div className="space-y-4 text-base leading-relaxed text-text-600 text-justify">
               <p>
                 <span className="font-semibold text-navy-900">Intelligent Cloud</span> is the
                 dedicated Cloud Consulting and Managed Services Division of{' '}
@@ -125,7 +125,7 @@ export function AboutPage() {
                 As organizations accelerate their digital transformation, the need for secure,
                 scalable, and efficient cloud solutions continues to grow. To meet these evolving
                 business needs, <span className="font-semibold text-navy-900">INTELLIGENT
-                TECHNOLOGY CO.</span> established <span className="font-semibold text-navy-900">Intelligent Cloud</span>
+                TECHNOLOGY CO.</span> established <span className="font-semibold text-navy-900">Intelligent Cloud</span>{' '}
                 to provide specialized expertise in cloud consulting, migration, DevOps, managed
                 services, cybersecurity, and cloud optimization.
               </p>
@@ -156,48 +156,39 @@ export function AboutPage() {
         lead={a.foundationLead}
       >
         <div className="grid gap-5 lg:grid-cols-2">
-          <IcCard className="flex h-full flex-col overflow-hidden p-0">
-            <div className="relative aspect-[16/9] w-full overflow-hidden sm:aspect-[2/1]">
-              <img
-                src={visionImg}
-                alt=""
-                className="h-full w-full object-cover object-center"
-                decoding="async"
-              />
-            </div>
-            <div className="flex flex-1 flex-col p-6 sm:p-7">
-              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
-                {a.visionEyebrow}
-              </p>
-              <h3 className="mt-3 font-display text-xl font-semibold text-navy-900">
-                {a.visionTitle}
-              </h3>
-              <div className="mt-5">
-                <PointList items={[...a.visionPoints]} />
+          {[
+            {
+              Icon: Eye,
+              eyebrow: a.visionEyebrow,
+              title: a.visionTitle,
+              points: a.visionPoints,
+            },
+            {
+              Icon: Target,
+              eyebrow: a.missionEyebrow,
+              title: a.missionTitle,
+              points: a.missionPoints,
+            },
+          ].map(({ Icon, eyebrow, title, points }) => (
+            <IcCard key={title} className="group/card flex h-full flex-col p-6 sm:p-7">
+              <div className="flex items-center gap-4">
+                <IcIconTile size="lg">
+                  <Icon className="h-5 w-5" aria-hidden />
+                </IcIconTile>
+                <div>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
+                    {eyebrow}
+                  </p>
+                  <h3 className="mt-1 font-display text-xl font-semibold text-navy-900">
+                    {title}
+                  </h3>
+                </div>
               </div>
-            </div>
-          </IcCard>
-          <IcCard className="flex h-full flex-col overflow-hidden p-0">
-            <div className="relative aspect-[16/9] w-full overflow-hidden sm:aspect-[2/1]">
-              <img
-                src={missionImg}
-                alt=""
-                className="h-full w-full object-cover object-center"
-                decoding="async"
-              />
-            </div>
-            <div className="flex flex-1 flex-col p-6 sm:p-7">
-              <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-orange-500">
-                {a.missionEyebrow}
-              </p>
-              <h3 className="mt-3 font-display text-xl font-semibold text-navy-900">
-                {a.missionTitle}
-              </h3>
-              <div className="mt-5">
-                <PointList items={[...a.missionPoints]} />
+              <div className="mt-5 border-t border-border-200 pt-5">
+                <PointList items={[...points]} />
               </div>
-            </div>
-          </IcCard>
+            </IcCard>
+          ))}
         </div>
       </SectionShell>
 

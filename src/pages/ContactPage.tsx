@@ -36,6 +36,7 @@ import {
 import { SuccessDialog } from "@/components/ui/success-dialog";
 import { toast } from "@/components/ui/toast";
 import { WHATSAPP_DISPLAY, whatsappExpertUrl } from "@/lib/whatsapp";
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_E164 } from "@/lib/contact";
 import { useI18n } from "@/i18n";
 import contactHero from "@/assets/contact-sales.jpg";
 import {
@@ -129,8 +130,9 @@ export function ContactPage() {
     setErrors((prev) => ({ ...prev, [key]: undefined }));
   };
 
-  const email = settings.data?.email || "sales@intelligent-cloud.com";
-  const phone = settings.data?.phone || WHATSAPP_DISPLAY;
+  const email = settings.data?.email || CONTACT_EMAIL;
+  const phone = settings.data?.phone || CONTACT_PHONE_DISPLAY;
+  const phoneHref = settings.data?.phone || CONTACT_PHONE_E164;
   const whatsapp = settings.data?.whatsapp || WHATSAPP_DISPLAY;
 
   return (
@@ -161,7 +163,7 @@ export function ContactPage() {
               <ul className="space-y-4">
                 {[
                   { Icon: Mail, label: t.forms.email, value: email, href: `mailto:${email}` },
-                  { Icon: Phone, label: t.forms.phone, value: phone || "—", href: `tel:${phone}` },
+                  { Icon: Phone, label: t.forms.phone, value: phone || "—", href: `tel:${phoneHref.replace(/\s+/g, "")}` },
                   {
                     Icon: MessageCircle,
                     label: c.whatsapp,

@@ -2,11 +2,8 @@ import { Link } from "react-router-dom";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import type { ServicePageContent } from "@/content/services/types";
 import { getServicePage } from "@/content/services";
-import {
-  ChallengeIcon,
-  OutcomeIcon,
-  pickIcon,
-} from "@/lib/section-icons";
+import { ChallengeIcon, OutcomeIcon, pickIcon } from "@/lib/section-icons";
+import { ChallengeList, OutcomeList } from "@/components/ChallengeOutcomeList";
 import { whatsappExpertUrl } from "@/lib/whatsapp";
 import { useI18n } from "@/i18n";
 import { Breadcrumbs } from "@/components/PageHero";
@@ -20,7 +17,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { StackToolsSection } from "@/components/StackToolsSection";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { ServiceDiagram, hasServiceDiagram } from "@/components/services/service-visuals";
 import { getServiceBackground } from "@/content/services/backgrounds";
@@ -56,9 +52,7 @@ export function ServiceLongForm({ content }: ServiceLongFormProps) {
   const deliverTone = nextBand();
   const whatYouGetTone = nextBand();
   const approachTone = nextBand();
-  const stackTone = nextBand();
   const faqTone = nextBand();
-  const stackBg = stackTone === "white" ? "bg-white" : "bg-[#eef3f8]";
 
   const heroCopy = (
     <>
@@ -195,14 +189,9 @@ export function ServiceLongForm({ content }: ServiceLongFormProps) {
                   {lf.outcomes}
                 </p>
               </div>
-              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                {content.outcomes.map((o) => (
-                  <li key={o} className="flex gap-3 text-sm leading-relaxed text-text-600">
-                    <OutcomeIcon className="mt-0.5 h-4 w-4 shrink-0 text-navy-900" aria-hidden />
-                    {o}
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-4">
+                <OutcomeList items={content.outcomes} columns />
+              </div>
             </IcCard>
           </SectionShell>
         </>
@@ -221,14 +210,9 @@ export function ServiceLongForm({ content }: ServiceLongFormProps) {
                   {t.common.challenges}
                 </p>
               </div>
-              <ul className="mt-4 space-y-3">
-                {content.challenges.map((c) => (
-                  <li key={c} className="flex gap-3 text-sm leading-relaxed text-text-600">
-                    <ChallengeIcon className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" aria-hidden />
-                    {c}
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-4">
+                <ChallengeList items={content.challenges} />
+              </div>
             </IcCard>
             <IcCard className="h-full border-navy-900/15 bg-navy-900/[0.03]">
               <div className="flex items-center gap-2">
@@ -237,14 +221,9 @@ export function ServiceLongForm({ content }: ServiceLongFormProps) {
                   {lf.outcomes}
                 </p>
               </div>
-              <ul className="mt-4 space-y-3">
-                {content.outcomes.map((o) => (
-                  <li key={o} className="flex gap-3 text-sm leading-relaxed text-text-600">
-                    <OutcomeIcon className="mt-0.5 h-4 w-4 shrink-0 text-navy-900" aria-hidden />
-                    {o}
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-4">
+                <OutcomeList items={content.outcomes} />
+              </div>
             </IcCard>
           </div>
         </SectionShell>
@@ -340,8 +319,6 @@ export function ServiceLongForm({ content }: ServiceLongFormProps) {
           })}
         </div>
       </SectionShell>
-
-      <StackToolsSection items={content.stack} className={stackBg} />
 
       {/* FAQ */}
       <SectionShell

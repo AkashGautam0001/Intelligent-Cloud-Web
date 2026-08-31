@@ -5,7 +5,6 @@ import {
   Boxes,
   Command,
   CornerDownLeft,
-  FileText,
   HelpCircle,
   Home,
   Layers,
@@ -14,12 +13,12 @@ import {
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { listServicePages } from "@/content/services";
 import { listSolutionPages } from "@/content/solutions";
-import { useDocs, useFaqs, useServices, useSolutions } from "@/hooks/useCms";
+import { useFaqs, useServices, useSolutions } from "@/hooks/useCms";
 import { useI18n } from "@/i18n";
 import { localizedFaq } from "@/lib/localized-faq";
 import { cn } from "@/lib/utils";
 
-type SearchGroup = "services" | "solutions" | "docs" | "faq" | "site";
+type SearchGroup = "services" | "solutions" | "faq" | "site";
 
 export type SearchHit = {
   id: string;
@@ -45,8 +44,6 @@ function groupIcon(group: SearchGroup) {
       return Layers;
     case "solutions":
       return Boxes;
-    case "docs":
-      return FileText;
     case "faq":
       return HelpCircle;
     default:
@@ -110,7 +107,6 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
   const services = useServices();
   const solutions = useSolutions();
   const faqs = useFaqs();
-  const docs = useDocs();
 
   const index = useMemo<SearchHit[]>(() => {
     const byHref = new Map<string, SearchHit>();
@@ -169,24 +165,10 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
         group: "site",
       },
       {
-        id: "page-docs",
-        title: t.nav.docs,
-        description: t.search.pages.docs,
-        href: "/documentation",
-        group: "site",
-      },
-      {
         id: "page-faq",
         title: t.nav.faq,
         description: t.search.pages.faq,
         href: "/faq",
-        group: "site",
-      },
-      {
-        id: "page-partners",
-        title: t.nav.partners,
-        description: t.search.pages.partners,
-        href: "/partners",
         group: "site",
       },
       {
@@ -265,21 +247,8 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
       });
     }
 
-    // Documentation stays English-only by product design.
-    for (const category of docs.data ?? []) {
-      for (const article of category.articles ?? []) {
-        upsert({
-          id: `doc-${article._id}`,
-          title: article.title,
-          description: article.summary || category.title,
-          href: `/documentation/${category.slug}/${article.slug}`,
-          group: "docs",
-        });
-      }
-    }
-
     return Array.from(byHref.values());
-  }, [services.data, solutions.data, faqs.data, docs.data, locale, t]);
+  }, [services.data, solutions.data, faqs.data, locale, t]);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();

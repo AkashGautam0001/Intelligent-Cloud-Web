@@ -3,7 +3,7 @@ export type CompanyMetric = { label: string; value: string };
 export type CompanyFaq = { question: string; answer: string };
 
 export type CompanyPageContent = {
-  slug: "about" | "partners" | "contact" | "book-demo";
+  slug: "about" | "contact" | "book-demo";
   title: string;
   eyebrow: string;
   tagline: string;

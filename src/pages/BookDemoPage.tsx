@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   Building2,
   CalendarCheck,
+  CalendarClock,
   CalendarDays,
   Clock3,
   Crosshair,
@@ -62,12 +63,15 @@ const NEED_OPTIONS = [
 type NeedValue = (typeof NEED_OPTIONS)[number]["value"];
 type NeedKey = (typeof NEED_OPTIONS)[number]["key"];
 
+type PreferredSchedule = "" | "yes" | "no";
+
 type FormState = {
   need: NeedValue;
   name: string;
   email: string;
   company: string;
   phone: string;
+  preferredSchedule: PreferredSchedule;
   preferredDate: string;
   preferredTime: string;
   notes: string;
@@ -81,6 +85,7 @@ const empty: FormState = {
   email: "",
   company: "",
   phone: "",
+  preferredSchedule: "",
   preferredDate: "",
   preferredTime: "",
   notes: "",
@@ -98,6 +103,7 @@ function validateStep(
     company: string;
     email: string;
     phone: string;
+    preferredSchedule: string;
     preferredDate: string;
     preferredTime: string;
     notes: string;
@@ -113,6 +119,7 @@ function validateStep(
       company: minLength(form.company, 2, labels.company, msgs),
       email: validateEmail(form.email, labels.email, msgs),
       phone: validatePhone(form.phone, labels.phone, msgs),
+      preferredSchedule: required(form.preferredSchedule, labels.preferredSchedule, msgs),
     };
   }
   return {
@@ -137,6 +144,9 @@ export function BookDemoPage() {
   const b = t.pages.bookDemo;
   const stepLabels = [b.stepNeed, b.stepIdentity, b.stepSchedule] as const;
   const needLabels = b.needOptions;
+  const skipSchedule = form.preferredSchedule === "no";
+  const visibleStepCount = skipSchedule ? 2 : 3;
+  const isFinalStep = step === 3 || (step === 2 && skipSchedule);
 
   useEffect(() => {
     panelRef.current?.focus();
@@ -201,8 +211,14 @@ export function BookDemoPage() {
           }
         >
           <div className="w-full space-y-5">
-            <ol className="grid w-full grid-cols-3 gap-2" aria-label={b.stepsAria}>
-              {stepLabels.map((label, index) => {
+            <ol
+              className={cn(
+                "grid w-full gap-2",
+                visibleStepCount === 2 ? "grid-cols-2" : "grid-cols-3",
+              )}
+              aria-label={b.stepsAria}
+            >
+              {stepLabels.slice(0, visibleStepCount).map((label, index) => {
                 const n = index + 1;
                 const Icon = stepIcons[index]!;
                 return (
@@ -240,6 +256,7 @@ export function BookDemoPage() {
                     company: t.forms.company,
                     email: t.forms.email,
                     phone: t.forms.phone,
+                    preferredSchedule: b.preferredScheduleQuestion,
                     preferredDate: b.preferredDate,
                     preferredTime: b.preferredTime,
                     notes: b.notes,
@@ -251,15 +268,18 @@ export function BookDemoPage() {
                   toast.error(t.forms.fixFields);
                   return;
                 }
-                if (step < 3) {
+                if (!isFinalStep) {
                   setStep((s) => s + 1);
                   setErrors({});
                   return;
                 }
+                const payload = skipSchedule
+                  ? { ...form, preferredDate: "", preferredTime: "" }
+                  : form;
                 setSubmitting(true);
                 void apiFetch("/bookings", {
                   method: "POST",
-                  body: JSON.stringify(withSpamFields(form, { website, formStartedAt })),
+                  body: JSON.stringify(withSpamFields(payload, { website, formStartedAt })),
                 })
                   .then(() => {
                     resetBooking();
@@ -368,6 +388,45 @@ export function BookDemoPage() {
                             onChange={(e) => setField("phone", sanitizePhoneInput(e.target.value))}
                           />
                         </FormField>
+
+                        <div className="space-y-3 sm:col-span-2">
+                          <p className="inline-flex items-center gap-2 text-sm font-medium text-navy-900">
+                            <CalendarClock className="h-4 w-4 text-orange-500" aria-hidden />
+                            {b.preferredScheduleQuestion}
+                            <span className="text-orange-500">*</span>
+                          </p>
+                          <div className="grid w-full gap-2 sm:grid-cols-2">
+                            {(
+                              [
+                                { value: "yes", label: b.preferredScheduleYes },
+                                { value: "no", label: b.preferredScheduleNo },
+                              ] as const
+                            ).map((opt) => (
+                              <button
+                                key={opt.value}
+                                type="button"
+                                onClick={() => setField("preferredSchedule", opt.value)}
+                                aria-pressed={form.preferredSchedule === opt.value}
+                                className={cn(
+                                  "rounded-[12px] border px-4 py-3.5 text-start text-sm transition-colors duration-500",
+                                  form.preferredSchedule === opt.value
+                                    ? "border-orange-500 bg-orange-500/[0.06] text-navy-900"
+                                    : "border-border-200 bg-[#f8fafc] text-text-600 hover:border-orange-500/40",
+                                  errors.preferredSchedule &&
+                                    form.preferredSchedule !== opt.value &&
+                                    "border-danger/40",
+                                )}
+                              >
+                                {opt.label}
+                              </button>
+                            ))}
+                          </div>
+                          {errors.preferredSchedule ? (
+                            <p role="alert" className="text-xs font-medium text-danger">
+                              {errors.preferredSchedule}
+                            </p>
+                          ) : null}
+                        </div>
                       </div>
                     ) : null}
 
@@ -440,7 +499,7 @@ export function BookDemoPage() {
                       {b.back}
                     </Button>
                     <Button type="submit" disabled={submitting} size="lg" className="w-full sm:w-auto">
-                      {step < 3 ? b.continue : submitting ? t.forms.sending : t.forms.submit}
+                      {!isFinalStep ? b.continue : submitting ? t.forms.sending : t.forms.submit}
                     </Button>
                   </div>
                 </ModernFormCard>

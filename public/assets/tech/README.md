@@ -10,6 +10,7 @@ These indicate technologies Intelligent Cloud works with. They are **not** forma
 |------|--------|
 | `aws.svg` | Amazon Web Services |
 | `azure.svg` | Microsoft Azure |
+| `alibaba-cloud.svg` | Alibaba Cloud |
 | `kubernetes.svg` | Kubernetes |
 | `docker.svg` | Docker |
 | `helm.svg` | Helm |

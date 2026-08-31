@@ -7,7 +7,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { useLocation } from "react-router-dom";
 import {
   en,
   isLocale,
@@ -66,10 +65,7 @@ export function LocaleProvider({
   const [locale, setLocaleState] = useState<Locale>(() =>
     resolveInitialLocale(initialLocale),
   );
-  const location = useLocation();
-  /** Documentation stays English LTR regardless of marketing locale. */
-  const onDocs = location.pathname.startsWith("/documentation");
-  const dir = onDocs ? "ltr" : dirForLocale(locale);
+  const dir = dirForLocale(locale);
   const t = messagesByLocale[locale] ?? en;
 
   const setLocale = useCallback((next: Locale) => {
@@ -82,9 +78,9 @@ export function LocaleProvider({
   }, []);
 
   useEffect(() => {
-    document.documentElement.lang = onDocs ? "en" : locale;
+    document.documentElement.lang = locale;
     document.documentElement.dir = dir;
-  }, [locale, dir, onDocs]);
+  }, [locale, dir]);
 
   const value = useMemo<I18nValue>(
     () => ({

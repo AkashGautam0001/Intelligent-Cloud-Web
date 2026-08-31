@@ -33,16 +33,6 @@ export const routeMeta: Record<string, { title: string; description: string }> =
     description:
       "Built by engineers who've run production cloud at scale — Azure landing zones, AKS, Terraform, and GitOps for startups and enterprises.",
   },
-  "/partners": {
-    title: "Partners | Intelligent Cloud",
-    description:
-      "Partner with Intelligent Cloud for cloud delivery, managed services, and joint go-to-market.",
-  },
-  "/documentation": {
-    title: "Documentation | Intelligent Cloud",
-    description:
-      "Architecture guides, Kubernetes on AKS, CI/CD, observability, and security documentation from Intelligent Cloud.",
-  },
   "/faq": {
     title: "FAQ | Intelligent Cloud",
     description:
@@ -77,7 +67,6 @@ export function titleForPath(pathname: string): string | undefined {
   if (routeMeta[pathname]) return routeMeta[pathname].title;
   if (pathname.startsWith("/services/")) return "Service | Intelligent Cloud";
   if (pathname.startsWith("/solutions/")) return "Solution | Intelligent Cloud";
-  if (pathname.startsWith("/documentation/")) return "Documentation | Intelligent Cloud";
   return undefined;
 }
 

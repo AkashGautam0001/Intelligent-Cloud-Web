@@ -61,7 +61,7 @@ export function ResourceLongForm({
       <Breadcrumbs
         items={[
           { label: t.common.home, to: "/" },
-          { label: t.nav.resources, to: "/documentation" },
+          { label: t.nav.resources, to: "/faq" },
           { label: content.title },
         ]}
         className={

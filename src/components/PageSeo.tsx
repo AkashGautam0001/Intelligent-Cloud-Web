@@ -18,6 +18,7 @@ import {
   SITE_NAME,
   titleForPath,
 } from "@/lib/seo";
+import { CONTACT_EMAIL, CONTACT_PHONE_E164 } from "@/lib/contact";
 
 export type PageSeoProps = {
   title?: string;
@@ -130,8 +131,8 @@ export function SeoProvider({ children }: { children: ReactNode }) {
       name: SITE_NAME,
       url: absoluteUrl("/"),
       logo: absoluteUrl("/assets/brand/logo.png"),
-      email: settings.data?.email || "sales@intelligent-cloud.com",
-      telephone: settings.data?.phone || undefined,
+      email: settings.data?.email || CONTACT_EMAIL,
+      telephone: settings.data?.phone || CONTACT_PHONE_E164,
       sameAs: [
         settings.data?.social?.linkedin,
         settings.data?.social?.twitter,

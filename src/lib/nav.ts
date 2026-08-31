@@ -1,14 +1,10 @@
 import type { LucideIcon } from "lucide-react";
 import {
-  BookOpen,
   Building2,
   Cloud,
   CloudCog,
   Database,
-  FileQuestion,
-  Handshake,
   HardDrive,
-  LifeBuoy,
   LineChart,
   Network,
   BrainCircuit,
@@ -32,7 +28,7 @@ export type MegaColumn = {
 };
 
 export type MegaPanel = {
-  id: "services" | "solutions" | "company" | "resources";
+  id: "services" | "solutions" | "company";
   label: string;
   overviewTo: string;
   overviewLabel: string;
@@ -55,7 +51,6 @@ export function getMegaPanels(t: Messages): MegaPanel[] {
   const s = t.mega.services;
   const sol = t.mega.solutions;
   const co = t.mega.company;
-  const res = t.mega.resources;
 
   return [
     {
@@ -204,12 +199,6 @@ export function getMegaPanels(t: Messages): MegaPanel[] {
               to: "/about",
               icon: Building2,
             },
-            {
-              title: co.partners.title,
-              description: co.partners.description,
-              to: "/partners",
-              icon: Handshake,
-            },
           ],
         },
         {
@@ -233,62 +222,8 @@ export function getMegaPanels(t: Messages): MegaPanel[] {
       featured: {
         title: co.featured.title,
         description: co.featured.description,
-        to: "/partners",
-        cta: co.featured.cta,
-      },
-    },
-    {
-      id: "resources",
-      label: t.nav.resources,
-      overviewTo: "/documentation",
-      overviewLabel: res.overviewLabel,
-      columns: [
-        {
-          heading: res.learn,
-          links: [
-            {
-              title: res.documentation.title,
-              description: res.documentation.description,
-              to: "/documentation",
-              icon: BookOpen,
-            },
-            {
-              title: res.faq.title,
-              description: res.faq.description,
-              to: "/faq",
-              icon: FileQuestion,
-            },
-          ],
-        },
-        {
-          heading: res.help,
-          links: [
-            {
-              title: res.support.title,
-              description: res.support.description,
-              to: "/support",
-              icon: LifeBuoy,
-            },
-            {
-              title: res.privacy.title,
-              description: res.privacy.description,
-              to: "/privacy",
-              icon: ShieldCheck,
-            },
-            {
-              title: res.terms.title,
-              description: res.terms.description,
-              to: "/terms",
-              icon: FileQuestion,
-            },
-          ],
-        },
-      ],
-      featured: {
-        title: res.featured.title,
-        description: res.featured.description,
         to: "/support",
-        cta: res.featured.cta,
+        cta: co.featured.cta,
       },
     },
   ];

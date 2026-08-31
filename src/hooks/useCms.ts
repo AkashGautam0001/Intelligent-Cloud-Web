@@ -1,10 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiFetch } from "@/lib/api";
 import type {
-  DocArticleDetail,
-  DocCategoryWithArticles,
   FaqItem,
-  PartnerItem,
   ServiceItem,
   SettingsPublic,
   SolutionItem,
@@ -92,63 +89,3 @@ export function useFaqs(category?: string) {
   });
 }
 
-export function useDocs() {
-  return useQuery({
-    queryKey: ["docs"],
-    queryFn: async () => {
-      const res = await apiFetch<{
-        success: boolean;
-        data: DocCategoryWithArticles[];
-      }>("/docs");
-      return res.data;
-    },
-    staleTime: 60_000,
-  });
-}
-
-export function useDocCategory(slug: string | undefined) {
-  return useQuery({
-    queryKey: ["docs", "category", slug],
-    enabled: Boolean(slug),
-    queryFn: async () => {
-      const res = await apiFetch<{
-        success: boolean;
-        data: DocCategoryWithArticles;
-      }>(`/docs/categories/${slug}`);
-      return res.data;
-    },
-    staleTime: 60_000,
-  });
-}
-
-export function useDocArticle(
-  categorySlug: string | undefined,
-  articleSlug: string | undefined,
-) {
-  return useQuery({
-    queryKey: ["docs", "article", categorySlug, articleSlug],
-    enabled: Boolean(categorySlug && articleSlug),
-    queryFn: async () => {
-      const res = await apiFetch<{ success: boolean; data: DocArticleDetail }>(
-        `/docs/${categorySlug}/${articleSlug}`,
-      );
-      return res.data;
-    },
-    staleTime: 60_000,
-    // Keep previous article visible while the next one loads (avoids full-page "refresh")
-    placeholderData: (previous) => previous,
-  });
-}
-
-export function usePartners() {
-  return useQuery({
-    queryKey: ["partners"],
-    queryFn: async () => {
-      const res = await apiFetch<{ success: boolean; data: PartnerItem[] }>(
-        "/partners",
-      );
-      return res.data;
-    },
-    staleTime: 60_000,
-  });
-}

@@ -66,7 +66,7 @@ export const en = {
     commonQuestions: "Common questions",
     capabilities: "Capabilities",
     whatWeDeliver: "What we deliver",
-    challenges: "Challenges",
+    challenges: "Current state",
     deliverables: "Deliverables",
     architectureLens: "Architecture lens",
     useCases: "Use cases",
@@ -80,7 +80,6 @@ export const en = {
     notFoundSolution: "Solution not found",
     backToServices: "Back to services",
     backToSolutions: "Back to solutions",
-    technologyPlatforms: "Technology platforms",
   },
   search: {
     title: "Site search",
@@ -228,10 +227,10 @@ export const en = {
         description: "Cloud assessment request",
       },
       featured: {
-        title: "Partner with us",
+        title: "Support desk",
         description:
-          "Grow with Intelligent Cloud through referral, reseller, and solution paths.",
-        cta: "Partner program",
+          "Standard, managed, and priority tiers — open a ticket and track it through to resolution.",
+        cta: "Open a ticket",
       },
     },
     resources: {
@@ -266,11 +265,9 @@ export const en = {
     },
   },
   home: {
+    cloudStripLabel: "Delivered across every major cloud",
     hero: {
       platforms: "Azure · AWS · Kubernetes",
-      title: "Grow Your Business — We'll Handle Your Cloud",
-      titleLine1: "Grow Your Business",
-      titleLine2: "We'll Handle Your Cloud",
       weEngineer: "We engineer",
       lead: "Enterprise cloud platforms engineered for scale, security, and operable delivery.",
       finopsNode: "FinOps Guardrails",
@@ -876,6 +873,9 @@ export const en = {
       continue: "Continue",
       back: "Back",
       needHelp: "What do you need help with?",
+      preferredScheduleQuestion: "Do you have a preferred schedule?",
+      preferredScheduleYes: "Yes",
+      preferredScheduleNo: "No",
       preferredDate: "Preferred date",
       preferredTime: "Preferred time",
       notes: "Notes (optional)",
@@ -1072,13 +1072,13 @@ export const en = {
       problemsTitle: "Recognize your problem",
       problemsLead:
         "Find the business or IT challenge that matches what you face — then see how we solve it. Technology comes after.",
-      challengesTitle: "Challenges we see — outcomes we aim for",
+      challengesTitle: "From current exposure to a defensible target state",
       challengesLead:
-        "Most estates already have tools. The gap is usually clarity, ownership, and evidence.",
+        "Most estates already have tools. The gap is usually clarity, ownership, and evidence — here is the shift we drive.",
       outcomesTitle: "What good looks like",
       outcomesLead:
         "Once the problem is clear, these are the outcomes we aim for with your team.",
-      outcomes: "Outcomes",
+      outcomes: "Target state",
       deliverablesTitle: "What You Get",
       deliverablesLead:
         "Clear outcomes you receive after delivery — so you know what is ready to use, own, and scale.",
@@ -1090,7 +1090,6 @@ export const en = {
       useCasesTitleSolution: "How teams apply this solution",
       useCasesLead:
         "Illustrative scenarios based on common engagement shapes — your path is scoped in assessment.",
-      stackTitle: "Technologies & Platforms",
       nextStep: "Next step",
       ctaTitle: "Ready to solve your {title} challenge?",
       ctaLead:

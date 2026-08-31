@@ -67,7 +67,7 @@ export function RichHtml({
 }
 
 /**
- * Docs-style “On this page” rail — vertical track + orange active indicator (scroll spy).
+ * “On this page” rail — vertical track + orange active indicator (scroll spy).
  */
 export function ArticleToc({
   items,

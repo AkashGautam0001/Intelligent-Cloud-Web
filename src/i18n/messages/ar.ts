@@ -69,7 +69,7 @@ export const ar: Messages = {
     commonQuestions: "أسئلة شائعة",
     capabilities: "القدرات",
     whatWeDeliver: "ما نقدمه",
-    challenges: "التحديات",
+    challenges: "الوضع الحالي",
     deliverables: "المخرجات",
     architectureLens: "عدسة الهندسة",
     useCases: "حالات الاستخدام",
@@ -83,7 +83,6 @@ export const ar: Messages = {
     notFoundSolution: "الحل غير موجود",
     backToServices: "العودة إلى الخدمات",
     backToSolutions: "العودة إلى الحلول",
-    technologyPlatforms: "منصات التقنية",
   },
   search: {
     title: "بحث الموقع",
@@ -230,9 +229,9 @@ export const ar: Messages = {
         description: "طلب تقييم سحابي",
       },
       featured: {
-        title: "شارك معنا",
-        description: "انمُ مع Intelligent Cloud عبر مسارات الإحالة وإعادة البيع والحلول.",
-        cta: "برنامج الشركاء",
+        title: "مكتب الدعم",
+        description: "مستويات قياسية ومُدارة وذات أولوية — افتح تذكرة وتابعها حتى الحل.",
+        cta: "افتح تذكرة",
       },
     },
     resources: {
@@ -267,11 +266,9 @@ export const ar: Messages = {
     },
   },
   home: {
+    cloudStripLabel: "نعمل على جميع السحابات الكبرى",
     hero: {
       platforms: "Azure · AWS · Kubernetes",
-      title: "نمِّ عملك — نحن نتولى سحابتك",
-      titleLine1: "نمِّ عملك",
-      titleLine2: "نحن نتولى سحابتك",
       weEngineer: "نُهندس",
       lead: "منصات سحابية للمؤسسات مُصمَّمة للتوسع والأمن والتسليم القابل للتشغيل.",
       finopsNode: "ضوابط FinOps",
@@ -876,6 +873,9 @@ export const ar: Messages = {
       continue: "متابعة",
       back: "رجوع",
       needHelp: "بماذا تحتاج المساعدة؟",
+      preferredScheduleQuestion: "هل لديك موعد مفضل؟",
+      preferredScheduleYes: "نعم",
+      preferredScheduleNo: "لا",
       preferredDate: "التاريخ المفضل",
       preferredTime: "الوقت المفضل",
       notes: "ملاحظات (اختياري)",
@@ -1071,12 +1071,13 @@ export const ar: Messages = {
       problemsTitle: "تعرّف على مشكلتكم",
       problemsLead:
         "ابحثوا عن تحدي الأعمال أو تقنية المعلومات الذي يطابق ما تواجهونه — ثم انظروا كيف نحلّه. التقنية تأتي بعد ذلك.",
-      challengesTitle: "تحديات نراها — ونتائج نسعى إليها",
-      challengesLead: "معظم البيئات لديها أدوات بالفعل. الفجوة عادة في الوضوح والملكية والأدلة.",
+      challengesTitle: "من الوضع الحالي إلى وضعٍ مستهدف يمكن الاعتماد عليه",
+      challengesLead:
+        "معظم البيئات لديها أدوات بالفعل. الفجوة عادة في الوضوح والملكية والأدلة — وهذا هو التحوّل الذي نقوده.",
       outcomesTitle: "كيف يبدو النجاح",
       outcomesLead:
         "بعد وضوح المشكلة، هذه النتائج التي نسعى إليها مع فريقكم.",
-      outcomes: "النتائج",
+      outcomes: "الوضع المستهدف",
       deliverablesTitle: "ما الذي تحصل عليه",
       deliverablesLead:
         "نتائج واضحة تستلمها بعد التسليم — لتعرف ما هو جاهز للاستخدام والتملك والتوسع.",
@@ -1088,7 +1089,6 @@ export const ar: Messages = {
       useCasesTitleSolution: "كيف تطبّق الفرق هذا الحل",
       useCasesLead:
         "سيناريوهات توضيحية مبنية على أشكال تعاون شائعة — يُحدَّد مسارك في التقييم.",
-      stackTitle: "التقنيات والمنصات",
       nextStep: "الخطوة التالية",
       ctaTitle: "هل أنت مستعد لحل تحدي {title}؟",
       ctaLead:

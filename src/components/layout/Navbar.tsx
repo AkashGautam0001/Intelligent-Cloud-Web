@@ -156,27 +156,27 @@ export function Navbar() {
     closeTimer.current = setTimeout(() => setOpenMega(null), 140);
   };
 
-  // Always solid white so the bar stays readable over the dark hero video.
+  // Light tinted, near-opaque bar so it stays readable over any hero.
   const activePanel = megaPanels.find((p) => p.id === openMega) ?? null;
 
   return (
     <>
       <header
-        className="fixed inset-x-0 top-0 z-50 border-b border-border-200 bg-white text-navy-900 shadow-[0_8px_24px_-18px_rgba(4,39,95,0.18)]"
+        className="fixed inset-x-0 top-0 z-50 border-b border-border-200 bg-surface-100/95 backdrop-blur-md text-navy-900 shadow-[0_8px_24px_-18px_rgba(4,39,95,0.18)]"
         onMouseLeave={scheduleClose}
       >
         <div className="container-ic grid h-14 grid-cols-[1fr_auto_1fr] items-center gap-4">
           <Link
             to="/"
-            className="flex items-center gap-3 justify-self-start"
+            className="flex items-center gap-1.5 justify-self-start"
             onMouseEnter={scheduleClose}
           >
             <img
               src={brand.logo}
               alt={t.brand}
-              className="h-7 w-auto"
-              width={28}
-              height={28}
+              className="h-10 w-auto"
+              width={40}
+              height={40}
               decoding="async"
             />
             <span className="hidden text-base font-semibold tracking-tight text-navy-900 sm:inline">
