@@ -126,22 +126,5 @@ export const cloudMigration: SolutionPageContent = {
       outcome: "Stable hybrid path while remaining waves completed.",
     },
   ],
-  faqs: [
-    {
-      question: "Do you only do lift-and-shift?",
-      answer:
-        "No. We recommend 6R actions per workload — rehost, replatform, or refactor when the business case is clear — instead of one pattern for everything.",
-    },
-    {
-      question: "How do you limit downtime?",
-      answer:
-        "Through dependency clarity, data sync strategies, and timed rehearsals. Exact downtime depends on the application; we write the number before cutover, not after.",
-    },
-    {
-      question: "What if our landing zone is incomplete?",
-      answer:
-        "We sequence foundation work ahead of or beside early waves. Moving into an unfinished platform is how migrations create permanent debt.",
-    },
-  ],
   related: ["devops-transformation", "enterprises", "security-compliance"],
 };

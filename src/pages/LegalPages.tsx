@@ -216,7 +216,6 @@ export function PrivacyPage() {
   return (
     <ResourceLongForm
       content={privacyContent}
-      showFaq={false}
       heroVisual={
         <IcCard className="overflow-hidden p-0">
           <div className="relative bg-[linear-gradient(145deg,#04275f_0%,#0a3a7a_55%,#124a8c_100%)] p-6 text-white">
@@ -271,7 +270,6 @@ export function TermsPage() {
   return (
     <ResourceLongForm
       content={termsContent}
-      showFaq={false}
       heroVisual={
         <IcCard className="overflow-hidden p-0">
           <div className="relative bg-[linear-gradient(145deg,#04275f_0%,#0a3a7a_55%,#124a8c_100%)] p-6 text-white">

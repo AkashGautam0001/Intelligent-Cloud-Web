@@ -10,12 +10,6 @@ import { Button } from "@/components/ui/button";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { SectionShell } from "@/components/ui/section-shell";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { StickyPhotoHero, StickyPhotoHeroBody } from "@/components/StickyPhotoHero";
 import { cn } from "@/lib/utils";
@@ -27,14 +21,13 @@ type CompanyLongFormProps = {
   heroVisual?: ReactNode;
   /** Optional full-bleed hero photo (cover). Enables a photo hero treatment. */
   heroBackground?: string;
-  /** Content between principles and FAQ (forms, partner logos, etc.) */
+  /** Content between principles and CTA (forms, partner logos, etc.) */
   children?: ReactNode;
   /** Optional section inserted after highlights */
   afterHighlights?: ReactNode;
   /** Opt-in overview blocks — off by default so pages stay lean */
   showHighlights?: boolean;
   showPrinciples?: boolean;
-  showFaq?: boolean;
   highlightsTitle?: string;
   principlesTitle?: string;
 };
@@ -47,7 +40,6 @@ export function CompanyLongForm({
   afterHighlights,
   showHighlights = false,
   showPrinciples = false,
-  showFaq = true,
   highlightsTitle,
   principlesTitle,
 }: CompanyLongFormProps) {
@@ -230,27 +222,6 @@ export function CompanyLongForm({
       ) : null}
 
       {children}
-
-      {showFaq && content.faqs.length > 0 ? (
-      <SectionShell
-        tone="white"
-        eyebrow={t.nav.faq}
-        title={t.common.commonQuestions}
-      >
-        <IcCard className="p-2 sm:p-4">
-          <Accordion type="single" collapsible>
-            {content.faqs.map((faq, i) => (
-              <AccordionItem key={faq.question} value={`faq-${i}`}>
-                <AccordionTrigger>{faq.question}</AccordionTrigger>
-                <AccordionContent>
-                  <p className="leading-relaxed">{faq.answer}</p>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </IcCard>
-      </SectionShell>
-      ) : null}
 
       <section className="relative overflow-hidden bg-navy-950 text-white">
         <div

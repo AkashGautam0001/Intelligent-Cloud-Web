@@ -127,22 +127,5 @@ export const devopsTransformation: SolutionPageContent = {
       outcome: "One platform product with measurable adoption.",
     },
   ],
-  faqs: [
-    {
-      question: "Do you force a single CI vendor?",
-      answer:
-        "No. We standardize patterns and gates. Tooling follows what your teams can operate — GitHub, Azure DevOps, or a hybrid.",
-    },
-    {
-      question: "Is this only for Kubernetes?",
-      answer:
-        "No. Containers benefit most, but we also pave paths for PaaS and VM workloads when that is your reality.",
-    },
-    {
-      question: "How do you handle legacy systems?",
-      answer:
-        "We improve what can be automated first and document manual steps with clear owners — then shrink the manual surface over time.",
-    },
-  ],
   related: ["cloud-migration", "startups", "security-compliance"],
 };

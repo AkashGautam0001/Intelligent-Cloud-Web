@@ -123,22 +123,5 @@ export const integration: ServicePageContent = {
       outcome: "Measurable lag SLAs and fewer manual reconciliations.",
     },
   ],
-  faqs: [
-    {
-      question: "Do you prefer APIs or events?",
-      answer:
-        "Both have a place. We choose based on coupling, latency, and failure isolation — documented in a pattern catalogue your teams can reuse.",
-    },
-    {
-      question: "Can you work with our existing ESB or iPaaS?",
-      answer:
-        "Yes. We often stabilize and modernize around what you already run, rather than forcing a rip-and-replace.",
-    },
-    {
-      question: "How do you handle breaking schema changes?",
-      answer:
-        "Versioning, compatibility checks in CI, and consumer-driven contracts where they fit your culture.",
-    },
-  ],
   related: ["analytics", "networking", "disaster-recovery"],
 };

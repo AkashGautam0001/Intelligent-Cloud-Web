@@ -132,27 +132,5 @@ export const database: ServicePageContent = {
     "Terraform",
   ],
   useCases: [],
-  faqs: [
-    {
-      question: "Do you support both relational and NoSQL?",
-      answer:
-        "Yes. We help choose the right model and operate managed offerings across Azure and AWS — including hybrid estates.",
-    },
-    {
-      question: "Can you migrate with near-zero downtime?",
-      answer:
-        "Often yes for supported engines, using continuous replication and a short cutover. Exact downtime depends on application coupling and change freezes.",
-    },
-    {
-      question: "Will you tune queries?",
-      answer:
-        "We baseline and address top offenders with your developers. Deep application rewrite is scoped separately when needed.",
-    },
-    {
-      question: "Who owns the database after go-live?",
-      answer:
-        "Your team. We leave runbooks, restore evidence, and alert ownership so platform and app teams are not dependent on us for routine operations.",
-    },
-  ],
   related: ["storage", "cloud-computing", "disaster-recovery"],
 };

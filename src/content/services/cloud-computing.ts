@@ -128,27 +128,5 @@ export const cloudComputing: ServicePageContent = {
     "GitHub Actions",
   ],
   useCases: [],
-  faqs: [
-    {
-      question: "Do you only work on one cloud?",
-      answer:
-        "No. We deliver foundations on Azure, AWS, and GCP patterns. The stack is chosen with your team — not forced by a single playbook.",
-    },
-    {
-      question: "How long until we can onboard the first workload?",
-      answer:
-        "Most engagements land a usable foundation and one reference workload in 6–10 weeks, depending on identity and network prerequisites.",
-    },
-    {
-      question: "Will our team own what you build?",
-      answer:
-        "Yes. Code and diagrams live in your repos. We document modules and hand over operate runbooks so you are not dependent on us for routine changes.",
-    },
-    {
-      question: "Can this align with our existing cloud strategy?",
-      answer:
-        "Yes. We align to decisions you already made and fill the gaps — we do not restart strategy for its own sake.",
-    },
-  ],
   related: ["networking", "database", "disaster-recovery"],
 };

@@ -123,22 +123,5 @@ export const disasterRecovery: ServicePageContent = {
       outcome: "Recovery path that does not trust the compromised estate.",
     },
   ],
-  faqs: [
-    {
-      question: "Is multi-region always required?",
-      answer:
-        "No. We size resilience to business impact. Sometimes better backups and faster restores beat expensive always-on multi-region.",
-    },
-    {
-      question: "How often should we drill?",
-      answer:
-        "Critical systems typically need at least annual (often semi-annual) drills, plus restore checks on a shorter cadence.",
-    },
-    {
-      question: "Do you write the business continuity plan?",
-      answer:
-        "We focus on technical DR and recovery evidence, and align with your BCP owners so documents and reality match.",
-    },
-  ],
   related: ["storage", "cloud-computing", "database"],
 };

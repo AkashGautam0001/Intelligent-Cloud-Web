@@ -57,23 +57,6 @@ export const documentation: ResourcePageContent = {
       body: "If a guide does not cover your estate, open support or book an assessment rather than guessing.",
     },
   ],
-  faqs: [
-    {
-      question: "Why is the library empty sometimes?",
-      answer:
-        "Articles appear only after they are published from admin. Until then you still get the overview and can contact us for engagement-specific runbooks.",
-    },
-    {
-      question: "Are these a substitute for SOW deliverables?",
-      answer:
-        "No. Public docs are baselines. Your blueprints, IaC, and runbooks are delivered inside the engagement.",
-    },
-    {
-      question: "Can partners reuse these guides?",
-      answer:
-        "Yes for enablement. Co-branded or customer-specific packs need a partner or delivery agreement.",
-    },
-  ],
   ctaTitle: "Need a guide that is not published yet?",
   ctaLead: "Ask support for an existing customer, or book an assessment if you are scoping new work.",
   ctaPrimary: { label: "Open support", to: "/support" },
@@ -129,38 +112,6 @@ export const faq: ResourcePageContent = {
       body: "If the answer is “book time,” we link assessment or contact instead of inventing false certainty.",
     },
   ],
-  faqs: [
-    {
-      question: "How does a free assessment work?",
-      answer:
-        "You share a preferred time on Book demo. We confirm manually, then spend ~30 minutes with an engineer on your workload and options. No live calendar sync.",
-    },
-    {
-      question: "Do you only work on Azure?",
-      answer:
-        "No. Azure and AWS are both first-class. Kubernetes estates across clouds are common when that matches your strategy.",
-    },
-    {
-      question: "What is included in a typical pilot?",
-      answer:
-        "A thin vertical slice — foundation or delivery path plus one representative workload — with written success criteria. Expansion happens after the pilot is operable.",
-    },
-    {
-      question: "How is managed operations different from break/fix?",
-      answer:
-        "Managed ops assumes agreed SLOs, runbooks, and monitoring. Break/fix is reactive. We will not pretend coverage exists without a contract and baselines.",
-    },
-    {
-      question: "Will our team own the IaC?",
-      answer:
-        "Yes. Code lives in your repos with CI. We document modules and hand over operate guides so routine changes do not require us.",
-    },
-    {
-      question: "Where should I go for a production incident?",
-      answer:
-        "Existing customers: open a Support ticket with the correct tier. New prospects: Contact sales or Book assessment — Support is not a free consulting channel.",
-    },
-  ],
   ctaTitle: "Still stuck?",
   ctaLead: "Open a support ticket if you are a customer, or book an assessment to scope new work.",
   ctaPrimary: { label: "Open support", to: "/support" },
@@ -214,23 +165,6 @@ export const support: ResourcePageContent = {
     {
       title: "Wrong door? We’ll redirect",
       body: "New projects and commercials go to sales paths — support stays for contracted help.",
-    },
-  ],
-  faqs: [
-    {
-      question: "Can I use Priority without a contract?",
-      answer:
-        "No. Priority and managed tiers require an active agreement. Standard may still help for limited how-to questions on active projects.",
-    },
-    {
-      question: "What should I include in a ticket?",
-      answer:
-        "Environment, severity, user/business impact, recent changes, and any error text or dashboards. Screenshots help.",
-    },
-    {
-      question: "Is WhatsApp a support channel?",
-      answer:
-        "WhatsApp is for quick expert/sales scope chats. Production incidents should go through this ticket form for auditability.",
     },
   ],
   ctaTitle: "Looking for a new engagement instead?",
@@ -292,27 +226,6 @@ export const privacy: ResourcePageContent = {
       body: "We apply the same cloud security instincts we implement for clients — encrypted transit where applicable and controlled access.",
     },
   ],
-  faqs: [
-    {
-      question: "Do you sell personal data?",
-      answer: "No. We do not sell personal data.",
-    },
-    {
-      question: "Do you collect website analytics?",
-      answer:
-        "Yes. We collect limited first-party analytics (page views, an anonymous visitor ID in your browser, referrer, and approximate country) to measure traffic. Optional third-party tools may also run when configured. We do not sell this data.",
-    },
-    {
-      question: "How do I request deletion?",
-      answer:
-        "Email privacy@intelligent-cloud.com with enough detail for us to locate your records. We may need to retain limited data for legal or contractual reasons. Clearing browser storage resets the anonymous visitor ID.",
-    },
-    {
-      question: "Does this cover customer cloud estates?",
-      answer:
-        "Customer environments under delivery are governed by the SOW/NDA and cloud account ownership. This policy focuses on website and inquiry data.",
-    },
-  ],
   ctaTitle: "Questions about privacy?",
   ctaLead: "Email privacy@intelligent-cloud.com, or contact sales for commercial/contract topics.",
   ctaPrimary: { label: "Contact sales", to: "/contact" },
@@ -370,23 +283,6 @@ export const terms: ResourcePageContent = {
     {
       title: "Clear contact",
       body: "Legal questions go to legal@intelligent-cloud.com.",
-    },
-  ],
-  faqs: [
-    {
-      question: "Is the website a contract?",
-      answer:
-        "No. It describes services. Binding terms for paid work are in your SOW/MSA.",
-    },
-    {
-      question: "Who owns deliverables?",
-      answer:
-        "Unless otherwise agreed in writing, client-owned code, configs, and data remain yours. Our pre-existing IP and site content remain ours.",
-    },
-    {
-      question: "Which law applies?",
-      answer:
-        "Governing law follows the contracting entity’s jurisdiction as stated in the signed agreement, without conflict-of-law detours when the SOW specifies otherwise.",
     },
   ],
   ctaTitle: "Need a commercial discussion?",

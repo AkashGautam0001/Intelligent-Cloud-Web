@@ -132,27 +132,5 @@ export const networking: ServicePageContent = {
     "Terraform",
   ],
   useCases: [],
-  faqs: [
-    {
-      question: "Do you replace our firewall vendor?",
-      answer:
-        "Only if needed. We often integrate existing firewall platforms into hub designs and focus on paths, policy, and observability.",
-    },
-    {
-      question: "Can you work with our network team’s standards?",
-      answer:
-        "Yes. We co-design with network and security — the goal is operable standards, not a parallel shadow network.",
-    },
-    {
-      question: "How do you handle IP exhaustion?",
-      answer:
-        "We plan addressing early, including growth and overlapping CIDR remediation when estates already conflict.",
-    },
-    {
-      question: "Will performance improve for hybrid users?",
-      answer:
-        "Where latency or unreliable paths are the problem, we redesign routing and private access deliberately — then measure before and after.",
-    },
-  ],
   related: ["cloud-computing", "integration", "disaster-recovery"],
 };

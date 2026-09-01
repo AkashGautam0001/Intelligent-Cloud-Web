@@ -33,7 +33,6 @@ export const about: CompanyPageContent = {
       body: "Observability by default — Prometheus, Grafana, Loki, Tempo — and we work as an extension of your team for migrations or 24×7 managed operations.",
     },
   ],
-  faqs: [],
   ctaTitle: "Ready to talk platforms — not slides?",
   ctaLead: "Book a free assessment with an engineer, or reach sales for a scoped conversation.",
   ctaPrimary: { label: "Book assessment", to: "/book-demo" },
@@ -97,23 +96,6 @@ export const about: CompanyPageContent = {
       body: "We document enough that your practice can grow — we are not here to create permanent dependency theater.",
     },
   ],
-  faqs: [
-    {
-      question: "How do we start a partner conversation?",
-      answer:
-        "Contact sales with your model preference (referral, reseller, or solution). We schedule a discovery call and draft a simple partner outline.",
-    },
-    {
-      question: "Can we co-brand proposals?",
-      answer:
-        "Yes on reseller and solution paths — after commercial terms and delivery ownership are written down.",
-    },
-    {
-      question: "Will you list us on the site automatically?",
-      answer:
-        "No. Logos appear only after written approval and admin publish. We do not show empty partner slots.",
-    },
-  ],
   ctaTitle: "Become a partner",
   ctaLead: "Tell us how you want to engage — referral, reseller, or co-delivery — and we will propose a clear path.",
   ctaPrimary: { label: "Contact sales", to: "/contact" },
@@ -171,23 +153,6 @@ export const contact: CompanyPageContent = {
       body: "After contact, expect a confirmation and next-step note — not silence.",
     },
   ],
-  faqs: [
-    {
-      question: "How fast do you reply?",
-      answer:
-        "We aim to respond within one business day. Urgent production issues for existing managed customers follow the contracted escalation path.",
-    },
-    {
-      question: "Should I book a demo or use this form?",
-      answer:
-        "Use Book demo when you want a timed assessment slot. Use Contact when you have a commercial, partnership, or open-ended question.",
-    },
-    {
-      question: "Do you support WhatsApp?",
-      answer:
-        "Yes — message an engineer on WhatsApp for a quick scope conversation. Prefer email or the form for formal records.",
-    },
-  ],
   ctaTitle: "Prefer a structured assessment?",
   ctaLead: "Book a free 30-minute session with an engineer. We confirm your preferred slot by email.",
   ctaPrimary: { label: "Book assessment", to: "/book-demo" },
@@ -241,23 +206,6 @@ export const bookDemo: CompanyPageContent = {
     {
       title: "Follow-up in writing",
       body: "After the call you get notes and recommended options — not a vague “we'll be in touch.”",
-    },
-  ],
-  faqs: [
-    {
-      question: "Is this a sales pitch deck?",
-      answer:
-        "No. It is a working conversation with an engineer about your estate and options. Commercial detail follows if there is a fit.",
-    },
-    {
-      question: "Why no live calendar?",
-      answer:
-        "We confirm manually so the right engineer is free and prepared. Auto-booking creates no-shows and mismatched rooms.",
-    },
-    {
-      question: "What should I prepare?",
-      answer:
-        "A short description of the workload, cloud(s) in play, and the pressure you feel (timeline, audit, cost, reliability). Screenshots help but are optional.",
     },
   ],
   ctaTitle: "Need to reach sales instead?",

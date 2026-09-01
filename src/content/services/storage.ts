@@ -128,27 +128,5 @@ export const storage: ServicePageContent = {
     "Azure & AWS Backup",
   ],
   useCases: [],
-  faqs: [
-    {
-      question: "Can you migrate data between clouds or on-prem?",
-      answer:
-        "Yes. We plan bandwidth, tools, and cutover windows carefully — especially for large archives — and validate integrity after transfer.",
-    },
-    {
-      question: "Do you replace our backup product?",
-      answer:
-        "Not by default. We often strengthen what you already run with immutability, private access, and proven restore practice.",
-    },
-    {
-      question: "How do you handle compliance retention?",
-      answer:
-        "We map legal and regulatory retention to policy, enable holds where needed, and leave evidence trails for auditors.",
-    },
-    {
-      question: "Will our team own the lifecycle after go-live?",
-      answer:
-        "Yes. Policies and diagrams live with you. We hand over exception handling and restore cadence so day-two work stays in-house.",
-    },
-  ],
   related: ["cloud-computing", "disaster-recovery", "database"],
 };

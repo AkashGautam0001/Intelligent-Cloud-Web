@@ -50,7 +50,6 @@ export type FaqItem = {
   questionAr?: string;
   answerHtml: string;
   answerHtmlAr?: string;
-  category: string;
   order: number;
   published: boolean;
 };

@@ -11,12 +11,6 @@ import { Button } from "@/components/ui/button";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { SectionShell } from "@/components/ui/section-shell";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { ServiceDiagram, hasServiceDiagram } from "@/components/services/service-visuals";
 import { getServiceBackground } from "@/content/services/backgrounds";
@@ -52,7 +46,6 @@ export function ServiceLongForm({ content }: ServiceLongFormProps) {
   const deliverTone = nextBand();
   const whatYouGetTone = nextBand();
   const approachTone = nextBand();
-  const faqTone = nextBand();
 
   const heroCopy = (
     <>
@@ -318,27 +311,6 @@ export function ServiceLongForm({ content }: ServiceLongFormProps) {
             );
           })}
         </div>
-      </SectionShell>
-
-      {/* FAQ */}
-      <SectionShell
-        tone={faqTone}
-        eyebrow={t.nav.faq}
-        title={lf.faqTitle.replace("{title}", title)}
-        lead={lf.faqLead}
-      >
-        <IcCard className="p-2 sm:p-4">
-          <Accordion type="single" collapsible>
-            {content.faqs.map((faq, i) => (
-              <AccordionItem key={faq.question} value={`faq-${i}`}>
-                <AccordionTrigger>{faq.question}</AccordionTrigger>
-                <AccordionContent>
-                  <p className="leading-relaxed">{faq.answer}</p>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </IcCard>
       </SectionShell>
 
       {/* CTA */}

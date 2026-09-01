@@ -241,7 +241,7 @@ export function SiteSearch({ open, onOpenChange }: SiteSearchProps) {
       upsert({
         id: `faq-${item._id}`,
         title: loc.question,
-        description: answer || item.category,
+        description: answer || loc.question,
         href: `/faq#${item._id}`,
         group: "faq",
       });

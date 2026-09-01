@@ -128,27 +128,5 @@ export const analytics: ServicePageContent = {
     "Terraform",
   ],
   useCases: [],
-  faqs: [
-    {
-      question: "Do you build only warehouses, or lakes too?",
-      answer:
-        "Both. We pick lakehouse, warehouse, or hybrid based on latency, skills, and cost — not fashion.",
-    },
-    {
-      question: "Can you work with our existing BI tools?",
-      answer:
-        "Yes. We usually stabilize the data layer and semantic definitions first, then improve dashboard quality on your current stack.",
-    },
-    {
-      question: "How do you handle sensitive data?",
-      answer:
-        "Classification, column-level or row-level controls where supported, and clear separation of raw versus curated access.",
-    },
-    {
-      question: "How soon do we see usable reporting?",
-      answer:
-        "Most engagements land one high-value domain with trusted dashboards in the first release wave, then expand domain by domain.",
-    },
-  ],
   related: ["ai", "database", "integration"],
 };

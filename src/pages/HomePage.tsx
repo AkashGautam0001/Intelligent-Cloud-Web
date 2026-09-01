@@ -4,7 +4,6 @@ import { ProblemSection } from "@/components/home/ProblemSection";
 import { WhatWeDoSection } from "@/components/home/WhatWeDoSection";
 import { ServicesBentoSection } from "@/components/home/ServicesBentoSection";
 import { CredibilitySection } from "@/components/home/CredibilitySection";
-import { FaqSnippetSection } from "@/components/home/FaqSnippetSection";
 import { CtaBand } from "@/components/home/CtaBand";
 
 export function HomePage() {
@@ -16,7 +15,6 @@ export function HomePage() {
       <WhatWeDoSection />
       <ServicesBentoSection />
       <CredibilitySection />
-      <FaqSnippetSection />
       <CtaBand />
     </>
   );

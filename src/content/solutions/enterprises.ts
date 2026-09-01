@@ -127,22 +127,5 @@ export const enterprises: SolutionPageContent = {
       outcome: "Reduced tickets and faster BU time-to-env.",
     },
   ],
-  faqs: [
-    {
-      question: "Do you work with our existing SI or cloud partner?",
-      answer:
-        "Yes. We often co-deliver foundations and operating model while your SI focuses on application waves.",
-    },
-    {
-      question: "How do you handle strong central vs federated models?",
-      answer:
-        "We design the RACI explicitly. Most enterprises need a strong platform center with federated build inside guardrails.",
-    },
-    {
-      question: "Can you support multi-cloud?",
-      answer:
-        "Yes — with clear standards per cloud and shared operate practices, not a lowest-common-denominator mush.",
-    },
-  ],
   related: ["cloud-migration", "security-compliance", "devops-transformation"],
 };

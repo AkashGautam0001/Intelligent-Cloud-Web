@@ -76,7 +76,6 @@ export function SolutionDetailPage() {
           approach: [],
           stack: [],
           useCases: [],
-          faqs: [],
           related: [],
         }}
         cmsBodyHtml={locale === "ar" ? undefined : cms!.bodyHtml}

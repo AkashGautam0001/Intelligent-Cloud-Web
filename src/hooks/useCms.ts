@@ -75,14 +75,11 @@ export function useSolution(slug: string | undefined) {
   });
 }
 
-export function useFaqs(category?: string) {
+export function useFaqs() {
   return useQuery({
-    queryKey: ["faqs", category ?? "all"],
+    queryKey: ["faqs"],
     queryFn: async () => {
-      const qs = category ? `?category=${encodeURIComponent(category)}` : "";
-      const res = await apiFetch<{ success: boolean; data: FaqItem[] }>(
-        `/faqs${qs}`,
-      );
+      const res = await apiFetch<{ success: boolean; data: FaqItem[] }>("/faqs");
       return res.data;
     },
     staleTime: 60_000,

@@ -127,22 +127,5 @@ export const securityCompliance: SolutionPageContent = {
       outcome: "Fewer shadow deploys and clearer accountability.",
     },
   ],
-  faqs: [
-    {
-      question: "Which frameworks do you support?",
-      answer:
-        "We map to the frameworks you must meet — ISO, SOC2, CSA, sector rules — rather than inventing a parallel checklist.",
-    },
-    {
-      question: "Do you replace our SOC?",
-      answer:
-        "No. We improve cloud control planes and evidence, and integrate with your SOC or MDR partner.",
-    },
-    {
-      question: "Can this run in parallel with migration?",
-      answer:
-        "Yes — and it should. Security baselines ahead of waves prevent migrating into an unsafe estate.",
-    },
-  ],
   related: ["cloud-migration", "enterprises", "devops-transformation"],
 };

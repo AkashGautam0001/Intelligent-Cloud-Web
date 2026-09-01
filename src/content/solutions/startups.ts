@@ -126,22 +126,5 @@ export const startups: SolutionPageContent = {
       outcome: "Predictable monthly spend with product still shipping.",
     },
   ],
-  faqs: [
-    {
-      question: "Are we too early for this?",
-      answer:
-        "If you have paying users or are entering diligence, a lean foundation usually pays for itself. We size down aggressively for pre-product teams.",
-    },
-    {
-      question: "Will you build our product features?",
-      answer:
-        "No — we focus on cloud platform, delivery, and operate paths so your engineers stay on product.",
-    },
-    {
-      question: "Can this grow into an enterprise landing zone later?",
-      answer:
-        "Yes. We choose patterns that expand — we do not paint you into a toy architecture.",
-    },
-  ],
   related: ["devops-transformation", "cloud-migration", "enterprises"],
 };

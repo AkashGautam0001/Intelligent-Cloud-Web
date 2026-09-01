@@ -26,11 +26,6 @@ export type ServiceUseCase = {
   outcome: string;
 };
 
-export type ServiceFaq = {
-  question: string;
-  answer: string;
-};
-
 export type ServiceMetric = {
   label: string;
   value: string;
@@ -62,6 +57,5 @@ export type ServicePageContent = {
   approach: ServiceApproachStep[];
   stack: string[];
   useCases: ServiceUseCase[];
-  faqs: ServiceFaq[];
   related: string[];
 };

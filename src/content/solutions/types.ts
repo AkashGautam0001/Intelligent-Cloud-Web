@@ -19,11 +19,6 @@ export type SolutionUseCase = {
   outcome: string;
 };
 
-export type SolutionFaq = {
-  question: string;
-  answer: string;
-};
-
 export type SolutionMetric = {
   label: string;
   value: string;
@@ -59,6 +54,5 @@ export type SolutionPageContent = {
   approach: SolutionApproachStep[];
   stack: string[];
   useCases: SolutionUseCase[];
-  faqs: SolutionFaq[];
   related: string[];
 };

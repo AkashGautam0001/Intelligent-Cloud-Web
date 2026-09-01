@@ -13,12 +13,6 @@ import { Button } from "@/components/ui/button";
 import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { SectionShell } from "@/components/ui/section-shell";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { StickyPhotoHero, StickyPhotoHeroBody } from "@/components/StickyPhotoHero";
 import { cn } from "@/lib/utils";
@@ -268,26 +262,6 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
             );
           })}
         </div>
-      </SectionShell>
-
-      <SectionShell
-        tone="white"
-        eyebrow={t.nav.faq}
-        title={lf.faqTitle.replace("{title}", title)}
-        lead={lf.faqLead}
-      >
-        <IcCard className="border-0 p-2 shadow-none sm:p-4">
-          <Accordion type="single" collapsible>
-            {content.faqs.map((faq, i) => (
-              <AccordionItem key={faq.question} value={`faq-${i}`}>
-                <AccordionTrigger>{faq.question}</AccordionTrigger>
-                <AccordionContent>
-                  <p className="leading-relaxed">{faq.answer}</p>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </IcCard>
       </SectionShell>
 
       <section className="relative overflow-hidden bg-navy-950 text-white">

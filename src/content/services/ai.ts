@@ -132,27 +132,5 @@ export const ai: ServicePageContent = {
     "Terraform",
   ],
   useCases: [],
-  faqs: [
-    {
-      question: "Do you build custom models from scratch?",
-      answer:
-        "Rarely as a first step. Most value comes from governed use of foundation models plus your data. Fine-tuning is scoped when evaluation proves the need.",
-    },
-    {
-      question: "How do you keep prompts and data secure?",
-      answer:
-        "Private networking, identity-based access, corpus access controls, and logging policies agreed with security before production traffic.",
-    },
-    {
-      question: "Can you help with AI policy and training?",
-      answer:
-        "Yes — we align technical controls with acceptable-use guidance so platform and policy reinforce each other.",
-    },
-    {
-      question: "How do you drive adoption after the first use case?",
-      answer:
-        "We leave an approved path, operate pack, and intake process so later teams reuse the same foundation instead of starting shadow projects.",
-    },
-  ],
   related: ["analytics", "integration", "cloud-computing"],
 };
