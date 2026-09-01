@@ -69,13 +69,8 @@ export const faq: ResourcePageContent = {
   eyebrow: "Resources",
   tagline: "Direct answers on engagement, platforms, and operations",
   summary:
-    "How assessments work, what we build on Azure and AWS, and how managed operations actually run — without a sales script. Browse static answers below; CMS-published FAQs appear when available.",
-  metrics: [
-    { label: "Themes", value: "Engage · Platform · Ops" },
-    { label: "Tone", value: "Direct" },
-    { label: "Depth", value: "Pre-sales + deliver" },
-    { label: "Next step", value: "Support or assessment" },
-  ],
+    "How assessments work, what we build on Azure and AWS, and how managed operations actually run — without a sales script.",
+  metrics: [],
   highlights: [
     {
       title: "Engagements",

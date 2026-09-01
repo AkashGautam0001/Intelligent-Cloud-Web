@@ -1,12 +1,10 @@
 import { useMemo } from "react";
-import { HelpCircle } from "lucide-react";
 import { useFaqs } from "@/hooks/useCms";
 import { faq as faqFallback, getResourcePage } from "@/content/resources";
 import { ResourceLongForm } from "@/components/resources/ResourceLongForm";
 import { useI18n } from "@/i18n";
 import { SectionShell } from "@/components/ui/section-shell";
 import { IcCard } from "@/components/ui/ic-card";
-import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { ListSkeleton } from "@/components/skeletons";
 import {
   Accordion,
@@ -22,7 +20,7 @@ function stripHtml(html: string) {
 }
 
 export function FaqPage() {
-  const { locale, t } = useI18n();
+  const { locale } = useI18n();
   const faqContent = getResourcePage("faq", locale) ?? faqFallback;
   const { data, isLoading, isError } = useFaqs();
   const cmsFaqs = data ?? [];
@@ -43,26 +41,7 @@ export function FaqPage() {
   }, [cmsFaqs, locale]);
 
   return (
-    <ResourceLongForm
-      content={faqContent}
-      jsonLd={faqJsonLd}
-      heroVisual={
-        <IcCard className="overflow-hidden p-6">
-          <div className="flex items-center gap-4">
-            <IcIconTile size="lg" className="h-14 w-14 rounded-[14px]">
-              <HelpCircle className="h-7 w-7" aria-hidden />
-            </IcIconTile>
-            <div>
-              <p className="font-display text-sm font-semibold text-navy-900">{t.nav.faq}</p>
-              <p className="mt-1 text-sm text-text-600">Engage · Platform · Ops</p>
-            </div>
-          </div>
-          <p className="mt-5 text-sm leading-relaxed text-text-600">
-            {faqContent.summary}
-          </p>
-        </IcCard>
-      }
-    >
+    <ResourceLongForm content={faqContent} jsonLd={faqJsonLd}>
       <SectionShell
         tone="navyLight"
         eyebrow={locale === "ar" ? "منشور" : "Published"}

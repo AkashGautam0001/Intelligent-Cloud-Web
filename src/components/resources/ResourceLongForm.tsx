@@ -145,7 +145,7 @@ export function ResourceLongForm({
         </div>
         {heroVisual ? (
           <div className="mx-auto w-full max-w-md lg:mx-0 lg:justify-self-end">{heroVisual}</div>
-        ) : !photoHero ? (
+        ) : !photoHero && content.metrics.length > 0 ? (
           <IcCard className="mx-auto w-full max-w-md p-6 lg:mx-0 lg:justify-self-end">
             <Stagger className="grid gap-3 sm:grid-cols-2" stagger={0.06}>
               {content.metrics.map((m) => (
