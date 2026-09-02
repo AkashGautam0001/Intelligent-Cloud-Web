@@ -67,10 +67,15 @@ export function CompanyLongForm({
           "grid items-center gap-10",
           (heroVisual || !photoHero) &&
             "lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]",
-          photoHero && !heroVisual && "max-w-3xl",
+          photoHero && !heroVisual && "max-w-[60rem]",
         )}
       >
-        <div>
+        <div
+          className={cn(
+            photoHero &&
+              "rounded-3xl bg-navy-950/35 p-6 ring-1 ring-white/10 backdrop-blur-md sm:p-9",
+          )}
+        >
           <p
             className={cn(
               "text-[11px] font-medium uppercase tracking-[0.16em]",

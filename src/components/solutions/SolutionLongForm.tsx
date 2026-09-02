@@ -34,7 +34,13 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
   const photoHero = Boolean(heroBackground);
 
   const heroCopy = (
-    <>
+    <div
+      className={cn(
+        "w-full",
+        photoHero &&
+          "max-w-[60rem] rounded-3xl bg-navy-950/35 p-6 ring-1 ring-white/10 backdrop-blur-md sm:p-9",
+      )}
+    >
       <Breadcrumbs
         items={[
           { label: t.common.home, to: "/" },
@@ -106,7 +112,7 @@ export function SolutionLongForm({ content, cmsBodyHtml }: SolutionLongFormProps
           </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 
   const pageBody = (

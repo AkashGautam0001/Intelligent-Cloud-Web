@@ -65,6 +65,7 @@ export function AboutPage() {
       <PageSeo title={a.seoTitle} description={about.summary} />
 
       <StickyPhotoHero src={aboutHero}>
+        <div className="w-full max-w-[60rem] rounded-3xl bg-navy-950/35 p-6 ring-1 ring-white/10 backdrop-blur-md sm:p-9">
         <Breadcrumbs
           items={[
             { label: t.common.home, to: "/" },
@@ -101,6 +102,7 @@ export function AboutPage() {
               <Link to="/contact">{t.common.contactSales}</Link>
             </Button>
           </div>
+        </div>
         </div>
       </StickyPhotoHero>
 
