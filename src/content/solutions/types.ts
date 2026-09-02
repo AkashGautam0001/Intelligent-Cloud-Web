@@ -42,8 +42,6 @@ export type SolutionPageContent = {
   audiences: SolutionAudience[];
   ctaLabel: string;
   ctaTo: string;
-  architectureTitle: string;
-  architectureLead: string;
   approachTitle: string;
   approachLead: string;
   metrics: SolutionMetric[];

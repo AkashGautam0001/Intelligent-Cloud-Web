@@ -9,9 +9,6 @@ export const networking: ServicePageContent = {
     "You need reliable links between sites, clouds, and apps — without flat networks or unexplained exposure. We design hub-spoke, hybrid, and private access paths so traffic is intentional and owned.",
   iconKey: "networking",
   category: "platforms",
-  architectureTitle: "Hub / core with spoke connectivity",
-  architectureLead:
-    "Users and on-prem sites connect over VPN or Direct Connect into a secured hub with firewall and DNS — then reach apps in isolated spokes.",
   approachTitle: "Map flows → Design hub → Wire paths → Prove failover",
   approachLead:
     "We draw critical paths first, encode them consistently, and leave failover ownership with your team.",

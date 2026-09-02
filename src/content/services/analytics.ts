@@ -9,9 +9,6 @@ export const analytics: ServicePageContent = {
     "You need one view of the business — without dashboards that disagree or pipelines only one engineer understands. We build governed ingest, transform, and serve paths so reporting and insights stay fresh, owned, and defensible.",
   iconKey: "analytics",
   category: "data",
-  architectureTitle: "Sources → lake / warehouse → insights",
-  architectureLead:
-    "Data sources ingest into a governed lake or warehouse, then transform into BI dashboards that deliver business insights leaders can trust.",
   approachTitle: "Inventory → Platform design → First domain → Self-serve",
   approachLead:
     "We prove the platform with one high-value domain, then package onboarding so the next teams do not fork the stack.",

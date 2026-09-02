@@ -9,9 +9,6 @@ export const cloudComputing: ServicePageContent = {
     "You need environments that are secure, repeatable, and ready for growth — without months of design debates. We design and build cloud foundations so new workloads land with the same baseline every time.",
   iconKey: "cloud-computing",
   category: "platforms",
-  architectureTitle: "Secure Cloud Foundation (hub / spoke)",
-  architectureLead:
-    "User traffic enters through the internet into a secured hub with identity, security, and monitoring — then lands in spoke workloads that stay isolated.",
   approachTitle: "Discover → Agree → Build → Hand over",
   approachLead:
     "We lock decisions early, deliver a usable foundation, and prove your team can operate day two.",

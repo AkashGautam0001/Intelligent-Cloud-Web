@@ -71,7 +71,6 @@ export const ar: Messages = {
     whatWeDeliver: "ما نقدمه",
     challenges: "الوضع الحالي",
     deliverables: "المخرجات",
-    architectureLens: "عدسة الهندسة",
     useCases: "حالات الاستخدام",
     outcome: "النتيجة",
     relatedServices: "خدمات ذات صلة",
@@ -1082,8 +1081,6 @@ export const ar: Messages = {
       deliverablesLead:
         "نتائج واضحة تستلمها بعد التسليم — لتعرف ما هو جاهز للاستخدام والتملك والتوسع.",
       howWeDeliver: "كيف نسلّم",
-      architectureOverview:
-        "نظرة بسيطة على كيفية ترابط الحل — ليتمكن أصحاب المصلحة من الاتفاق قبل التصميم التقني العميق.",
       scopedDuringAssessment: "يُحدَّد النطاق مع فريقكم أثناء التقييم.",
       useCasesTitle: "كيف تطبّق الفرق هذه الخدمة",
       useCasesTitleSolution: "كيف تطبّق الفرق هذا الحل",

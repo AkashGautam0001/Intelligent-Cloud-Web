@@ -12,7 +12,6 @@ import { IcCard } from "@/components/ui/ic-card";
 import { IcIconTile } from "@/components/ui/ic-icon-tile";
 import { SectionShell } from "@/components/ui/section-shell";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
-import { ServiceDiagram, hasServiceDiagram } from "@/components/services/service-visuals";
 import { getServiceBackground } from "@/content/services/backgrounds";
 import { StickyPhotoHero, StickyPhotoHeroBody } from "@/components/StickyPhotoHero";
 import { cn } from "@/lib/utils";
@@ -31,7 +30,6 @@ export function ServiceLongForm({ content }: ServiceLongFormProps) {
   const related = content.related
     .map((slug) => getServicePage(slug, locale))
     .filter(Boolean) as ServicePageContent[];
-  const showDiagram = hasServiceDiagram(content.slug);
   const heroBackground = getServiceBackground(content.slug);
   const photoHero = Boolean(heroBackground);
   /** White ↔ pale blue (#eef3f8) after the hero. */
@@ -39,7 +37,6 @@ export function ServiceLongForm({ content }: ServiceLongFormProps) {
   let s = 0;
   const nextBand = () => band(s++);
 
-  const diagramTone = showDiagram ? nextBand() : null;
   const problemsTone = content.problems && content.problems.length > 0 ? nextBand() : null;
   const outcomesTone = problemsTone ? nextBand() : null;
   const challengesTone = !problemsTone ? nextBand() : null;
@@ -125,17 +122,6 @@ export function ServiceLongForm({ content }: ServiceLongFormProps) {
 
   const pageBody = (
     <>
-      {showDiagram && diagramTone ? (
-        <SectionShell
-          tone={diagramTone}
-          eyebrow={t.common.architectureLens}
-          title={content.architectureTitle}
-          lead={content.architectureLead}
-        >
-          <ServiceDiagram slug={content.slug} />
-        </SectionShell>
-      ) : null}
-
       {/* Problem recognition first — then solution, then technical implementation */}
       {content.problems && content.problems.length > 0 ? (
         <>

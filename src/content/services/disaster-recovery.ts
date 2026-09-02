@@ -9,9 +9,6 @@ export const disasterRecovery: ServicePageContent = {
     "Define RPO/RTO, implement backup and failover patterns, and rehearse recovery so resilience is evidenced — not assumed — when something fails.",
   iconKey: "disaster-recovery",
   category: "resilience",
-  architectureTitle: "Primary ↔ secondary with proven failover",
-  architectureLead:
-    "Backup, replication, and traffic shift drawn against tiered RPO/RTO — then proven in a game day, not assumed from a binder.",
   approachTitle: "Set targets → Design recovery → Implement → Game-day prove",
   approachLead:
     "Resilience is evidence. We size investment to business impact and leave timed drill reports behind.",

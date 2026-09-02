@@ -13,9 +13,6 @@ export const devopsTransformation: SolutionPageContent = {
   audiences: ["both"],
   ctaLabel: "Discuss delivery platforms",
   ctaTo: "/book-demo",
-  architectureTitle: "Pipeline → environments → platform services",
-  architectureLead:
-    "Source control, CI, promotion gates, and a paved path for teams — with observability and rollback as defaults, not afterthoughts.",
   approachTitle: "Baseline → Pave the path → Adopt → Measure",
   approachLead:
     "DevOps transforms when the golden path is easier than the workaround. We prove it with one product team first.",

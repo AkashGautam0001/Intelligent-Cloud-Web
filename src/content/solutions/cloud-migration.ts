@@ -13,9 +13,6 @@ export const cloudMigration: SolutionPageContent = {
   audiences: ["both"],
   ctaLabel: "Plan your migration",
   ctaTo: "/book-demo",
-  architectureTitle: "Waves, landing zone, and cutover path",
-  architectureLead:
-    "Workloads move in sequenced waves onto a prepared foundation — with rollback criteria written before the cutover window opens.",
   approachTitle: "Discover → Wave plan → Rehearse → Cut over",
   approachLead:
     "Migrations fail on unknowns. We inventory dependencies first, prove the path in non-prod, then execute with measured downtime.",

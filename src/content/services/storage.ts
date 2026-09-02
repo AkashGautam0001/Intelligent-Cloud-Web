@@ -9,9 +9,6 @@ export const storage: ServicePageContent = {
     "You need room for growth, reliable backups, and clear cost control — without leaving critical data exposed. We design tiers, lifecycle, and protected copies so capacity, recovery, and spend stay intentional.",
   iconKey: "storage",
   category: "platforms",
-  architectureTitle: "Secure access to object, file & block storage",
-  architectureLead:
-    "Applications reach storage through secure access — object, file, and block paths — with backup and archive as the protected layer underneath.",
   approachTitle: "Classify → Tier → Protect → Prove restores",
   approachLead:
     "We design around data classes and risk, automate lifecycle, and prove restore paths before calling the work done.",

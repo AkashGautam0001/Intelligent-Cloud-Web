@@ -68,7 +68,6 @@ export const en = {
     whatWeDeliver: "What we deliver",
     challenges: "Current state",
     deliverables: "Deliverables",
-    architectureLens: "Architecture lens",
     useCases: "Use cases",
     outcome: "Outcome",
     relatedServices: "Related services",
@@ -1083,8 +1082,6 @@ export const en = {
       deliverablesLead:
         "Clear outcomes you receive after delivery — so you know what is ready to use, own, and scale.",
       howWeDeliver: "How we deliver",
-      architectureOverview:
-        "A simple view of how the solution fits together — so stakeholders can align before deep technical design.",
       scopedDuringAssessment: "Scoped with your team during assessment.",
       useCasesTitle: "How teams apply this service",
       useCasesTitleSolution: "How teams apply this solution",

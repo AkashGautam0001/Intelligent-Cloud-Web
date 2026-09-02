@@ -41,9 +41,6 @@ export type ServicePageContent = {
   summary: string;
   iconKey: string;
   category: ServiceCategory;
-  /** Short blurb unique to this service's architecture section */
-  architectureTitle: string;
-  architectureLead: string;
   /** Unique “how we deliver” section chrome */
   approachTitle: string;
   approachLead: string;

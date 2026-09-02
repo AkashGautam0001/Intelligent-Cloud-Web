@@ -9,9 +9,6 @@ export const ai: ServicePageContent = {
     "You need productivity gains from copilots and agents — without shadow tools, uncontrolled spend, or data leaving approved paths. We stand up governed model access, retrieval, and evaluation so AI ships as a platform product your teams can adopt.",
   iconKey: "ai",
   category: "data",
-  architectureTitle: "AI gateway with RAG, model & guardrails",
-  architectureLead:
-    "Users and apps reach a secured AI gateway — RAG over company data and the model path join through guardrails, with monitoring on the way out.",
   approachTitle: "Risk scan → Controls → First use case → Govern scale",
   approachLead:
     "AI value sticks when security, evaluation, and cost controls exist before the second team asks for keys.",

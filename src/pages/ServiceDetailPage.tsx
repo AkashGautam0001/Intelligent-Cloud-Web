@@ -57,8 +57,6 @@ export function ServiceDetailPage() {
           summary: cms!.summary,
           iconKey: cms!.iconKey,
           category: "platforms",
-          architectureTitle: t.pages.longForm.architectureOverview,
-          architectureLead: cms!.summary,
           approachTitle: t.pages.longForm.howWeDeliver,
           approachLead: t.pages.longForm.scopedDuringAssessment,
           metrics: [],

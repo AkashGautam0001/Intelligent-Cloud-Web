@@ -13,9 +13,6 @@ export const enterprises: SolutionPageContent = {
   audiences: ["enterprise"],
   ctaLabel: "Discuss enterprise engagement",
   ctaTo: "/contact",
-  architectureTitle: "Shared platform with governed business-unit spokes",
-  architectureLead:
-    "Central landing zones, policy, and platform products; spokes for domains that still move fast — with clear ownership between platform, security, and application teams.",
   approachTitle: "Assess → Migrate / Harden → Platformize → Operate",
   approachLead:
     "Enterprises need evidence, ownership, and a paved path. We assess the estate, harden foundations, then industrialize delivery and operations.",

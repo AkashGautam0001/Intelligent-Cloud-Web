@@ -13,9 +13,6 @@ export const startups: SolutionPageContent = {
   audiences: ["startup"],
   ctaLabel: "Book a startup assessment",
   ctaTo: "/book-demo",
-  architectureTitle: "Lean platform: app → pipeline → cloud foundation",
-  architectureLead:
-    "Enough landing-zone and delivery rails to stay safe and fast — without enterprise ceremony your team cannot staff yet.",
   approachTitle: "Pilot → Foundation → Automate → Scale",
   approachLead:
     "Startups win with a thin paved path: ship a pilot, lock foundations, automate delivery, then scale when product-market fit demands it.",

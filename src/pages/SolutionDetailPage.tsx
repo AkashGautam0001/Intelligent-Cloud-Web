@@ -64,8 +64,6 @@ export function SolutionDetailPage() {
             : ["enterprise"],
           ctaLabel: t.common.bookAssessment,
           ctaTo: "/book-demo",
-          architectureTitle: t.pages.longForm.architectureOverview,
-          architectureLead: cms!.summary,
           approachTitle: t.pages.longForm.howWeDeliver,
           approachLead: t.pages.longForm.scopedDuringAssessment,
           metrics: [],

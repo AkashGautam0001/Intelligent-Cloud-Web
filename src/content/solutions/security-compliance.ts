@@ -13,9 +13,6 @@ export const securityCompliance: SolutionPageContent = {
   audiences: ["both"],
   ctaLabel: "Discuss security",
   ctaTo: "/contact",
-  architectureTitle: "Identity, policy, and evidence plane",
-  architectureLead:
-    "Protective controls sit in the landing zone and pipelines; evidence collection is continuous so audits do not become archaeology projects.",
   approachTitle: "Threat & gap scan → Baselines → Embed → Evidence",
   approachLead:
     "Security sticks when engineers can ship inside the rails. We embed controls in platforms and prove them with evidence packs.",

@@ -9,9 +9,6 @@ export const database: ServicePageContent = {
     "You need performance and availability you can trust — without risky migrations or day-two guesswork. We plan managed tiers, cutovers, and operate models so data platforms grow with clear RPO and ownership.",
   iconKey: "database",
   category: "platforms",
-  architectureTitle: "Managed data tiers with HA and private access",
-  architectureLead:
-    "Engine choice, zone resilience, and private connectivity drawn against your RPO and RTO — so app owners and platform teams share one cutover picture before any window is booked.",
   approachTitle: "Profile → Select → Migrate → Harden day two",
   approachLead:
     "Database moves fail on unknowns. We profile first, rehearse cutover, and leave restore evidence behind.",

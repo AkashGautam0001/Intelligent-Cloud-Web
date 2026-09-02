@@ -9,9 +9,6 @@ export const integration: ServicePageContent = {
     "Design integration patterns — APIs, messaging, and sync — so hybrid and multi-cloud estates exchange data reliably without brittle point-to-point spaghetti.",
   iconKey: "integration",
   category: "resilience",
-  architectureTitle: "API and event bus between systems",
-  architectureLead:
-    "Producers and consumers stay loosely coupled through contracts, brokers, and resilience defaults — not brittle point-to-point chains.",
   approachTitle: "Map flows → Choose patterns → Migrate proofs → Observe",
   approachLead:
     "Integration debt clears when patterns are catalogued, contracts are tested, and dead-letter paths are owned.",
