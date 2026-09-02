@@ -1,6 +1,5 @@
 import cloudComputingBg from "@/assets/services/cloud-computing.jpg";
 import storageBg from "@/assets/services/storage.jpg";
-import networkingBg from "@/assets/services/networking-mobile.png";
 import databaseBg from "@/assets/services/database.jpg";
 import analyticsBg from "@/assets/services/analytics.jpg";
 import aiBg from "@/assets/services/artificial-intelligence.jpg";
@@ -11,7 +10,6 @@ import disasterBg from "@/assets/services/disaster.jpg";
 export const serviceBackgrounds: Record<string, string> = {
   "cloud-computing": cloudComputingBg,
   storage: storageBg,
-  networking: networkingBg,
   database: databaseBg,
   analytics: analyticsBg,
   ai: aiBg,
